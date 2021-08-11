@@ -1,7 +1,7 @@
-import { AppContainer } from './App.style'
-import { Switch, Route } from 'react-router-dom'
+import { AppContainer } from './App.style';
+import { Switch, Route } from 'react-router-dom';
 
-import Home from './containers/Home'
+import Home from './containers/Home';
 
 const App = () => {
   return (
@@ -10,7 +10,7 @@ const App = () => {
         <Route exact path='/' component={Home} />
       </Switch>
     </AppContainer>
-  )
-}
+  );
+};
 
-export default App
+export default App;

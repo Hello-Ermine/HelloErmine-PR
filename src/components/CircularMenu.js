@@ -85,27 +85,25 @@ function getShortestDistance(targetIdx, currentIdx, size) {
   return Math.min(d, size - d);
 }
 
-export const CircularMenu = ({ angle = 60 }) => {
+export const CircularMenu = ({ children, angle = 60, onUpdateIndex = (index) => {} }) => {
   const menuRef = useRef(null);
-  // const [isAnimating, setIsAnimating] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [activeItemIndex, setActiveItemIndex] = useState(2); // props.children.length / 2
-  const [itemCount, setItemCount] = useState(5);
+  const itemCount = children.length;
+  const itemAngle = (angle * 2) / itemCount;
+  const [activeItemIndex, setActiveItemIndex] = useState(
+    Math.floor(itemCount / 2)
+  );
 
   useEffect(() => {
     const items = menuRef.current.childNodes;
-    const maxAngle = angle;
-    const minAngle = -maxAngle;
-    const itemAngle = (maxAngle - minAngle) / itemCount;
-    const tempActiveItemIndex = Math.floor(itemCount / 2);
 
     anime({
       targets: items,
       transformOrigin: '100% 50%',
       translateY: '-50%',
       rotate: (_, i) => {
-        return itemAngle * -getDisplacement(i, tempActiveItemIndex);
+        return itemAngle * -getDisplacement(i, activeItemIndex);
       },
       translateX: '-170%',
       easing: 'linear',
@@ -121,15 +119,15 @@ export const CircularMenu = ({ angle = 60 }) => {
       return;
     }
 
-    const maxAngle = 60; // props.angle
-    const minAngle = -maxAngle;
-    const itemAngle = (maxAngle - minAngle) / itemCount;
+    const items = menuRef.current.childNodes;
+    const eachSideItemCount = Math.floor(itemCount / 2);
 
     const direction = getDirection(index, activeItemIndex, itemCount);
     const distance = getShortestDistance(index, activeItemIndex, itemCount);
 
-    const items = menuRef.current.childNodes;
-    const eachSideItemCount = Math.floor(itemCount / 2);
+    const slot = 360 / itemAngle;
+    const minRotate = distance * itemAngle * direction;
+    const extraRotate = minRotate + (slot - itemCount) * itemAngle * direction;
 
     const extraStartIndex =
       (activeItemIndex + eachSideItemCount * -direction) % itemCount;
@@ -152,10 +150,6 @@ export const CircularMenu = ({ angle = 60 }) => {
       return filtered;
     })();
 
-    const slot = 360 / itemAngle;
-    const minRotate = distance * itemAngle * direction;
-    const extraRotate = minRotate + (slot - itemCount) * itemAngle * direction;
-
     setIsAnimating(true);
     anime(getMenuItemAnimeProps(normalItems, minRotate));
     anime({
@@ -167,26 +161,24 @@ export const CircularMenu = ({ angle = 60 }) => {
     });
 
     setActiveItemIndex(index);
+    onUpdateIndex(index);
   };
 
-  // TODO: map over the actual items
   return (
     <StyledDiv ref={menuRef}>
-      {Array(5)
-        .fill(0)
-        .map((_, i) => {
-          return (
-            <Item
-              key={i}
-              data-index={i}
-              show={isMounted}
-              onClick={(e) => handleUpdateIndex(e, i)}
-              className={i === activeItemIndex ? `active` : ''}
-            >
-              {i}
-            </Item>
-          );
-        })}
+      {children.map((child, i) => {
+        return (
+          <Item
+            key={i}
+            data-index={i}
+            show={isMounted}
+            onClick={(e) => handleUpdateIndex(e, i)}
+            className={i === activeItemIndex ? `active` : ''}
+          >
+            {child}
+          </Item>
+        );
+      })}
     </StyledDiv>
   );
 };

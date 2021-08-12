@@ -9,8 +9,8 @@ const StyledDiv = styled.div`
   width: 100vw;
   height: 100vh;
   position: absolute;
-  /* overflow: hidden; */
-  transform: translateX(-50%);
+  overflow: hidden;
+  /* transform: translateX(-50%); */
 
   &:before {
     content: '';
@@ -23,7 +23,7 @@ const StyledDiv = styled.div`
     border-radius: 50%;
     border: 12px solid rgba(255, 255, 255, 0.555);
     /* background: rgb(255, 0, 0); */
-    /* -webkit-mask-image: linear/-gradient(to right, white 10%, transparent 45%); */
+    -webkit-mask-image: linear-gradient(to right, white 10%, transparent 45%);
   }
 `;
 

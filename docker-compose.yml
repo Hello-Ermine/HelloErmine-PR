@@ -5,7 +5,7 @@ services:
     image: nginx
     volumes:
       - ./build:/usr/share/nginx/html:ro
-      - ./config/default.conf:/etc/nginx/conf.d/default.conf
+      #- ./config/default.conf:/etc/nginx/conf.d/default.conf
     ports:
     - "80:80"
     environment:

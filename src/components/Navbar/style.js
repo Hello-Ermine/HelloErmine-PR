@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const NavbarStyle = styled.ul`
     position: fixed;
     display: flex;
-    background: black;
+    background: transparent;
     padding: 2em 0;
     width: 100%;
     color: white;
@@ -31,6 +31,6 @@ export const NavbarStyle = styled.ul`
     }
 
     ul li a:hover {
-        color: #F2B6B6;
+        color: #FFD8BB;
     }
 `;

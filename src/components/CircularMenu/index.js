@@ -1,4 +1,5 @@
 import anime from 'animejs';
+import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { Item, StyledDiv } from './style';
 
@@ -141,4 +142,10 @@ export const CircularMenu = ({
       })}
     </StyledDiv>
   );
+};
+
+CircularMenu.propTypes = {
+  children: PropTypes.array,
+  angle: PropTypes.number,
+  onUpdateIndex: PropTypes.func
 };

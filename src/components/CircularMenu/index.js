@@ -43,7 +43,8 @@ const getShortestDistance = (targetIdx, currentIdx, size) => {
 export const CircularMenu = ({
   children,
   angle = 60,
-  onUpdateIndex = (index) => {},
+  onUpdateIndex = () => {},
+  // onUpdateIndex = (index) => {},
 }) => {
   const menuRef = useRef(null);
   const [isMounted, setIsMounted] = useState(false);

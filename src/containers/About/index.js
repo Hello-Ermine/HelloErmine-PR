@@ -2,7 +2,7 @@ import { AboutContainer } from './style';
 
 const About = () => {
   return (
-    <AboutContainer>
+    <AboutContainer id='About'>
       <h1>About</h1>
     </AboutContainer>
   );

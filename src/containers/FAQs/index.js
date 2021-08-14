@@ -2,7 +2,7 @@ import { FAQsContainer } from './style';
 
 const FAQs = () => {
   return (
-    <FAQsContainer>
+    <FAQsContainer id='FAQs'>
       <h1>FAQs</h1>
     </FAQsContainer>
   );

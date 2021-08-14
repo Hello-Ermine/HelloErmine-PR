@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
 export const AboutContainer = styled.div`
-  // styling here
+  background-color: lightblue;
+  height: 100%;
 `;

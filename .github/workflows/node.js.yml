@@ -19,6 +19,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: npm i
-    - run: npm run build --if-present
-    - run: docker-compose up -d --no-deps --build web
+    - run: yarn
+    - run: yarn build --if-present
+    - run: docker-compose up -d

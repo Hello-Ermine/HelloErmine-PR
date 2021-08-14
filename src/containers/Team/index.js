@@ -1,10 +1,13 @@
+import Scene from '../../components/Scene';
 import { TeamContainer } from './style';
 
 const Team = () => {
   return (
-    <TeamContainer>
-      <h1>Team</h1>
-    </TeamContainer>
+    <Scene>
+      <TeamContainer>
+        <h1>Team</h1>
+      </TeamContainer>
+    </Scene>
   );
 };
 

@@ -1,11 +1,11 @@
-import { HomeContainer } from './style'
+import { HomeContainer } from './style';
 
 const Home = () => {
   return (
     <HomeContainer>
-      <h1>SIT - Hello World 2021</h1>
+      <h1>Home</h1>
     </HomeContainer>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

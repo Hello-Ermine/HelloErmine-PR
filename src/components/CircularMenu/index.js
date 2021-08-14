@@ -47,11 +47,11 @@ const Item = styled.div`
   }
 `;
 
-function getDisplacement(targetIdx, currentIdx) {
+const getDisplacement = (targetIdx, currentIdx) => {
   return targetIdx - currentIdx;
-}
+};
 
-function getDirection(targetIdx, currentIdx, size) {
+const getDirection = (targetIdx, currentIdx, size) => {
   const itemOnEachSide = Math.floor(size / 2);
   const ccwLastIdx = (currentIdx + itemOnEachSide) % size;
   let cwLastIdx = currentIdx - itemOnEachSide; // TODO: remove % size
@@ -61,9 +61,9 @@ function getDirection(targetIdx, currentIdx, size) {
   const cwDistance = getShortestDistance(targetIdx, cwLastIdx, size);
 
   return ccwDistance < cwDistance ? 1 : -1;
-}
+};
 
-function getMenuItemAnimeProps(targets, rotate) {
+const getMenuItemAnimeProps = (targets, rotate) => {
   return {
     targets,
     transformOrigin: '100% 50%',
@@ -73,17 +73,17 @@ function getMenuItemAnimeProps(targets, rotate) {
     easing: 'easeOutSine',
     duration: 500,
   };
-}
+};
 
-function getDistance(targetIdx, currentIdx) {
+const getDistance = (targetIdx, currentIdx) => {
   return Math.abs(targetIdx - currentIdx);
-}
+};
 
-function getShortestDistance(targetIdx, currentIdx, size) {
+const getShortestDistance = (targetIdx, currentIdx, size) => {
   // assuming the index started from 0
   const d = getDistance(targetIdx, currentIdx);
   return Math.min(d, size - d);
-}
+};
 
 export const CircularMenu = ({ children, angle = 60, onUpdateIndex = (index) => {} }) => {
   const menuRef = useRef(null);
@@ -173,7 +173,7 @@ export const CircularMenu = ({ children, angle = 60, onUpdateIndex = (index) => 
             data-index={i}
             show={isMounted}
             onClick={(e) => handleUpdateIndex(e, i)}
-            className={i === activeItemIndex ? `active` : ''}
+            className={i === activeItemIndex ? 'active' : ''}
           >
             {child}
           </Item>

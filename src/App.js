@@ -16,8 +16,8 @@ const App = () => {
       <FAQs />
       <Game />
       <AppSocial>
-        <a href="https://www.facebook.com"><i className='fab fa-facebook fa-5x'/></a>
-        <a href="https://www.instagram.com"><i className='fab fa-instagram fa-5x'/></a>
+        <a href="https://www.facebook.com" target='_blank' rel='noreferrer'><i className='fab fa-facebook fa-5x'/></a>
+        <a href="https://www.instagram.com" target='_blank' rel='noreferrer'><i className='fab fa-instagram fa-5x'/></a>
       </AppSocial>
       <Navbar />
     </Wrapper>

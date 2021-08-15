@@ -7,6 +7,7 @@ export const NavbarStyle = styled.ul`
     padding: 2em 0;
     width: 100%;
     color: white;
+    top: 0;
 
     ul {
         display: flex;

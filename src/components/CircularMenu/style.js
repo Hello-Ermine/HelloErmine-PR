@@ -4,7 +4,7 @@ export const StyledDiv = styled.div`
   --circular-menu-size: min(28vh, 250px);
   --menu-item-width: calc(var(--circular-menu-size) * 0.47);
   --menu-item-height: calc(var(--circular-menu-size) * 0.2);
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   position: absolute;
   overflow: hidden;

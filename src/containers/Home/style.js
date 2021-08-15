@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const HomeContainer = styled.section`
   position: relative;
-  background-color: rgba(10, 10, 10, 0.8);
+  background-color: #1e1f21;
   height: 100%;
   width: 100%;
 `;

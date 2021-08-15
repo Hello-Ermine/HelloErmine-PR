@@ -4,6 +4,7 @@ import mascot from '../../assets/mascot3.png';
 const About = () => {
   return (
     <Scene>
+      {/* ทั้งหมดนี่ยังไม่เป็น responsive (ipad pro , มือถือ ) แต่เดี๋ยวเขียนให้งับ  */}
       <AboutContainer>
         {/* เป็นกล่อง สำหรับใส่ข้อความ*/}
         <Topic>ABOUT</Topic>

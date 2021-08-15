@@ -9,27 +9,30 @@ export const AboutContainer = styled.section`
   width: 100%;
 `;
 export const Topic = styled.h1`
-padding-top:12vh;
+  padding-top:12vh;
   text-align: center;
     margin-bottom:40px;
     color:white;
     font-size:64px;
-    @media screen and (max-width:600px){
+    /* @media screen and (max-width:600px){
       font-size:20px;
-    }
+    } */
 `;
 export const BoxCover = styled.div`
   display:flex; 
   flex-direction: column;
-  align-items: center;
-  justify-content: center
+  /* align-items: center;
+  justify-content: center */
 `;
 export const BoxWithErmine = styled.div`
 display:flex;
+margin-left:13vw;
+border-radius: 10px;
   img{
-    left:70%;
-    width:439px;
-    height: 478px;
+  left:66%;
+  top:20%;
+  width:439px;
+  height: 478px;
    transform: rotate(-11.33deg);
    position: absolute;
    

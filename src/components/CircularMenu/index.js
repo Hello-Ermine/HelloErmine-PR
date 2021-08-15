@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { Item, StyledDiv } from './style';
 
+const translateX = '-140%';
+const duration = 300;
+
 const getDisplacement = (targetIdx, currentIdx) => {
   return targetIdx - currentIdx;
 };
@@ -25,9 +28,9 @@ const getMenuItemAnimeProps = (targets, rotate) => {
     transformOrigin: '100% 50%',
     translateY: '-50%',
     rotate: `+=${rotate}deg`,
-    translateX: '-170%',
+    translateX,
     easing: 'easeOutSine',
-    duration: 500,
+    duration,
   };
 };
 
@@ -66,7 +69,7 @@ export const CircularMenu = ({
       rotate: (_, i) => {
         return itemAngle * -getDisplacement(i, activeItemIndex);
       },
-      translateX: '-170%',
+      translateX,
       easing: 'linear',
       duration: 0,
       complete: () => {
@@ -115,8 +118,8 @@ export const CircularMenu = ({
     anime(getMenuItemAnimeProps(normalItems, minRotate));
     anime({
       ...getMenuItemAnimeProps(extraItems, extraRotate),
-      delay: 30,
-      duration: 320,
+      duration: duration * 0.8,
+      easing: 'easeOutQuint',
     }).finished.then(() => {
       setIsAnimating(false);
     });
@@ -147,5 +150,5 @@ export const CircularMenu = ({
 CircularMenu.propTypes = {
   children: PropTypes.array,
   angle: PropTypes.number,
-  onUpdateIndex: PropTypes.func
+  onUpdateIndex: PropTypes.func,
 };

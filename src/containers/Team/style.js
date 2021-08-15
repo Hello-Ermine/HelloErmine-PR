@@ -45,4 +45,6 @@ export const Details = styled.div`
   color: white;
   text-indent: 54px;
   text-align: left;
+  line-height: 2rem;
+  word-spacing: 2px;
 `;

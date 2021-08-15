@@ -13,6 +13,7 @@ const Team = () => {
     <Scene>
       <TeamContainer>
         <CircularMenu
+          angle="80"
           onUpdateIndex={(index) => {
             setContent(contentData[index]);
           }}

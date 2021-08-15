@@ -16,6 +16,10 @@ export const AppSocial = styled.div`
     text-align: center;
   }
 
+  a:last-child {
+    margin-right: 0;
+  }
+
   a i {
     background-color: #ffd8bb;
     border-radius: 100%;

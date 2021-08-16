@@ -6,7 +6,7 @@ import Game from './containers/Game';
 import Wrapper from './components/Wrapper';
 import Navbar from './components/Navbar';
 import { AppSocial } from './App.style';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -14,12 +14,13 @@ gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
   const wrapperRef = useRef(null);
+  const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
     const multiplier = wrapper.childNodes.length - 1;
 
-    gsap.to(wrapper, {
+    const st = gsap.to(wrapper, {
       xPercent: -100 * multiplier,
       ease: 'none',
       scrollTrigger: {
@@ -31,10 +32,18 @@ const App = () => {
           snapTo: 1 / multiplier,
           duration: 0.5,
           delay: 0.1,
+          inertia: false,
         },
       },
-    });
+    }).scrollTrigger;
+
+    setScrollTriggerInstance(st);
   }, []);
+
+  const handlePageAnchor = (index) => {
+    const wrapper = wrapperRef.current;
+    scrollTriggerInstance.scroll(index * wrapper.offsetWidth);
+  };
 
   return (
     <>
@@ -45,7 +54,7 @@ const App = () => {
         <FAQs />
         <Game />
       </Wrapper>
-      <Navbar />
+      <Navbar onClick={handlePageAnchor}/>
       <AppSocial>
         <a href="https://www.facebook.com" target='_blank' rel='noreferrer'><i className='fab fa-facebook'/></a>
         <a href="https://www.instagram.com" target='_blank' rel='noreferrer'><i className='fab fa-instagram'/></a>

@@ -149,6 +149,6 @@ export const CircularMenu = ({
 
 CircularMenu.propTypes = {
   children: PropTypes.array,
-  angle: PropTypes.number,
+  angle: PropTypes.string,
   onUpdateIndex: PropTypes.func,
 };

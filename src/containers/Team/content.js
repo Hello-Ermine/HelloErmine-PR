@@ -1,7 +1,7 @@
 import mascotWebDesign from '../../assets/teams/webdesign.png';
 import mascotFrontEnd from '../../assets/teams/frontend.png';
 import mascotInfra from '../../assets/teams/infra.png';
-import mascotGameDev from '../../assets/teams/mascot.png'; // TODO: Replace with the real one
+import mascotGameDev from '../../assets/teams/gamedev.png';
 import mascotGameDesign from '../../assets/teams/gamedesign.png';
 
 export const content = [

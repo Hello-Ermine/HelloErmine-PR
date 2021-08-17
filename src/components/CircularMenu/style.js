@@ -38,6 +38,8 @@ export const Item = styled.div`
   transform: translate(-170%, -50%);
   opacity: ${(props) => (props.show ? 0.4 : 0)};
   transition: .2s ease-out;
+  z-index: 666;
+  cursor: pointer;
 
   &.active {
     opacity: 1;

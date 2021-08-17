@@ -1,6 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavbarStyle } from './style';
-
 
 const Navbar = ({ onClick }) => {
   return (
@@ -24,6 +24,10 @@ const Navbar = ({ onClick }) => {
       </ul>
     </NavbarStyle>
   );
+};
+
+Navbar.propTypes = {
+  onClick: PropTypes.func
 };
 
 export default Navbar;

@@ -16,7 +16,6 @@ export const HomeContent = styled.div`
   width: 100%;
 
   p {
-    font-size: 24px;
     font-weight: 500;
     color: white;
   }

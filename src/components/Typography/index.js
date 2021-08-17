@@ -14,4 +14,9 @@ export const Title = styled.h2`
 export const Caption = styled.p`
   color: ${(props) => props.color || 'black'};
   font-size: 28px;
+  transition: all .3s ease-out;
+
+  @media (max-width: 1108px) {
+    font-size: 20px;
+  }
 `;

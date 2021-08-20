@@ -38,6 +38,16 @@ const App = () => {
       },
     }).scrollTrigger;
 
+    targets.forEach((target, i) => {
+      ScrollTrigger.create({
+        trigger: target,
+        start: () => `top top-=${target.offsetWidth * i - 1}`,
+        end: () => `top top-=${target.offsetWidth * (i + 1) - 1}`,
+        onEnter: () => console.log("Enter: ", i),
+        onLeave: () => console.log("Leave: ", i),
+      });
+    });
+
     setScrollTriggerInstance(st);
   }, []);
 

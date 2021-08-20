@@ -18,10 +18,11 @@ const App = () => {
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
-    const multiplier = wrapper.childNodes.length - 1;
+    const targets = wrapper.childNodes;
+    const multiplier = targets.length - 1;
 
-    const st = gsap.to(wrapper, {
-      xPercent: -100 * multiplier,
+    const st = gsap.to(targets, {
+      xPercent: `-${100 * multiplier}`,
       ease: 'none',
       scrollTrigger: {
         trigger: wrapper,

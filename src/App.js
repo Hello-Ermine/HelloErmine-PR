@@ -22,24 +22,58 @@ const App = () => {
     const targets = wrapper.childNodes;
     const multiplier = targets.length - 1;
 
-    const st = gsap.to(targets, {
-      xPercent: `-${100 * multiplier}`,
-      ease: 'none',
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: wrapper,
         scrub: 1,
         end: () => `+=${wrapper.offsetWidth * multiplier}`,
         pin: true,
         snap: {
-          snapTo: 1 / multiplier,
+          snapTo: "labelsDirectional",
           duration: 0.5,
           delay: 0.1,
           inertia: false,
         },
       },
-    }).scrollTrigger;
+    });
+    const st = tl.scrollTrigger;
 
-    targets.forEach((target, i) => {
+    targets.forEach((target, i, targets) => {
+      if (i === 0) {
+        tl.addLabel(`page-${i}`);
+        tl.to(target, {
+          xPercent: `-100`,
+          ease: 'none',
+        });
+        return;
+      }
+
+      if (i === 1) {
+        tl.to(target,{
+          xPercent: `-100`,
+          ease: 'none',
+        }, "<");
+      } else {
+        tl.fromTo(target, {
+          xPercent: `-${100 * (i - 1)}`,
+          ease: 'none',
+        }, {
+          xPercent: `-${100 * i}`,
+          ease: 'none',
+        }, "<");
+      }
+
+      tl.addLabel(`page-${i}`);
+
+      if (i === targets.length - 1) {
+        return;
+      }
+
+      tl.to(target, {
+        xPercent: `-${100 * (i + 1)}`,
+        ease: 'none',
+      });
+
       ScrollTrigger.create({
         trigger: target,
         start: () => `top top-=${target.offsetWidth * i - 1}`,

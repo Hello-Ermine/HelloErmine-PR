@@ -14,6 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
   const wrapperRef = useRef(null);
+  const [pageIndex, setPageIndex] = useState(0);
   const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
 
   useEffect(() => {
@@ -43,8 +44,8 @@ const App = () => {
         trigger: target,
         start: () => `top top-=${target.offsetWidth * i - 1}`,
         end: () => `top top-=${target.offsetWidth * (i + 1) - 1}`,
-        onEnter: () => console.log("Enter: ", i),
-        onLeave: () => console.log("Leave: ", i),
+        onEnter: () => setPageIndex(i),
+        onEnterBack: () => setPageIndex(i),
       });
     });
 
@@ -52,6 +53,9 @@ const App = () => {
   }, []);
 
   const handlePageAnchor = (index) => {
+    if (pageIndex === index) {
+      return;
+    }
     const wrapper = wrapperRef.current;
     scrollTriggerInstance.scroll(index * wrapper.offsetWidth);
   };
@@ -65,7 +69,7 @@ const App = () => {
         <FAQs />
         <Game />
       </Wrapper>
-      <Navbar onClick={handlePageAnchor}/>
+      <Navbar onClick={handlePageAnchor} pageIndex={pageIndex} />
       <AppSocial>
         <a href="https://www.facebook.com" target='_blank' rel='noreferrer'><i className='fab fa-facebook'/></a>
         <a href="https://www.instagram.com" target='_blank' rel='noreferrer'><i className='fab fa-instagram'/></a>

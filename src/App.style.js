@@ -21,17 +21,18 @@ export const AppSocial = styled.div`
   }
 
   a i {
-    background-color: #302F2F;
+    background-color: #ffd8bb;
     border-radius: 100%;
     width: 80px;
     height: 80px;
     font-size: 48px;
     padding: 16px;
-    transition: all 0.5s ease-out;
+    transition: all 0.3s ease-out;
   }
 
   a i:hover {
-    box-shadow: 0 0 35px 5px rgb(135,206,255);
+    background-color: #f2b6b6;
+    transform: translateY(-16px);
   }
 
   .fa-instagram {

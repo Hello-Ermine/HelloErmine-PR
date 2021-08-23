@@ -1,15 +1,10 @@
 import styled from 'styled-components';
-import Background from '../../assets/home/home_background.png';
 
 export const HomeContainer = styled.section`
   position: relative;
   background-color: #1e1f21;
   height: 100%;
   width: 100%;
-  background-image: url(${Background});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
 `;
 
 export const HomeContent = styled.div`
@@ -19,7 +14,6 @@ export const HomeContent = styled.div`
   transform: translate(-50%, -50%);
   text-align: center;
   width: 100%;
-  line-height: 0;
 
   p {
     font-weight: 500;

@@ -3,17 +3,22 @@ import styled from 'styled-components';
 export const NavbarStyle = styled.ul`
     position: fixed;
     display: flex;
+    justify-content: space-between;
     background: transparent;
-    padding: 2em 0;
+    padding: 1em 1.5em;
     width: 100%;
     color: white;
     top: 0;
+
+    img.nav-logo {
+        width: 150px;
+        opacity: ${(props) => props.show ? 1.0 : 0.0};
+    }
 
     ul {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
         list-style: none;
         margin: 0;
         padding: 0;

@@ -23,6 +23,9 @@ const App = () => {
     const multiplier = targets.length - 1;
 
     const tl = gsap.timeline({
+      defaults: {
+        ease: 'none',
+      },
       scrollTrigger: {
         trigger: wrapper,
         scrub: 1,
@@ -39,27 +42,25 @@ const App = () => {
     const st = tl.scrollTrigger;
 
     targets.forEach((target, i, targets) => {
-      if (i === 0) {
-        tl.addLabel(`page-${i}`);
-        tl.to(target, {
-          xPercent: `-100`,
-          ease: 'none',
-        });
-        return;
-      }
+      ScrollTrigger.create({
+        trigger: target,
+        start: () => `top top-=${target.offsetWidth * i - 1}`,
+        end: () => `top top-=${target.offsetWidth * (i + 1) - 1}`,
+        onEnter: () => setPageIndex(i),
+        onEnterBack: () => setPageIndex(i),
+      });
 
-      if (i === 1) {
-        tl.to(target,{
-          xPercent: `-100`,
-          ease: 'none',
+      const xPercentEnterSet = -100 * (i - 1);
+      const xPercentEnterTo = -100 * i;
+      const xPercentExitTo = -100 * (i + 1);
+      
+      if (i > 0) {
+        tl.set(target, {
+          xPercent: xPercentEnterSet,
         }, "<");
-      } else {
-        tl.fromTo(target, {
-          xPercent: `-${100 * (i - 1)}`,
-          ease: 'none',
-        }, {
-          xPercent: `-${100 * i}`,
-          ease: 'none',
+        
+        tl.to(target, {
+          xPercent: xPercentEnterTo,
         }, "<");
       }
 
@@ -70,16 +71,7 @@ const App = () => {
       }
 
       tl.to(target, {
-        xPercent: `-${100 * (i + 1)}`,
-        ease: 'none',
-      });
-
-      ScrollTrigger.create({
-        trigger: target,
-        start: () => `top top-=${target.offsetWidth * i - 1}`,
-        end: () => `top top-=${target.offsetWidth * (i + 1) - 1}`,
-        onEnter: () => setPageIndex(i),
-        onEnterBack: () => setPageIndex(i),
+        xPercent: xPercentExitTo,
       });
     });
 

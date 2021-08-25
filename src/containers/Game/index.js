@@ -1,11 +1,15 @@
 import Scene from '../../components/Scene';
-import { GameContainer } from './style';
+import { GameContainer , Topic , GameButtom , GameContent} from './style';
+import erminepc from '../../assets/game/Copy-of-ermine-ver-PC.png';
 
 const Game = () => {
   return (
     <Scene>
       <GameContainer>
-        <h1>Game</h1>
+        <GameContent>
+          <Topic>GAME</Topic>
+          <GameButtom img src={erminepc}/>
+        </GameContent>
       </GameContainer>
     </Scene>
   );

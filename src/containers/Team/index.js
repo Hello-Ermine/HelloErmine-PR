@@ -2,24 +2,34 @@ import Scene from '../../components/Scene';
 import { Content, Details, TeamContainer, Title, TeamContent } from './style';
 
 import { CircularMenu } from '../../components/CircularMenu';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../components/Button';
 import { content as contentData } from './content';
 import { gsap } from 'gsap';
 
 const Team = () => {
-  const [content, setContent] = useState(contentData[2]);
+  const [preloadedMascots, setPreloadedMascots] = useState([]);
+  const [contentIndex, setContentIndex] = useState(2);
   const teamContentRef = useRef(null);
+  const content = contentData[contentIndex];
+
+  useEffect(() => {
+    const mascots = contentData.map(({ mascot }) => {
+      const img = new Image();
+      img.src = mascot;
+      return img;
+    });
+    setPreloadedMascots(mascots);
+  }, []);
 
   const handleUpdateIndex = (index) => {
     const teamContent = teamContentRef.current;
-    const newContent = contentData[index];
 
     gsap.to(teamContent, {
       autoAlpha: 0,
       duration: 0.25,
       onComplete: () => {
-        setContent(newContent);
+        setContentIndex(index);
         gsap.to(teamContent, {
           autoAlpha: 1,
           duration: 0.25,
@@ -43,7 +53,7 @@ const Team = () => {
         </CircularMenu>
         <Content>
           <TeamContent ref={teamContentRef}>
-            <img src={content.mascot} alt={content.title} />
+            <img src={preloadedMascots[contentIndex]?.src} alt={content.title} />
             <Title color={content.scheme}>{content.title}</Title>
             <Details>{content.details}</Details>
           </TeamContent>

@@ -5,7 +5,7 @@ import FAQs from './containers/FAQs';
 import Game from './containers/Game';
 import Wrapper from './components/Wrapper';
 import Navbar from './components/Navbar';
-import { AppSocial } from './App.style';
+import { AppSocial, BlackScreen } from './App.style';
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,11 +14,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
   const wrapperRef = useRef(null);
+  const blackScreenRef = useRef(null);
+  const [isChanging, setIsChanging] = useState(false);
+  const [timeline, setTimeline] = useState(null);
   const [pageIndex, setPageIndex] = useState(0);
   const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
+    const blackScreen = blackScreenRef.current;
     const targets = wrapper.childNodes;
     const multiplier = targets.length - 1;
 
@@ -28,7 +32,7 @@ const App = () => {
       },
       scrollTrigger: {
         trigger: wrapper,
-        scrub: 1,
+        scrub: 0.5,
         end: () => `+=${wrapper.offsetWidth * multiplier}`,
         pin: true,
         snap: {
@@ -36,6 +40,7 @@ const App = () => {
           duration: 0.5,
           delay: 0.1,
           inertia: false,
+          ease: 'none',
         },
       },
     });
@@ -62,6 +67,9 @@ const App = () => {
         tl.to(target, {
           xPercent: xPercentEnterTo,
         }, "<");
+        tl.to(blackScreen, {
+          autoAlpha: 0,
+        });  
       }
 
       tl.addLabel(`page-${i}`);
@@ -70,20 +78,57 @@ const App = () => {
         return;
       }
 
+      tl.to(blackScreen,{
+        autoAlpha: 1,
+      });
+
       tl.to(target, {
         xPercent: xPercentExitTo,
-      });
+      }, "+=.5");
     });
 
+    setTimeline(tl);
     setScrollTriggerInstance(st);
   }, []);
 
   const handlePageAnchor = (index) => {
-    if (pageIndex === index) {
+    if (pageIndex === index || isChanging) {
       return;
     }
+
+    const scrub = scrollTriggerInstance.getTween();
+    const snap = scrollTriggerInstance.getTween(true);
+
+    if (scrub) {
+      scrub.kill();
+    }
+    if (snap) {
+      snap.kill();
+    }
+
+    setIsChanging(true);
+
     const wrapper = wrapperRef.current;
-    scrollTriggerInstance.scroll(index * wrapper.offsetWidth);
+    const blackScreen = blackScreenRef.current;
+
+    gsap.to(blackScreen, {
+      autoAlpha: 1,
+      duration: 0.25,
+      onComplete: () => {
+        timeline.seek(`page-${index}`);
+        scrollTriggerInstance.scroll(index * wrapper.offsetWidth);
+        gsap.fromTo(blackScreen, {
+          autoAlpha: 1,
+        }, {
+          autoAlpha: 0,
+          duration: 0.25,
+          onComplete: () => {
+            setPageIndex(index);
+            setIsChanging(false);
+          },
+        });
+      }
+    });
   };
 
   return (
@@ -95,6 +140,7 @@ const App = () => {
         <FAQs />
         <Game />
       </Wrapper>
+      <BlackScreen ref={blackScreenRef}/>
       <Navbar onClick={handlePageAnchor} pageIndex={pageIndex} />
       <AppSocial>
         <a href="https://www.facebook.com" target='_blank' rel='noreferrer'><i className='fab fa-facebook'/></a>

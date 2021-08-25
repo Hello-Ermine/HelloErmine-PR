@@ -32,7 +32,7 @@ const App = () => {
       },
       scrollTrigger: {
         trigger: wrapper,
-        scrub: 1,
+        scrub: 0.5,
         end: () => `+=${wrapper.offsetWidth * multiplier}`,
         pin: true,
         snap: {
@@ -40,7 +40,7 @@ const App = () => {
           duration: 0.5,
           delay: 0.1,
           inertia: false,
-          ease: 'Sine.easeOut',
+          ease: 'none',
         },
       },
     });

@@ -95,18 +95,22 @@ const App = () => {
     if (pageIndex === index || isChanging) {
       return;
     }
+
+    const scrub = scrollTriggerInstance.getTween();
+    const snap = scrollTriggerInstance.getTween(true);
+
+    if (scrub) {
+      scrub.kill();
+    }
+    if (snap) {
+      snap.kill();
+    }
+
+    setIsChanging(true);
+
     const wrapper = wrapperRef.current;
     const blackScreen = blackScreenRef.current;
-    const distance = Math.abs(index - pageIndex);
-    console.log(distance);
 
-    if (distance === 1) {
-      scrollTriggerInstance.scroll(index * wrapper.offsetWidth);
-      setPageIndex(index);
-      return;
-    }
-    // TODO: Fix flickering from rapid page changes
-    setIsChanging(true);
     gsap.to(blackScreen, {
       autoAlpha: 1,
       duration: 0.25,

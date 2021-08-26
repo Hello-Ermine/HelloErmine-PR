@@ -50,6 +50,7 @@ export const BackgroundElement = styled.img`
 `;
 
 export const TreeElement1 = styled.img`
+  animation: tree1-wobble-hor 25s ease-in-out infinite both;
   position: absolute;
   left: 0;
   bottom: 0;
@@ -59,6 +60,7 @@ export const TreeElement1 = styled.img`
 `;
 
 export const TreeElement2 = styled.img`
+  animation: tree2-wobble-hor 20s ease infinite both;
   position: absolute;
   left: 0;
   bottom: 0;
@@ -68,6 +70,7 @@ export const TreeElement2 = styled.img`
 `;
 
 export const TreeElement3 = styled.img`
+  animation: tree3-wobble-hor 30s ease infinite both;
   position: absolute;
   right: 0;
   bottom: 0;

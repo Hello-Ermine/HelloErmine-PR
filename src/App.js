@@ -17,6 +17,7 @@ const data = {
   pageIndex: 0,
   isChanging: false,
   st: null,
+  tl: null,
 };
 
 const throttle = (fn, delay) => {
@@ -37,7 +38,6 @@ const App = () => {
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
   const [isChanging, setIsChanging] = useState(false);
-  const [timeline, setTimeline] = useState(null);
   const [pageIndex, setPageIndex] = useState(0);
   const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
 
@@ -73,8 +73,14 @@ const App = () => {
       // });
 
       data.st.scroll(nextIndex * wrapper.offsetWidth);
+      if (data.tween) {
+        data.tween.kill();
+      }
+      data.tween = data.tl.tweenTo(Object.values(data.tl.labels)[nextIndex], {
+        duration, 
+      });
       // data.st.tweenTo(nextIndex * wrapper.offsetWidth);
-      
+
       // data.pageIndex = nextIndex;
       // setPageIndex(nextIndex);
     };
@@ -87,7 +93,7 @@ const App = () => {
       },
       scrollTrigger: {
         trigger: wrapper,
-        scrub: true,
+        // scrub: true,
         end: () => `+=${wrapper.offsetWidth * multiplier}`,
         pin: true,
         // snap: {
@@ -109,7 +115,8 @@ const App = () => {
           // handleUpdate(self);
         },
       },
-    });
+    }).pause();
+
     const st = tl.scrollTrigger;
 
     targets.forEach((target, i, targets) => {
@@ -169,7 +176,7 @@ const App = () => {
       }, "+=.5");
     });
 
-    setTimeline(tl);
+    data.tl = tl;
     data.st = st;
     setScrollTriggerInstance(st);
   }, []);

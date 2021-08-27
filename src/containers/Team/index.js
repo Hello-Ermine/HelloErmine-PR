@@ -14,12 +14,12 @@ const Team = () => {
   const content = contentData[contentIndex];
 
   useEffect(() => {
-    const mascots = contentData.map(({ mascot }) => {
+    Promise.all(contentData.map(async ({ mascot }) => {
       const img = new Image();
       img.src = mascot;
+      await img.decode();
       return img;
-    });
-    setPreloadedMascots(mascots);
+    })).then(setPreloadedMascots);
   }, []);
 
   const handleUpdateIndex = (index) => {

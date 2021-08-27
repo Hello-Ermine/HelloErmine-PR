@@ -19,7 +19,6 @@ const data = {
   st: null,
   tl: null,
   tween: null,
-  tweenBlackScreen: null,
 };
 
 const throttle = (fn, delay) => {
@@ -34,7 +33,11 @@ const throttle = (fn, delay) => {
   };
 };
 
-const duration = .5;
+const duration = .6;
+
+const getLabel = (index) => {
+  return `page-${index}`;
+};
 
 const App = () => {
   const wrapperRef = useRef(null);
@@ -50,29 +53,20 @@ const App = () => {
     const wrapper = wrapperRef.current;
 
     data.st.scroll(index * wrapper.offsetWidth);
-
-    if (data.tween?.isActive()) {
-      console.log("KILL");
-      data.tween.kill();
-    }
-
-    setPageIndex(index);
-
     data.tween = data.tl.tweenTo(Object.values(data.tl.labels)[index], {
       duration,
     });
-  };
 
-  const throttledHandleUpdateIndex = throttle(handleUpdateIndex, duration * 1000);
+    setPageIndex(index);
+  };
 
   const handleUpdateScrollTrigger = (st) => {
     const wrapper = wrapperRef.current;
     const targets = wrapper.childNodes;
-
     const pageIndex = data.pageIndex;
     const nextIndex = Math.min(Math.max(0, pageIndex + st.direction), targets.length - 1);
 
-    throttledHandleUpdateIndex(nextIndex);
+    handleUpdateIndex(nextIndex);
   };
 
   const throttledHandleUpdateScrollTrigger = throttle(handleUpdateScrollTrigger, duration * 1000);
@@ -95,8 +89,7 @@ const App = () => {
           if (!data.st || data.isChanging) {
             return;
           }
-          // if (self.
-          console.log("UPDATE");
+          
           throttledHandleUpdateScrollTrigger(self);
         },
       },
@@ -129,7 +122,7 @@ const App = () => {
         });  
       }
 
-      tl.addLabel(`page-${i}`);
+      tl.addLabel(getLabel(i));
 
       if (i === targets.length - 1) {
         return;
@@ -155,21 +148,25 @@ const App = () => {
 
     data.isChanging = true;
 
+    if (data.tween) {
+      data.tween.kill();
+    }
+
     const wrapper = wrapperRef.current;
     const blackScreen = blackScreenRef.current;
 
     data.st.scroll(index * wrapper.offsetWidth);
     // Set data.isChanging to false earlier and the whole thing collapses
-    data.tweenBlackScreen = gsap.to(blackScreen, {
+    gsap.to(blackScreen, {
       autoAlpha: 1,
       duration: 0.25,
     }).then(() => {
-      data.tl.seek(`page-${index}`);
+      data.tl.seek(getLabel(index));
       gsap.fromTo(blackScreen, {
         autoAlpha: 1,
       }, {
         autoAlpha: 0,
-        duration: .5,
+        duration: duration,
         onComplete: () => {
           data.isChanging = false;
         },

@@ -38,7 +38,7 @@ export const TeamContent = styled.div`
   justify-content: center;
   align-items: center;
   height: 72%;
-  max-width: 64vw;
+  max-width: 58vw;
 `;
 
 export const Title = styled.div`
@@ -64,7 +64,7 @@ export const Scroll = styled.div`
   position: relative;
   width: 20vh;
   height: 11vh;
-  opacity: ${props => props.active ? 1 : .4};
+  /* opacity: ${props => props.active ? 1 : .4}; */
   filter: ${props => props.active ? `
     drop-shadow(0 0 16px ${props.scheme}7f)
     drop-shadow(0 0 96px ${props.scheme}20)` : ''};

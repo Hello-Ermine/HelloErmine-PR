@@ -19,6 +19,7 @@ const data = {
   st: null,
   tl: null,
   tween: null,
+  isLoading: true,
 };
 
 const throttle = (fn, delay) => {
@@ -33,11 +34,55 @@ const throttle = (fn, delay) => {
   };
 };
 
+const debounce = (fn, delay) => {
+  let timeout = null;
+
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
+};
+  
+
 const duration = .6;
 
 const getLabel = (index) => {
   return `page-${index}`;
 };
+
+const scrollCompleteCallback = (() => {
+  let interval = null;
+
+  return (func, overwrite = true) => {
+    let previousY = window.scrollY;
+
+    if (overwrite) {
+      clearInterval(interval);
+    }
+    
+    interval = setInterval(() => {
+      if (previousY === window.scrollY) {
+        clearInterval(interval);
+        func();
+      }
+      previousY = window.scrollY;
+    }, 100);
+  }; 
+})();
+
+const handleResize = (e) => {
+  console.log("RESIZED, scrolling to ", data.pageIndex);
+  // data.tl.tweenTo(data.pageIndex);
+  data.isChanging = true;
+  data.st.scroll(data.pageIndex);
+  scrollCompleteCallback(() => {
+    data.isChanging = false;
+  });
+};
+
+const debouncedHandleResize = debounce(handleResize, 200);
 
 const App = () => {
   const wrapperRef = useRef(null);
@@ -49,24 +94,35 @@ const App = () => {
     _setPageIndex(index);
   };
 
-  const handleUpdateIndex = (index) => {
-    const wrapper = wrapperRef.current;
-
-    data.st.scroll(index * wrapper.offsetWidth);
-    data.tween = data.tl.tweenTo(Object.values(data.tl.labels)[index], {
-      duration,
-    });
-
-    setPageIndex(index);
-  };
-
   const handleUpdateScrollTrigger = (st) => {
     const wrapper = wrapperRef.current;
     const targets = wrapper.childNodes;
-    const pageIndex = data.pageIndex;
-    const nextIndex = Math.min(Math.max(0, pageIndex + st.direction), targets.length - 1);
+    const nextIndex = Math.min(Math.max(0, data.pageIndex + st.direction), targets.length - 1);
 
-    handleUpdateIndex(nextIndex);
+    if (data.pageIndex === nextIndex) {
+      return;
+    }
+    console.log("UPDATE", data.pageIndex, nextIndex);
+
+    // TODO: do the same thing as in handlePageAnchor, remove blackscreen from master timeline, etc.
+    
+    // data.isChanging = true;
+    data.st.scroll(nextIndex * wrapper.offsetWidth);
+    setPageIndex(nextIndex);
+    scrollCompleteCallback(() => {
+      data.st.scroll(data.pageIndex * wrapper.offsetWidth); // scroll to current page (prevent users from interrupting the scroll position)
+      data.isChanging = true;
+      console.log("LOCKED");
+      scrollCompleteCallback(() => {
+        console.log("UNLOCKED");
+        data.isChanging = false;
+      });
+      console.log(`Scrolling to ${data.pageIndex}`);    
+    });
+
+    data.tween = data.tl.tweenTo(getLabel(nextIndex), {
+      duration,
+    });
   };
 
   const throttledHandleUpdateScrollTrigger = throttle(handleUpdateScrollTrigger, duration * 1000);
@@ -86,16 +142,18 @@ const App = () => {
         end: () => `+=${wrapper.offsetWidth * multiplier}`,
         pin: true,
         onUpdate: (self) => {
-          if (!data.st || data.isChanging) {
+          if (
+            !data.st ||
+            data.isChanging ||
+            data.isLoading
+          ) {
             return;
           }
-          
           throttledHandleUpdateScrollTrigger(self);
         },
       },
     });
 
-    tl.pause();
     const st = tl.scrollTrigger;
 
     targets.forEach((target, i, targets) => {
@@ -139,6 +197,16 @@ const App = () => {
 
     data.tl = tl;
     data.st = st;
+    st.disable();
+
+    window.addEventListener('resize', debouncedHandleResize);
+    // after 1s from window load event, scroll to first page
+    window.addEventListener('load', () => {
+      data.st.enable();
+      data.tl.pause();
+      data.isLoading = false;
+    });
+      
   }, []);
 
   const handlePageAnchor = (index) => {
@@ -148,28 +216,31 @@ const App = () => {
 
     data.isChanging = true;
 
-    if (data.tween) {
-      data.tween.kill();
-    }
-
+    console.log("UPDATE", data.pageIndex, index);
     const wrapper = wrapperRef.current;
     const blackScreen = blackScreenRef.current;
-
+    
+    data.tween?.kill(blackScreen);
+    
     data.st.scroll(index * wrapper.offsetWidth);
-    // Set data.isChanging to false earlier and the whole thing collapses
+    scrollCompleteCallback(() => {
+      data.st.scroll(data.pageIndex * wrapper.offsetWidth);
+      scrollCompleteCallback(() => {
+        console.log("H");
+        data.isChanging = false;
+      });
+    });
+
     gsap.to(blackScreen, {
       autoAlpha: 1,
-      duration: 0.25,
+      duration: duration / 2,
     }).then(() => {
       data.tl.seek(getLabel(index));
       gsap.fromTo(blackScreen, {
         autoAlpha: 1,
       }, {
         autoAlpha: 0,
-        duration: duration,
-        onComplete: () => {
-          data.isChanging = false;
-        },
+        duration: duration / 2,
       });
     });
 

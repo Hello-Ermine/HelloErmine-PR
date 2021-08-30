@@ -34,8 +34,8 @@ export const BoxContent = styled.div`
     align-items : center;
     height : 55px;
     background-image: url(${scripture_head});
-    background-size:571px;
-    font-size:24px;
+    background-size: 571px;
+    font-size: 24px;
 
     p{
       padding-left : 30px;

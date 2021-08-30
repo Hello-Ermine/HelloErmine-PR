@@ -1,6 +1,8 @@
 import Scene from '../../components/Scene';
 import { GameContainer , Topic , GameButtom , GameContent} from './style';
-import erminepc from '../../assets/game/Copy-of-ermine-ver-PC.png';
+
+import erminepc from '../../assets/game/ermine_landscape.png';
+// import erminemobile from '../../assets/game/ermine_portrait.png';
 
 const Game = () => {
   return (

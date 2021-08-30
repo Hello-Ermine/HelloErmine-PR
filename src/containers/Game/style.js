@@ -27,4 +27,11 @@ export const GameButtom = styled.img`
   width: 85%;
   text-align: center;
   margin-bottom: 7%;
+  transition: transform .2s ease-out;
+  cursor: pointer;
+
+  :hover {
+    transform: rotate(-5deg);
+    filter: drop-shadow(30px 10px 4px #4444dd);
+  }
 `;

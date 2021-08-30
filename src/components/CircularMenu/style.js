@@ -28,22 +28,25 @@ export const StyledDiv = styled.div`
 export const Item = styled.div`
   width: var(--menu-item-width);
   height: var(--menu-item-height);
-  font-size: 2rem;
-  border-radius: 20px;
-  background: rgb(231, 231, 231);
   position: absolute;
   top: 50%;
   right: 0;
   transform-origin: 100% 50%;
-  transform: translate(-170%, -50%);
-  opacity: ${(props) => (props.show ? 0.4 : 0)};
+  transform: translate(-120%, -50%);
+  /* opacity: ${(props) => (props.show ? 0.4 : 0)}; */
   transition: .2s ease-out;
   z-index: 666;
   cursor: pointer;
+  /* background: white; */
+  direction: rtl;
 
-  &.active {
+  * {
+    direction: ltr;
+  }
+
+  /* &.active {
     opacity: 1;
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.5),
       0 0 100px rgba(255, 255, 255, 0.2);
-  }
+  } */
 `;

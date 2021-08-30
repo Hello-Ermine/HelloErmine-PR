@@ -1,5 +1,5 @@
 import Scene from '../../components/Scene';
-import { Content, Details, TeamContainer, Title, TeamContent } from './style';
+import { Content, Details, TeamContainer, Title, TeamContent, Scroll } from './style';
 
 import { CircularMenu } from '../../components/CircularMenu';
 import { useEffect, useRef, useState } from 'react';
@@ -42,14 +42,20 @@ const Team = () => {
     <Scene>
       <TeamContainer>
         <CircularMenu
-          angle="80"
+          angle="85"
           onUpdateIndex={handleUpdateIndex}
         >
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          {contentData.map(({ scroll, title, scheme }, index) => {
+            return (
+              <Scroll
+                key={title}
+                close={scroll.close}
+                open={scroll.open}
+                scheme={scheme}
+                active={index == contentIndex}
+              />
+            );
+          })}
         </CircularMenu>
         <Content>
           <TeamContent ref={teamContentRef}>

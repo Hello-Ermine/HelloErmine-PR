@@ -10,7 +10,9 @@ const Game = () => {
       <GameContainer>
         <GameContent>
           <Topic>GAME</Topic>
-          <GameButtom img src={erminepc}/>
+          <a href="#" target='_blank' rel='noreferrer'>
+            <GameButtom img src={erminepc}/>
+          </a>
         </GameContent>
       </GameContainer>
     </Scene>

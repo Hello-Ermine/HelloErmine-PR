@@ -28,6 +28,7 @@ export const Content = styled.div`
   img {
     max-width: 50%;
     max-height: 56%;
+    animation: fold-ermine 5s ease infinite both;
   }
 `;
 

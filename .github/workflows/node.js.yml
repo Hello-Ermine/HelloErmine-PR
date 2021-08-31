@@ -23,13 +23,13 @@ jobs:
     - name: Initialize ssl
       shell: bash
       run: |
-        'echo "$CERT" > ./ssl/cert.pem'
-        'echo $CLOUDFLARE_CRT > ./ssl/cloudflare.crt'
-        'echo "$PRIVATE_KEY" > ./ssl/key.pem'
+        'echo "$CERT" >> ./ssl/cert.pem'
+        'echo $CLOUDFLARE_CRT >> ./ssl/cloudflare.crt'
+        'echo "$PRIVATE_KEY" >> ./ssl/key.pem'
       env:
-        CERT: ${{secrets.CERT}}
-        PRIVATE_KEY: ${{secrets.PRIVATE_KEY}}
-        CLOUDFLARE_CRT: ${{secrets.CLOUDFLARE_CRT}}
+        CERT: ${{ secrets.CERT }}
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        CLOUDFLARE_CRT: ${{ secrets.CLOUDFLARE_CRT }}
     - run: ls -a
     - run: npm i
     - run: npm run build --if-present

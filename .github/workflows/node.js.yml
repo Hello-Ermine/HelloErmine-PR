@@ -34,5 +34,5 @@ jobs:
     - run: ls -a
     - run: docker-compose down
     - run: npm i
-    - run: npm build
+    - run: npm run build
     - run: docker-compose up -d --no-deps --build swag

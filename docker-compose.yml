@@ -17,7 +17,6 @@ services:
       - STAGING=false #optional
     volumes:
       - ./config:/config
-      - ./build:/config/www
     ports:
       - 443:443
       - 80:80 #optional

@@ -13,5 +13,3 @@ RUN yarn build
 #USER node
 
 EXPOSE 80
-
-CMD [ "yarn", "start" ]

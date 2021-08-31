@@ -3,6 +3,7 @@ services:
   swag:
     image: ghcr.io/linuxserver/swag
     container_name: swag
+    user: chisanucha_kim
     cap_add:
       - NET_ADMIN
     environment:

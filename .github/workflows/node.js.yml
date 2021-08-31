@@ -40,4 +40,4 @@ jobs:
     - run: ls -a
     - run: npm i
     - run: npm run build
-    - run: docker-compose up --user="chisanucha_kim" -d --no-deps --build swag
+    - run: docker-compose up -d --no-deps --build swag

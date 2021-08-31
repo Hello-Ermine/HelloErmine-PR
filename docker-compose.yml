@@ -2,7 +2,6 @@ version: "3.8"
 services:
   swag:
     image: ghcr.io/linuxserver/swag
-    user: "chisanucha_kim:chisanucha_kim"
     container_name: swag
     cap_add:
       - NET_ADMIN

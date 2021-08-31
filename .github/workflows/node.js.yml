@@ -21,9 +21,9 @@ jobs:
     - uses: actions/checkout@v2
     - run: npm i
     - run: npm run build --if-present
+    - run: mkdir ssl
     - name: Initialize ssl
       run: |
-        'mkdir ssl'
         'echo "$CERT" > ./ssl/cert.pem'
         'echo $CLOUDFLARE_CRT > ./ssl/cloudflare.crt'
         'echo "$PRIVATE_KEY" > ./ssl/key.pem'

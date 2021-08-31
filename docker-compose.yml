@@ -6,7 +6,7 @@ services:
     volumes:
       - ./ssl:/etc/nginx/ssl
       - ./build:/usr/share/nginx/html:ro
-      - ./config/default.conf:/etc/nginx/sites-available/default
+      - ./nginx/default.conf:/etc/nginx/config.d/default.conf
     ports:
     - 80:80
     - 443:443

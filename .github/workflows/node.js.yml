@@ -21,6 +21,11 @@ jobs:
     - uses: actions/checkout@v2
     - run: docker-compose down
     - run: mkdir ssl
+    - name: Define .env file
+      shell: bash
+      run: |
+        touch .env
+        echo BUILD_PATH=./config/www >> .env
     - name: Initialize ssl
       run: |
         touch ./ssl/cert.pem ./ssl/cloudflare.crt ./ssl/key.pem
@@ -35,4 +40,4 @@ jobs:
     - run: ls -a
     - run: npm i
     - run: npm run build
-    - run: docker-compose up -d --no-deps --build swag
+    - run: docker-compose up --user="chisanucha_kim" -d --no-deps --build swag

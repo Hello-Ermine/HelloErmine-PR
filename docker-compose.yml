@@ -3,7 +3,6 @@ services:
   swag:
     image: ghcr.io/linuxserver/swag
     container_name: swag
-    command: bash -c "chmod 766 config/"
     cap_add:
       - NET_ADMIN
     environment:

@@ -18,8 +18,8 @@ jobs:
 #         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - run: docker-compose down
     - uses: actions/checkout@v2
+    - run: docker-compose down
     - run: mkdir ssl
     - name: Initialize ssl
       run: |

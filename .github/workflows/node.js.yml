@@ -21,7 +21,6 @@ jobs:
     - uses: actions/checkout@v2
     - run: mkdir ssl
     - name: Initialize ssl
-      shell: bash
       run: |
         'echo "$PORT"'
         'echo "$CERT" >> ./ssl/cert.pem'

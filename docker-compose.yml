@@ -6,9 +6,10 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - TZ=Europe/London
+      - PUID=1001
+      - PGID=1002
       - URL=helloermine.com
-      - VALIDATION=http
+      - VALIDATION=dns
       - CERTPROVIDER= #optional
       - DNSPLUGIN=cloudflare #optional
       - ONLY_SUBDOMAINS=false #optional

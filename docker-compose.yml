@@ -3,6 +3,8 @@ services:
   web:
     container_name: nginx
     image: nginx
+    build:
+      context: .
     volumes:
       - ./ssl:/etc/nginx/ssl
       - ./build:/usr/share/nginx/html:ro

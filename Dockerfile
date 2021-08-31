@@ -7,11 +7,9 @@ RUN apk update && apk upgrade
 
 WORKDIR /home/HelloErmine-PR/app
 COPY . /home/HelloErmine-PR/app
-RUN yarn install
-RUN yarn build
+RUN npm i
+RUN npm build
 
 #USER node
 
 EXPOSE 80
-
-CMD [ "yarn", "start" ]

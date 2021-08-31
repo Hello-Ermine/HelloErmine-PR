@@ -19,7 +19,34 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: npm i
-    - run: npm run build --if-present
     - run: docker-compose down
-    - run: docker-compose up -d
+    - run: mkdir ssl
+    - run: mkdir config
+    - run: mkdir config/dns-conf/
+    - name: Assign cloudflare.ini
+      shell: bash
+      run: |
+        touch ./config/dns-conf/cloudflare.ini
+        echo "$CLOUDFLARE_TOKEN" > ./config/dns-conf/cloudflare.ini
+      env:
+        CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+    - name: Define .env file
+      shell: bash
+      run: |
+        touch .env
+        echo BUILD_PATH=./config/www >> .env
+    - name: Initialize ssl
+      run: |
+        touch ./ssl/cert.pem ./ssl/cloudflare.crt ./ssl/key.pem
+        echo "$CERT" > ./ssl/cert.pem
+        echo $CLOUDFLARE_CRT > ./ssl/cloudflare.crt
+        echo "$PRIVATE_KEY" > ./ssl/key.pem
+      env:
+        PORT: ${{secrets.PORT}}
+        CERT: ${{ secrets.CERT }}
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        CLOUDFLARE_CRT: ${{ secrets.CLOUDFLARE_CRT }}
+    - run: ls -a
+    - run: npm i
+    - run: npm run build
+    - run: docker-compose up -d --no-deps --build swag

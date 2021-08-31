@@ -1,12 +1,23 @@
-version: '3.7'
-services: 
-  web:
-    container_name: nginx
-    image: nginx
-    volumes:
-      - ./build:/usr/share/nginx/html:ro
-      #- ./config/default.conf:/etc/nginx/conf.d/default.conf
-    ports:
-    - "80:80"
+version: "3.8"
+services:
+  swag:
+    image: ghcr.io/linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
     environment:
-    - NGINX_PORT=80 
+      - PUID=1001
+      - PGID=1002
+      - URL=helloermine.com
+      - VALIDATION=dns
+      - SUBDOMAIN=wildcard
+      - CERTPROVIDER= #optional
+      - DNSPLUGIN=cloudflare #optional
+      - ONLY_SUBDOMAINS=false #optional
+      - STAGING=false #optional
+    volumes:
+      - ./config:/config
+    ports:
+      - 443:443
+      - 80:80 #optional
+    restart: unless-stopped

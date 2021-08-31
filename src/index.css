@@ -93,3 +93,15 @@ code {
     transform: translate(25%, -40%) rotate(-1.6deg);
   }
 }
+
+@keyframes fold-ermine {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  0% {
+    transform: translateY(0);
+  }
+}

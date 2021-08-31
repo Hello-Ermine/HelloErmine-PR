@@ -9,11 +9,10 @@ services:
       - PUID=1001
       - PGID=1002
       - URL=helloermine.com
-      - VALIDATION=dns
+      - VALIDATION=http
       - CERTPROVIDER= #optional
       - DNSPLUGIN=cloudflare #optional
       - ONLY_SUBDOMAINS=false #optional
-      - EXTRA_DOMAINS=<extradomains> #optional
       - STAGING=false #optional
     volumes:
       - ./config:/config

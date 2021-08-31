@@ -33,4 +33,4 @@ jobs:
         CLOUDFLARE_CRT: ${{ secrets.CLOUDFLARE_CRT }}
     - run: ls -a
     - run: docker-compose down
-    - run: docker-compose up -d
+    - run: docker-compose up -d --no-deps --build web

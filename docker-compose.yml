@@ -5,6 +5,7 @@ services:
     image: nginx
     build:
       context: .
+      dockerfile: Dockerfile
     volumes:
       - ./ssl:/etc/nginx/ssl
       - ./build:/usr/share/nginx/html:ro

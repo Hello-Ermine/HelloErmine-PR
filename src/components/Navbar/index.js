@@ -2,9 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavbarStyle } from './style';
 
+import Logo from '../../assets/hello-ermine_logo.png';
+
 const Navbar = ({ onClick }) => {
   return (
-    <NavbarStyle>
+    <NavbarStyle show={false}>
+      <img className='nav-logo' src={Logo} alt='Ermine logo'/>
       <ul>
         <li>
           <a href='#Home' onClick={() => onClick(0)}>HOME</a>

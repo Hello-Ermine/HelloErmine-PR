@@ -10,7 +10,8 @@ services:
       - PUID=1001
       - PGID=1002
       - URL=helloermine.com
-      - VALIDATION=http
+      - VALIDATION=dns
+      - SUBDOMAIN=wildcard
       - CERTPROVIDER= #optional
       - DNSPLUGIN=cloudflare #optional
       - ONLY_SUBDOMAINS=false #optional

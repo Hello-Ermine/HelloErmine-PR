@@ -22,10 +22,10 @@ jobs:
     - run: mkdir ssl
     - name: Initialize ssl
       run: |
-        'echo "$PORT"'
-        'echo "$CERT" >> ./ssl/cert.pem'
-        'echo $CLOUDFLARE_CRT >> ./ssl/cloudflare.crt'
-        'echo "$PRIVATE_KEY" >> ./ssl/key.pem'
+        touch ./ssl/cert.pem ./ssl/cloudflare.crt ./ssl/key.pem
+        echo "$CERT" > ./ssl/cert.pem
+        echo $CLOUDFLARE_CRT > ./ssl/cloudflare.crt
+        echo "$PRIVATE_KEY" > ./ssl/key.pem
       env:
         PORT: ${{secrets.PORT}}
         CERT: ${{ secrets.CERT }}

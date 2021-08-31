@@ -21,6 +21,14 @@ jobs:
     - uses: actions/checkout@v2
     - run: docker-compose down
     - run: mkdir ssl
+    - run: mkdir config/dns-conf/
+    - name: Assign cloudflare.ini
+      shell: bash
+      run: |
+        touch ./config/dns-conf/cloudflare.ini
+        echo "$CLOUDFLARE_TOKEN" > ./config/dns-conf/cloudflare.ini
+      env:
+        CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
     - name: Define .env file
       shell: bash
       run: |

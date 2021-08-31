@@ -23,3 +23,85 @@ code {
 #root {
   overflow-x: hidden;
 }
+
+/* Animate keyframe */
+@keyframes tree1-wobble-hor {
+  0%,
+  100% {
+    transform: translateX(-45%);
+    transform-origin: 50% 50%;
+  }
+  15% {
+    transform: translateX(-50%) rotate(-5deg);
+  }
+  30% {
+    transform: translateX(-45%) rotate(5deg);
+  }
+  45% {
+    transform: translateX(-50%) rotate(-3.6deg);
+  }
+  60% {
+    transform: translateX(-45%) rotate(2.4deg);
+  }
+  75% {
+    transform: translateX(-50%) rotate(-1.2deg);
+  }
+}
+
+@keyframes tree2-wobble-hor {
+  0%,
+  100% {
+    transform: translate(5%, -10%);
+    transform-origin: 50% 50%;
+  }
+  15% {
+    transform: translate(5%, -10%) rotate(2deg);
+  }
+  30% {
+    transform: translate(0, -10%) rotate(-2deg);
+  }
+  45% {
+    transform: translate(5%, -10%) rotate(1.2deg);
+  }
+  60% {
+    transform: translate(0, -10%) rotate(-1.2deg);
+  }
+  75% {
+    transform: translate(5%, -10%) rotate(1.2deg);
+  }
+}
+
+@keyframes tree3-wobble-hor {
+  0%,
+  100% {
+    transform: translate(25%, -40%);
+    transform-origin: 50% 50%;
+  }
+  15% {
+    transform: translate(30%, -40%) rotate(5deg);
+  }
+  30% {
+    transform: translate(25%, -40%) rotate(0deg);
+  }
+  45% {
+    transform: translate(30%, -40%) rotate(2.4deg);
+  }
+  60% {
+    transform: translate(25%, -40%) rotate(-3.6deg);
+  }
+  75% {
+    transform: translate(25%, -40%) rotate(-1.6deg);
+  }
+}
+
+@keyframes fold-ermine {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  0% {
+    transform: translateY(0);
+  }
+}

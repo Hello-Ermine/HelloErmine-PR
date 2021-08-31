@@ -1,0 +1,52 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ dev ]
+    
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+#     strategy:
+#       matrix:
+#         node-version: [12.x, 14.x, 16.x]
+#         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker-compose down
+    - run: mkdir ssl
+    - run: mkdir config
+    - run: mkdir config/dns-conf/
+    - name: Assign cloudflare.ini
+      shell: bash
+      run: |
+        touch ./config/dns-conf/cloudflare.ini
+        echo "$CLOUDFLARE_TOKEN" > ./config/dns-conf/cloudflare.ini
+      env:
+        CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+    - name: Define .env file
+      shell: bash
+      run: |
+        touch .env
+        echo BUILD_PATH=./config/www >> .env
+    - name: Initialize ssl
+      run: |
+        touch ./ssl/cert.pem ./ssl/cloudflare.crt ./ssl/key.pem
+        echo "$CERT" > ./ssl/cert.pem
+        echo $CLOUDFLARE_CRT > ./ssl/cloudflare.crt
+        echo "$PRIVATE_KEY" > ./ssl/key.pem
+      env:
+        PORT: ${{secrets.PORT}}
+        CERT: ${{ secrets.CERT }}
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        CLOUDFLARE_CRT: ${{ secrets.CLOUDFLARE_CRT }}
+    - run: ls -a
+    - run: npm i
+    - run: npm run build
+    - run: docker-compose up -d --no-deps --build swag

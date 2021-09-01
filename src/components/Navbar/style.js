@@ -13,10 +13,11 @@ export const NavbarStyle = styled.ul`
 
     img.nav-logo {
         display: block;
-        width: 180px;
+        width: 136px;
         padding: 0 10px;
-        transform: translateY(-12px);
+        transform: translateY(-14px);
         opacity: ${props => props.showLogo ? 1 : 0};
+        transition: .8s;
     }
 
     /* .active {

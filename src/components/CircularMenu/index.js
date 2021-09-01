@@ -3,18 +3,21 @@ import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { Item, StyledDiv } from './style';
 
-const translateX = '-140%';
+const translateX = '-120%';
 const duration = 300;
 
 const getDisplacement = (targetIdx, currentIdx) => {
   return targetIdx - currentIdx;
 };
 
+const modWrapAround = (n, m) => {
+  return ((n % m) + m) % m;
+};
+
 const getDirection = (targetIdx, currentIdx, size) => {
   const itemOnEachSide = Math.floor(size / 2);
-  const ccwLastIdx = (currentIdx + itemOnEachSide) % size;
-  let cwLastIdx = currentIdx - itemOnEachSide; // TODO: remove % size
-  cwLastIdx += cwLastIdx < 0 ? size : 0;
+  const ccwLastIdx = modWrapAround(currentIdx + itemOnEachSide, size);
+  const cwLastIdx = modWrapAround(currentIdx - itemOnEachSide, size);
 
   const ccwDistance = getShortestDistance(targetIdx, ccwLastIdx, size);
   const cwDistance = getShortestDistance(targetIdx, cwLastIdx, size);
@@ -34,30 +37,75 @@ const getMenuItemAnimeProps = (targets, rotate) => {
   };
 };
 
-const getDistance = (targetIdx, currentIdx) => {
-  return Math.abs(targetIdx - currentIdx);
+const getShortestDistance = (targetIdx, currentIdx, size) => {
+  const d = Math.abs(targetIdx - currentIdx);
+  return Math.min(d, size - d);
 };
 
-const getShortestDistance = (targetIdx, currentIdx, size) => {
-  // assuming the index started from 0
-  const d = getDistance(targetIdx, currentIdx);
-  return Math.min(d, size - d);
+const computeValues = (items, itemAngle) => {
+  const itemsArr = [...items];
+  const size = itemsArr.length;
+  const itemOnEachSide = Math.floor(size / 2);
+  const slots = 360 / itemAngle;
+
+  const computed = new Array(size)
+    .fill(0)
+    .map((_, idx, arr) => {
+      let temp = {};
+      for (let targetIdx = 0; targetIdx < arr.length; targetIdx++) {
+        if (idx === targetIdx) {
+          continue;
+        }
+        const direction = getDirection(targetIdx, idx, size);
+        const distance = getShortestDistance(targetIdx, idx, size);
+        const normalRotate = direction * itemAngle * distance;
+        const extraRotate = normalRotate + (slots - size) * itemAngle * direction;
+        const extraFirstIndex = modWrapAround(idx + itemOnEachSide * -direction, size);
+
+        const extraIndicies = new Array(distance)
+          .fill(0)
+          .map((_, i) => {
+            return modWrapAround(extraFirstIndex + i * direction, size);
+          });
+
+        const extraLastIndex = extraIndicies[extraIndicies.length - 1];
+
+        const normalIndicies = new Array(size - distance)
+          .fill(0)
+          .map((_, i) => {
+            return modWrapAround(extraLastIndex + ((i + 1) * direction), size);
+          });
+
+        const normalItems = itemsArr.filter((_, i) => normalIndicies.includes(i));
+        const extraItems = itemsArr.filter((_, i) => extraIndicies.includes(i));
+
+        temp[targetIdx] = {
+          normalItems,
+          extraItems,
+          normalRotate,
+          extraRotate,
+        };
+      }
+
+      return temp;
+    });
+
+  return computed;
 };
 
 export const CircularMenu = ({
   children,
   angle = 60,
-  onUpdateIndex = () => {},
-  // onUpdateIndex = (index) => {},
+  // eslint-disable-next-line no-unused-vars
+  onUpdateIndex = (index = 0) => {},
 }) => {
   const menuRef = useRef(null);
   const [isMounted, setIsMounted] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const itemCount = children.length;
   const itemAngle = (angle * 2) / itemCount;
-  const [activeItemIndex, setActiveItemIndex] = useState(
-    Math.floor(itemCount / 2)
-  );
+  const [activeItemIndex, setActiveItemIndex] = useState(Math.floor(itemCount / 2));
+  const [computedValues, setComputedValues] = useState(null);
 
   useEffect(() => {
     const items = menuRef.current.childNodes;
@@ -76,6 +124,8 @@ export const CircularMenu = ({
         setIsMounted(true);
       },
     });
+
+    setComputedValues(computeValues(items, itemAngle));
   }, []);
 
   const handleUpdateIndex = (event, index) => {
@@ -83,39 +133,15 @@ export const CircularMenu = ({
       return;
     }
 
-    const items = menuRef.current.childNodes;
-    const eachSideItemCount = Math.floor(itemCount / 2);
-
-    const direction = getDirection(index, activeItemIndex, itemCount);
-    const distance = getShortestDistance(index, activeItemIndex, itemCount);
-
-    const slot = 360 / itemAngle;
-    const minRotate = distance * itemAngle * direction;
-    const extraRotate = minRotate + (slot - itemCount) * itemAngle * direction;
-
-    const extraStartIndex =
-      (activeItemIndex + eachSideItemCount * -direction) % itemCount;
-    const extraItems = Array(distance)
-      .fill(0)
-      .map((_, i) => {
-        let idx = extraStartIndex + ((i * direction) % itemCount);
-        idx += idx < 0 ? itemCount : 0;
-        return items[idx];
-      });
-
-    const normalItems = (() => {
-      const filtered = [];
-      for (let el of items.values()) {
-        if (extraItems.includes(el)) {
-          continue;
-        }
-        filtered.push(el);
-      }
-      return filtered;
-    })();
+    const {
+      normalItems,
+      extraItems,
+      normalRotate,
+      extraRotate,
+    } = computedValues[activeItemIndex][index];
 
     setIsAnimating(true);
-    anime(getMenuItemAnimeProps(normalItems, minRotate));
+    anime(getMenuItemAnimeProps(normalItems, normalRotate));
     anime({
       ...getMenuItemAnimeProps(extraItems, extraRotate),
       duration: duration * 0.8,
@@ -137,7 +163,6 @@ export const CircularMenu = ({
             data-index={i}
             show={isMounted}
             onClick={(e) => handleUpdateIndex(e, i)}
-            className={i === activeItemIndex ? 'active' : ''}
           >
             {child}
           </Item>

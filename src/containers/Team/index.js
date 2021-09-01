@@ -6,14 +6,24 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../components/Button';
 import { content as contentData } from './content';
 import { gsap } from 'gsap';
+import { VerticalMenu } from '../../components/VerticalMenu';
 
 const Team = () => {
   const [preloadedMascots, setPreloadedMascots] = useState([]);
   const [contentIndex, setContentIndex] = useState(2);
   const teamContentRef = useRef(null);
   const content = contentData[contentIndex];
+  const [isLandscape, setIsLandscape] = useState(true);
+
+  const handleOrientationChange = (e) => {
+    setIsLandscape(!e.matches);
+  };
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia(`(orientation: portrait)`);
+    setIsLandscape(!mediaQuery.matches);
+    mediaQuery.addEventListener(`change`, handleOrientationChange);
+
     Promise.all(contentData.map(async ({ mascot }) => {
       const img = new Image();
       img.src = mascot;
@@ -38,25 +48,25 @@ const Team = () => {
     });
   };
 
+  const scrolls = contentData.map(({ scroll, title, scheme }, index) => {
+    return (
+      <Scroll
+        key={title}
+        close={scroll.close}
+        open={scroll.open}
+        scheme={scheme}
+        active={index == contentIndex}
+      />
+    );
+  });
+
   return (
     <Scene>
       <TeamContainer>
-        <CircularMenu
-          angle="85"
-          onUpdateIndex={handleUpdateIndex}
-        >
-          {contentData.map(({ scroll, title, scheme }, index) => {
-            return (
-              <Scroll
-                key={title}
-                close={scroll.close}
-                open={scroll.open}
-                scheme={scheme}
-                active={index == contentIndex}
-              />
-            );
-          })}
-        </CircularMenu>
+        {isLandscape
+          ? <CircularMenu angle="85" onUpdateIndex={handleUpdateIndex}>{scrolls}</CircularMenu>
+          : <VerticalMenu onUpdateIndex={handleUpdateIndex}>{scrolls}</VerticalMenu>
+        }
         <Content>
           <TeamContent ref={teamContentRef}>
             <img src={preloadedMascots[contentIndex]?.src} alt={content.title} />

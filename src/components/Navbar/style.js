@@ -4,6 +4,7 @@ export const NavbarStyle = styled.ul`
     position: fixed;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background: transparent;
     padding: 1em 1.5em;
     width: 100%;
@@ -11,8 +12,11 @@ export const NavbarStyle = styled.ul`
     top: 0;
 
     img.nav-logo {
-        width: 150px;
-        opacity: ${(props) => props.show ? 1.0 : 0.0};
+        display: block;
+        width: 180px;
+        padding: 0 10px;
+        transform: translateY(-12px);
+        opacity: ${props => props.showLogo ? 1 : 0};
     }
 
     /* .active {

@@ -27,7 +27,7 @@ const Navbar = ({ onClick, pageIndex }) => {
   }, [pageIndex]);
   
   return (
-    <NavbarStyle show={false}>
+    <NavbarStyle showLogo={pageIndex !== 0}>
       <img className='nav-logo' src={Logo} alt='Ermine logo'/>
       <ul>
         <li>

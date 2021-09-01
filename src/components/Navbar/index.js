@@ -15,7 +15,7 @@ const Navbar = ({ onClick, pageIndex }) => {
       elem.remove();
     });
     li.item(pageIndex).appendChild(frozenImg).classList.add('fade-in');
-  });
+  }, [pageIndex]);
   
   return (
     <NavbarStyle show={false}>

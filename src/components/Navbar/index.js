@@ -5,16 +5,25 @@ import { NavbarStyle } from './style';
 import Logo from '../../assets/hello-ermine_logo.png';
 import Frozen from '../../assets/navbar/frozen.png';
 
+const useMountEffect = (func) => useEffect(func, []);
+
 const Navbar = ({ onClick, pageIndex }) => {
-  let frozenImg = document.createElement('img');
-  frozenImg.src = Frozen;
+  useMountEffect(() => {
+    const li = document.querySelectorAll('li');
+    li.forEach((elem) => {
+      let frozenImg = document.createElement('img');
+      frozenImg.src = Frozen;
+      elem.append(frozenImg);
+    });
+  });
 
   useEffect(() => {
     const li = document.querySelectorAll('li');
-    document.querySelectorAll('li img').forEach(elem => {
-      elem.remove();
+    li.forEach((elem) => {
+      elem.querySelector('img').classList.remove('fade-in');
+      elem.querySelector('img').style.opacity = 0;
     });
-    li.item(pageIndex).appendChild(frozenImg).classList.add('fade-in');
+    li.item(pageIndex).querySelector('img').classList.add('fade-in');
   }, [pageIndex]);
   
   return (

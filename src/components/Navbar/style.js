@@ -33,6 +33,7 @@ export const NavbarStyle = styled.ul`
         font-size: 24px;
         font-weight: 600;
         text-align: center;
+        padding: 1em 0;
     }
 
     ul li a {
@@ -49,5 +50,6 @@ export const NavbarStyle = styled.ul`
         display: block;
         width: 79px;
         height: 32px;
+        opacity: 0;
     }
 `;

@@ -25,7 +25,7 @@ code {
 }
 
 .fade-in {
-  animation: fade-in .3s ease-out;
+  animation: fade-in .3s ease-out forwards;
 }
 
 /* Animate keyframe */

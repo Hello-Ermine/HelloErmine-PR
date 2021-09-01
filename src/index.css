@@ -24,6 +24,10 @@ code {
   overflow-x: hidden;
 }
 
+.fade-in {
+  animation: fade-in .3s ease-out;
+}
+
 /* Animate keyframe */
 @keyframes tree1-wobble-hor {
   0%,
@@ -103,5 +107,14 @@ code {
   }
   0% {
     transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

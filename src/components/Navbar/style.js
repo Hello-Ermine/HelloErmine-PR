@@ -15,6 +15,10 @@ export const NavbarStyle = styled.ul`
         opacity: ${(props) => props.show ? 1.0 : 0.0};
     }
 
+    /* .active {
+        color: red;
+    } */
+
     ul {
         display: flex;
         justify-content: center;
@@ -28,6 +32,7 @@ export const NavbarStyle = styled.ul`
         margin: 0 2em;
         font-size: 24px;
         font-weight: 600;
+        text-align: center;
     }
 
     ul li a {
@@ -38,5 +43,11 @@ export const NavbarStyle = styled.ul`
 
     ul li a:hover {
         color: #FFD8BB;
+    }
+
+    ul li img {
+        display: block;
+        width: 79px;
+        height: 32px;
     }
 `;

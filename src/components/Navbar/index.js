@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { NavbarStyle } from './style';
 
 import Logo from '../../assets/hello-ermine_logo.png';
+import Frozen from '../../assets/navbar/frozen.png';
 
-const Navbar = ({ onClick }) => {
+const Navbar = ({ onClick, pageIndex }) => {
+  let frozenImg = document.createElement('img');
+  frozenImg.src = Frozen;
+
+  useEffect(() => {
+    const li = document.querySelectorAll('li');
+    document.querySelectorAll('li img').forEach(elem => {
+      elem.remove();
+    });
+    li.item(pageIndex).appendChild(frozenImg).classList.add('fade-in');
+  });
+  
   return (
     <NavbarStyle show={false}>
       <img className='nav-logo' src={Logo} alt='Ermine logo'/>
@@ -30,7 +42,8 @@ const Navbar = ({ onClick }) => {
 };
 
 Navbar.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  pageIndex: PropTypes.number
 };
 
 export default Navbar;

@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import Paper from "../../assets/About/about_paper_03.png";
-import background2 from "../../assets/About/about_background2.jpg";
+import styled from 'styled-components';
+import Paper from '../../assets/About/about_paper_03.png';
+import background2 from '../../assets/About/about_background2.jpg';
 
 
 export const AboutContainer = styled.p`
@@ -28,18 +28,19 @@ export const Topic = styled.h1`
 
 export const BoxContainer = styled.div`
   background-image: url(${Paper});
-  background-size: 100%;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   padding: 10px;
-  font-size: 24px;
-  font-weight: 500;
   text-align: justify;
-  width: 70%;
+  width: 60%;
   z-index: 1;
 
   p {
-    width: 50vw;
+    text-indent: .5in;
+    font-size: 24px;
+    font-weight: 500;
+    width: 40vw;
     margin: 1em 0 1em 1em;
   }
 `;

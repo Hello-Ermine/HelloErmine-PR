@@ -33,7 +33,6 @@ export const Item = styled.div`
   right: 0;
   transform-origin: 100% 50%;
   transform: translate(-120%, -50%);
-  /* opacity: ${(props) => (props.show ? 0.4 : 0)}; */
   transition: .2s ease-out;
   z-index: 666;
   cursor: pointer;

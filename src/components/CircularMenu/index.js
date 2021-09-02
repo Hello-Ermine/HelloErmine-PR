@@ -168,7 +168,6 @@ export const CircularMenu = ({
           <Item
             key={i}
             data-index={i}
-            show={isMounted}
             onClick={(e) => handleUpdateIndex(e, i)}
           >
             {child}

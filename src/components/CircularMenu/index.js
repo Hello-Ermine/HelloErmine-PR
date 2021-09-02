@@ -96,16 +96,18 @@ const computeValues = (items, itemAngle) => {
 export const CircularMenu = ({
   children,
   angle = 60,
+  startIndex,
   // eslint-disable-next-line no-unused-vars
   onUpdateIndex = (index = 0) => {},
 }) => {
   const menuRef = useRef(null);
-  const [isMounted, setIsMounted] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const itemCount = children.length;
   const itemAngle = (angle * 2) / itemCount;
   const [activeItemIndex, setActiveItemIndex] = useState(Math.floor(itemCount / 2));
   const [computedValues, setComputedValues] = useState(null);
+  const [isMounted, setIsMounted] = useState(false);
+  const [hasResolvedStartIndex, setHasResolvedStartIndex] = useState(startIndex == undefined || startIndex === activeItemIndex);
 
   useEffect(() => {
     const items = menuRef.current.childNodes;
@@ -154,6 +156,11 @@ export const CircularMenu = ({
     onUpdateIndex(index);
   };
 
+  if (isMounted && !hasResolvedStartIndex) {
+    setHasResolvedStartIndex(true);
+    handleUpdateIndex(null, startIndex);
+  }
+
   return (
     <StyledDiv ref={menuRef}>
       {children.map((child, i) => {
@@ -175,5 +182,6 @@ export const CircularMenu = ({
 CircularMenu.propTypes = {
   children: PropTypes.array,
   angle: PropTypes.string,
+  startIndex: PropTypes.number,
   onUpdateIndex: PropTypes.func,
 };

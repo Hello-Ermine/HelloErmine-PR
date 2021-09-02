@@ -25,10 +25,16 @@ export const Content = styled.div`
   background-position: 52% -22%;
   background-repeat: no-repeat;
 
-  img {
-    max-width: 50%;
-    max-height: 56%;
+`;
+
+// TODO: Create a mascot container and use background2 as a bg there.
+
+export const Mascot = styled.img`
+  width: ${props => props.portrait ? '30vh' : '40vh'};
     animation: fold-ermine 5s ease infinite both;
+
+  @media (orientation: portrait) {
+    width: ${props => props.portrait ? '30vw' : '40vw'};
   }
 `;
 

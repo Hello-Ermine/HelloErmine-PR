@@ -1,5 +1,5 @@
 import Scene from '../../components/Scene';
-import { Content, Details, TeamContainer, Title, TeamContent, Scroll } from './style';
+import { Content, Details, TeamContainer, Title, TeamContent, Scroll, Mascot } from './style';
 
 import { CircularMenu } from '../../components/CircularMenu';
 import { useEffect, useRef, useState } from 'react';
@@ -69,7 +69,7 @@ const Team = () => {
         }
         <Content>
           <TeamContent ref={teamContentRef}>
-            <img src={preloadedMascots[contentIndex]?.src} alt={content.title} />
+            <Mascot src={preloadedMascots[contentIndex]?.src} alt={content.title}  portrait={[2, 3].includes(contentIndex)}/>
             <Title color={content.scheme}>{content.title}</Title>
             <Details>{content.details}</Details>
           </TeamContent>

@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: docker-compose down
-    - run: docker rmi quay.io/chisanuchakim/helloermine-web:latest
+   # - run: docker rmi quay.io/chisanuchakim/helloermine-web:latest
     - run: npm i
     - run: npm run build
     - run: docker build -t helloermine-web -f Web.Dockerfile .

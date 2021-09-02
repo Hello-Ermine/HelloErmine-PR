@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Home from './containers/Home';
 import About from './containers/About';
 import Team from './containers/Team';
@@ -20,6 +21,7 @@ const data = {
   tl: null,
   tween: null,
   isLoading: true,
+  direction: 0,
 };
 
 const throttle = (fn, delay) => {
@@ -97,28 +99,36 @@ const App = () => {
   const handleUpdateScrollTrigger = (st) => {
     const wrapper = wrapperRef.current;
     const targets = wrapper.childNodes;
-    const nextIndex = Math.min(Math.max(0, data.pageIndex + st.direction), targets.length - 1);
-
-    if (data.pageIndex === nextIndex) {
+    const currentDirection = st.direction;
+    const nextIndex = Math.min(Math.max(0, data.pageIndex + currentDirection), targets.length - 1);
+    
+    console.log(data.direction, currentDirection);
+    if (data.pageIndex === nextIndex || (currentDirection == data.direction && data.isChanging)) {
+      console.log("SIKE");
       return;
     }
+
     console.log("UPDATE", data.pageIndex, nextIndex);
 
     // TODO: do the same thing as in handlePageAnchor, remove blackscreen from master timeline, etc.
     
-    // data.isChanging = true;
+    data.isChanging = true;
     data.st.scroll(nextIndex * wrapper.offsetWidth);
     setPageIndex(nextIndex);
-    scrollCompleteCallback(() => {
-      data.st.scroll(data.pageIndex * wrapper.offsetWidth); // scroll to current page (prevent users from interrupting the scroll position)
-      data.isChanging = true;
-      console.log("LOCKED");
-      scrollCompleteCallback(() => {
-        console.log("UNLOCKED");
-        data.isChanging = false;
-      });
-      console.log(`Scrolling to ${data.pageIndex}`);    
-    });
+    data.direction = currentDirection;
+    setTimeout(() => {
+      data.isChanging = false;
+    }, duration * 1000 - 1);
+    // scrollCompleteCallback(() => {
+    //   data.st.scroll(data.pageIndex * wrapper.offsetWidth); // scroll to current page (prevent users from interrupting the scroll position)
+    //   data.isChanging = true;
+    //   console.log("LOCKED");
+    //   scrollCompleteCallback(() => {
+    //     console.log("UNLOCKED");
+    //     data.isChanging = false;
+    //   });
+    //   console.log(`Scrolling to ${data.pageIndex}`);    
+    // });
 
     data.tween = data.tl.tweenTo(getLabel(nextIndex), {
       duration,
@@ -144,12 +154,13 @@ const App = () => {
         onUpdate: (self) => {
           if (
             !data.st ||
-            data.isChanging ||
+            // data.isChanging ||
             data.isLoading
           ) {
             return;
           }
-          throttledHandleUpdateScrollTrigger(self);
+          // throttledHandleUpdateScrollTrigger(self);
+          handleUpdateScrollTrigger(self);
         },
       },
     });

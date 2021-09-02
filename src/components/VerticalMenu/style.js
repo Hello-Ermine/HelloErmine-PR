@@ -1,10 +1,10 @@
 import styled from 'styled-components';
+import { downSizes } from '../../constants/breakpoints';
 
 export const StyledDiv = styled.div`
-  width: max(24vh, 240px);
   height: 100vh;
   position: absolute;
-  right: 0;
+  right: 3vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,6 +22,13 @@ export const StyledDiv = styled.div`
     mask-image: linear-gradient(transparent 00%, white 40%, white 60%, transparent 100%);
     z-index: 665;
   }
+
+  @media ${downSizes.xs} {
+    :before {
+      height: max(48vh, 460px);
+      width: 2px;
+    }
+  }
 `;
 
 export const Item = styled.div`
@@ -33,5 +40,9 @@ export const Item = styled.div`
 
   :first-child {
     margin-top: 28%;
+  }
+
+  @media ${downSizes.xs} {
+    margin-top: 0;
   }
 `;

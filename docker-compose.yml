@@ -1,23 +1,9 @@
-version: "3.8"
-services:
-  swag:
-    image: ghcr.io/linuxserver/swag
-    container_name: swag
-    cap_add:
-      - NET_ADMIN
-    environment:
-      - PUID=1001
-      - PGID=1002
-      - URL=helloermine.com
-      - VALIDATION=dns
-      - SUBDOMAIN=wildcard
-      - CERTPROVIDER= #optional
-      - DNSPLUGIN=cloudflare #optional
-      - ONLY_SUBDOMAINS=false #optional
-      - STAGING=false #optional
-    volumes:
-      - ./config:/config
+version: '3.7'
+services: 
+  web:
+    container_name: nginx_game
+    image: quay.io/chisanuchakim/helloermine-game
+
     ports:
-      - 443:443
-      - 80:80 #optional
-    restart: unless-stopped
+    - "80:80"
+

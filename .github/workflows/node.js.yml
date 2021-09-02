@@ -24,6 +24,7 @@ jobs:
     - run: npm i
     - run: npm run build
     - run: docker build -t helloermine-web -f Web.Dockerfile .
+    - run: docker login quay.io
     - run: docker tag helloermine-web quay.io/chisanuchakim/helloermine-web
     - run: docker push quay.io/chisanuchakim/helloermine-web
     - run: docker-compose up -d 

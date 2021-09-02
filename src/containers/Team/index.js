@@ -65,7 +65,7 @@ const Team = () => {
       <TeamContainer>
         {isLandscape
           ? <CircularMenu angle="85" startIndex={contentIndex} onUpdateIndex={handleUpdateIndex}>{scrolls}</CircularMenu>
-          : <VerticalMenu onUpdateIndex={handleUpdateIndex}>{scrolls}</VerticalMenu>
+          : <VerticalMenu startIndex={contentIndex} onUpdateIndex={handleUpdateIndex}>{scrolls}</VerticalMenu>
         }
         <Content>
           <TeamContent ref={teamContentRef}>

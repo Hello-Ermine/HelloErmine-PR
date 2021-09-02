@@ -2,7 +2,7 @@ version: '3.7'
 services: 
   web:
     container_name: nginx_game
-    image: quay.io/chisanuchakim/helloermine-game
+    image: quay.io/chisanuchakim/helloermine-web
 
     ports:
     - "80:80"

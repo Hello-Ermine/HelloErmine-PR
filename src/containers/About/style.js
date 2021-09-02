@@ -3,7 +3,7 @@ import Paper from '../../assets/About/about_paper_03.png';
 import background2 from '../../assets/About/about_background2.jpg';
 
 
-export const AboutContainer = styled.p`
+export const AboutContainer = styled.div`
 position: relative;
   padding-left: 0;
   width: 100%;

@@ -38,11 +38,12 @@ export const Content = styled.div`
   @media (orientation: portrait) {
     height: 90vh;
     left: 0;
-    transform: translate(-10%, -55%);
+    transform: translate(-2%, -55%);
   }
-
+  
   @media ${downSizes.xs} and (orientation: portrait) {
     max-height: 666px;
+    transform: translate(-10%, -55%);
   }
 
   /* display: flex;
@@ -95,7 +96,11 @@ export const BaseMascotContainer = styled.div`
   }
 
   @media (orientation: portrait) {
-    max-width: 90vw;
+    max-width: 85vw;
+  }
+
+  @media ${downSizes.xs} and (orientation: portrait) {
+    max-width: 96vw;
   }
 
   > * {

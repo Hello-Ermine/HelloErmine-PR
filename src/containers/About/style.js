@@ -15,7 +15,7 @@ export const AboutContainer = styled.div`
   background-position: 0 25%;
   background-repeat: no-repeat;
   background-size: cover;
-  @media screen and (max-width: 320px) {
+  @media screen and (max-width: 420px) {
     background-position: 100% 0;
   }
 `;
@@ -26,7 +26,13 @@ export const Topic = styled.h1`
   font-weight: bold;
   padding: 0 1em 1em 1em;
   text-align: center;
-  @media screen and (max-width: 320px) {
+  @media screen and (max-width: 1280px) {
+   padding-bottom: 0em;
+  }
+  @media screen and (max-width: 1030px) {
+    padding-bottom: 0em;
+  }
+  @media screen and (max-width: 420px) {
     font-size: 18px;
   }
 `;
@@ -39,7 +45,7 @@ export const BoxContainer = styled.div`
   padding: 10px;
   text-align: left;
   width: 60%;
-  height: 36%;
+  height: 38%;
   z-index: 1;
   p {
     text-indent: 0.5in;
@@ -48,9 +54,26 @@ export const BoxContainer = styled.div`
     width: 41vw;
     margin: 1em 0 1em 1em;
   }
-  @media screen and (max-width: 320px) {
-    width: 70%;
-    height: 42%;
+
+  @media screen and (max-width: 1280px) {
+      height: 55%;
+      width: 80%;
+    p {
+      font-size: 24px;
+      width: 50vw;
+    }
+  }
+  @media screen and (max-width: 1030px) {
+    height: 500px;
+    width: 830px;
+    p {
+      font-size: 24px;
+      width: 52vw;
+    }
+  }
+  @media screen and (max-width: 420px) {
+    max-height: 220px;
+    width: 60%;
     p {
       font-size: 9px;
       width: 45vw;
@@ -64,8 +87,18 @@ export const ImgErmine = styled.img`
   top: 28%;
   right: 4%;
   transform: rotate(350deg);
-  @media screen and (max-width: 320px) {
-  top: 40%;
+  @media screen and (max-width: 1280px) {
+  top: 22%;
+  right: 1%;
+  width: 35%;
+  }
+  @media screen and (max-width: 1030px) {
+  top: 45%;
+  right: 0;
+  transform: rotate(10deg);
+  }
+  @media screen and (max-width: 420px) {
+  top: 44%;
   }
 `;
 
@@ -74,7 +107,18 @@ export const ImgBg2 = styled.img`
   z-index: 0;
   width: 100%;
   bottom: 0;
-  transform: translateY(30%);
+  transform: translateY(35%);
+ @media screen and (max-width: 1280px) {
+    transform: translateY(30%);
+  }
+  @media screen and (max-width: 1030px) {
+    transform: translateY(10%);
+  }
+  @media screen and (max-width: 420px) {
+    transform: translateY(0%);
+  }
+  
+  
 `;
 
 // `;

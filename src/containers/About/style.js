@@ -3,7 +3,15 @@ import Paper from "../../assets/About/about_paper_03.png";
 import background2 from "../../assets/About/about_background2.jpg";
 import background1 from "../../assets/About/about_background1.png";
 import snow from "../../assets/About/snow_transition.png";
-export const AboutContainer = styled.p`
+const ScaleUpAbout = keyframes`
+0%{
+    transform: scale(0);
+}
+100%{
+    transform: scale(1);
+}
+`;
+export const AboutContainer = styled.div`
   position: relative;
   padding-left: 0;
   width: 100%;
@@ -19,6 +27,7 @@ export const AboutContainer = styled.p`
   @media screen and (max-width: 420px) {
     background-position: 100% 0;
   }
+  /* animation: ${ScaleUpAbout} 11s ease-out 13s forwards normal; */
 `;
 
 export const Topic = styled.h1`
@@ -48,7 +57,6 @@ export const BoxContainer = styled.div`
   width: 60%;
   height: 38%;
   z-index: 1;
-
   p {
     text-indent: 0.5in;
     font-size: 24px;
@@ -141,6 +149,8 @@ const ScaleUp = keyframes`
     }
 `;
 
+
+
 export const Ink = styled.div`
   background-image: url(${snow});
   transform: scale(0);
@@ -148,4 +158,7 @@ export const Ink = styled.div`
   width:100%;
   height:100%;
   animation: ${ScaleUp} 10s ease-out 3s forwards normal;
+`;
+export const VisibleAboutContainer = styled.div`
+  animation: ${ScaleUpAbout} 11s ease-out  forwards normal;
 `;

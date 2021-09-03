@@ -32,10 +32,17 @@ export const Content = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  @media ${downSizes.md} {
-    height: 80vh;
+  
+  @media (orientation: portrait) {
+    height: 90vh;
+    left: 0;
+    transform: translate(-10%, -55%);
   }
+
+  @media ${downSizes.xs} and (orientation: portrait) {
+    height: 180vw;
+  }
+
   /* display: flex;
   flex-direction: column;
   justify-content: center;
@@ -85,6 +92,10 @@ export const BaseMascotContainer = styled.div`
     align-self: center;
   }
 
+  @media (orientation: portrait) {
+    max-width: 90vw;
+  }
+
   > * {
     grid-area: container;
   }
@@ -111,17 +122,31 @@ export const Title = styled.div`
   font-size: 48px;
   font-weight: 700;
   color: ${(props) => props.color || 'black'};
+  z-index: 333;
 
-  @media ${downSizes.xl} {
+  @media ${downSizes.xl} and (orientation: landscape) {
     font-size: 3.3vw;
   }
 
-  @media ${downSizes.xs} {
+  @media ${downSizes.xs} and (orientation: landscape) {
     font-size: 18px;
   }
 
   @supports (font-size: clamp(18px, 3.3vw,48px)) {
     font-size: clamp(18px, 3.3vw,48px);
+  }
+  
+  @media ${upSizes.xs} and (orientation: portrait) {
+    font-size: 3.3vh;
+
+    @supports (font-size: clamp(18px, 3.3vh, 48px)){
+      font-size: clamp(18px, 3.3vh, 48px);
+    }
+  }
+
+  @media ${downSizes.xs} and (orientation: portrait) {
+    grid-area: 7 / 1 / 8 / 2;
+    margin-top: 16%;
   }
 `;
 
@@ -130,24 +155,37 @@ export const Details = styled.div`
   font-size: 18px;
   font-weight: 300;
   color: white;
-  text-indent: 54px;
+  text-indent: 3em;
   text-align: left;
   line-height: 1.78em;
   word-spacing: 2px;
   max-width: 58vw;
+  z-index: 332;
   
-  @media ${downSizes.xl} {
+  @media ${downSizes.xl} and (orientation: landscape) {
     font-size: 3.3vw;
   }
 
-  @media ${downSizes.xs} {
+  @media ${downSizes.xs} and (orientation: landscape) {
     font-size: 9px;
     line-height: 2em;
     text-indent: 1.6em;
   }
-
-  @supports (font-size: clamp(9px, 1.25vw, 18px)) {
+  
+  @supports (font-size: clamp(9px, 1.25vw, 18px)){
     font-size: clamp(9px, 1.25vw, 18px);
+  }
+
+  @media ${downSizes.xs} and (orientation: portrait) {
+    grid-area: 8 / 1 / 11 / 2;
+  }
+
+  @media ${upSizes.xs} and (orientation: portrait) {
+    font-size: 1.25vh;
+
+    @supports (font-size: clamp(9px, 1.25vh, 18px)){
+      font-size: clamp(9px, 1.25vh, 18px);
+    }
   }
   
   /* @media ${downSizes.xs} and (orientation: portrait) {
@@ -181,6 +219,21 @@ export const Button = styled.a`
   @supports (font-size: clamp(14px, 1.67vw, 24px)) {
     font-size: clamp(14px, 1.67vw, 24px);
   }
+
+  @media ${downSizes.xs} and (orientation: portrait) {
+    grid-area: 9 / 1 / 13 / 2;
+    /* margin-top: 8; */
+  }
+
+  @media ${upSizes.xs} and (orientation: portrait) {
+    font-size: 1.67vh;
+    grid-area: 10 / 1 / 13 / 2;
+  }
+  
+  @media ${upSizes.md} and (orientation: portrait) {
+    grid-area: 10 / 1 / 12 / 2;
+  }
+
 `;
 
 export const Scroll = styled.div`

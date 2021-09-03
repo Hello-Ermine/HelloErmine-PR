@@ -10,6 +10,7 @@ export const TeamContainer = styled.section`
   background-image: url(${background});
   background-position: 40% 64%;
   background-size: cover;
+  position: relative;
 `;
 
 
@@ -17,13 +18,32 @@ export const Content = styled.div`
   position: relative;
   text-align: center;
   height: 100%;
-  display: flex;
+  /* max-width: 58vw; */
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(12, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  justify-items: center;
+  padding-top: 4%;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  @media ${downSizes.md} {
+    height: 80vh;
+  }
+  /* display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
-  margin-top: 2%;
-  background-image: url(${background2});
+  height: 72%;
+  max-width: 58vw; */
+
+  /* background-image: url(${background2});
   background-size: 76vh;
   background-position: 52% calc(-50% + 8.5vw);
   background-repeat: no-repeat;
@@ -46,72 +66,120 @@ export const Content = styled.div`
   @media ${downSizes.xs} and (orientation: landscape) {
     background-size: 64vh;
     background-position: 52% calc(50% - 150px);
+  } */
+`;
+
+export const BaseMascotContainer = styled.div`
+  grid-area: 1 / 1 / 10 / 2;
+  display: grid;
+  grid-template: 'container';
+  place-items: center;
+  place-content: center;
+  /* max-width: 50vw; */
+  max-width: 80vh;
+  margin: 0 auto;
+  align-self: end;
+  /* background: red; */
+  
+  @media ${downSizes.lg} {
+    align-self: center;
+  }
+
+  > * {
+    grid-area: container;
   }
 `;
 
-// TODO: Create a mascot container and use background2 as a bg there.
+export const BackgroundElement = styled.img`
+  width: 100%;
+`;
 
 export const Mascot = styled.img`
-  width: ${props => props.portrait ? '30vh' : '40vh'};
+  width: ${props => props.portrait ? '34%' : '46%'};
+  margin-top: 6%;
   animation: fold-ermine 5s ease infinite both;
 
-  @media (orientation: portrait) {
+  /* @media (orientation: portrait) {
     width: ${props => props.portrait ? '30vw' : '40vw'};
-  }
-`;
-
-export const TeamContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 72%;
-  max-width: 58vw;
+  } */
 `;
 
 export const Title = styled.div`
+  grid-area: 8 / 1 / 9 / 2;
   margin-top: 16px;
   margin-bottom: 16px;
   font-size: 48px;
   font-weight: 700;
   color: ${(props) => props.color || 'black'};
 
-  @media ${downSizes.xs} and (orientation: portrait) {
+  @media ${downSizes.xl} {
+    font-size: 3.3vw;
+  }
+
+  @media ${downSizes.xs} {
     font-size: 18px;
-    margin-bottom: 8px;
+  }
+
+  @supports (font-size: clamp(18px, 3.3vw,48px)) {
+    font-size: clamp(18px, 3.3vw,48px);
   }
 `;
 
 export const Details = styled.div`
+  grid-area: 9 / 1 / 12 / 2;
   font-size: 18px;
   font-weight: 300;
   color: white;
   text-indent: 54px;
   text-align: left;
-  line-height: 2rem;
+  line-height: 1.78em;
   word-spacing: 2px;
+  max-width: 58vw;
+  
+  @media ${downSizes.xl} {
+    font-size: 3.3vw;
+  }
 
-  @media ${downSizes.xs} and (orientation: portrait) {
+  @media ${downSizes.xs} {
     font-size: 9px;
     line-height: 2em;
     text-indent: 1.6em;
   }
+
+  @supports (font-size: clamp(9px, 1.25vw, 18px)) {
+    font-size: clamp(9px, 1.25vw, 18px);
+  }
+  
+  /* @media ${downSizes.xs} and (orientation: portrait) {
+    font-size: 9px;
+    line-height: 2em;
+    text-indent: 1.6em;
+  } */
 `;
 
 export const Button = styled.a`
-  background-color: ${(props) => props.bg || 'white'};
-  color: ${(props) => props.color || '#f2b6b6'};
-  font-size: ${(props) => (props.large ? '36px' : '24px')};
-  border-radius: ${(props) => (props.large ? '30px' : '10px')};
+  grid-area: 11 / 1 / 13 / 2;
+  place-self: center;
+  background-color: white;
+  color: #f2b6b6;
+  font-size: 24px;
+  border-radius: 10px;
   font-family: inherit;
   font-weight: 700;
   padding: 0.4em 2em;
   text-decoration: none;
   transition: .2s ease-out;
-
+  
+  @media ${downSizes.sm} {
+    grid-area: 12 / 1 / 13 / 2;
+  }
   :hover {
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.5),
       0 0 100px rgba(255, 255, 255, 0.2);
+  }
+
+  @supports (font-size: clamp(14px, 1.67vw, 24px)) {
+    font-size: clamp(14px, 1.67vw, 24px);
   }
 `;
 

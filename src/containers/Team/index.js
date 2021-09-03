@@ -1,11 +1,25 @@
 import Scene from '../../components/Scene';
-import { Content, Details, TeamContainer, Title, TeamContent, Scroll, Mascot, Button } from './style';
-
+import { Content, Details, TeamContainer, Title, Scroll, Mascot, Button, BaseMascotContainer, BackgroundElement, } from './style';
+import PropTypes from 'prop-types';
 import { CircularMenu } from '../../components/CircularMenu';
 import { useEffect, useRef, useState } from 'react';
 import { content as contentData } from './content';
 import { gsap } from 'gsap';
 import { VerticalMenu } from '../../components/VerticalMenu';
+import background2 from '../../assets/teams/team_background2.png';
+
+const MascotContainer = ({ children }) => {
+  return (
+    <BaseMascotContainer>
+      <BackgroundElement src={background2} className="bg-element" />
+      {children}
+    </BaseMascotContainer>
+  );
+};
+
+MascotContainer.propTypes = {
+  children: PropTypes.node,
+};
 
 const Team = () => {
   const [preloadedMascots, setPreloadedMascots] = useState([]);
@@ -66,12 +80,12 @@ const Team = () => {
           ? <CircularMenu angle="85" startIndex={contentIndex} onUpdateIndex={handleUpdateIndex}>{scrolls}</CircularMenu>
           : <VerticalMenu startIndex={contentIndex} onUpdateIndex={handleUpdateIndex}>{scrolls}</VerticalMenu>
         }
-        <Content>
-          <TeamContent ref={teamContentRef}>
+        <Content ref={teamContentRef}>
+          <MascotContainer>
             <Mascot src={preloadedMascots[contentIndex]?.src} alt={content.title}  portrait={[2, 3].includes(contentIndex)}/>
-            <Title color={content.scheme}>{content.title}</Title>
-            <Details>{content.details}</Details>
-          </TeamContent>
+          </MascotContainer>
+          <Title color={content.scheme}>{content.title}</Title>
+          <Details>{content.details}</Details>
           <Button href="#">REGISTER</Button>
         </Content>
       </TeamContainer>

@@ -86,6 +86,11 @@ const handleResize = (e) => {
 
 const debouncedHandleResize = debounce(handleResize, 200);
 
+const debouncedChangingTimeout = debounce(() => {
+  data.isChanging = false;
+  console.log("DONE");
+}, duration * 1000 - 1);
+
 const App = () => {
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
@@ -116,19 +121,8 @@ const App = () => {
     data.st.scroll(nextIndex * wrapper.offsetWidth);
     setPageIndex(nextIndex);
     data.direction = currentDirection;
-    setTimeout(() => {
-      data.isChanging = false;
-    }, duration * 1000 - 1);
-    // scrollCompleteCallback(() => {
-    //   data.st.scroll(data.pageIndex * wrapper.offsetWidth); // scroll to current page (prevent users from interrupting the scroll position)
-    //   data.isChanging = true;
-    //   console.log("LOCKED");
-    //   scrollCompleteCallback(() => {
-    //     console.log("UNLOCKED");
-    //     data.isChanging = false;
-    //   });
-    //   console.log(`Scrolling to ${data.pageIndex}`);    
-    // });
+    
+    debouncedChangingTimeout();
 
     data.tween = data.tl.tweenTo(getLabel(nextIndex), {
       duration,

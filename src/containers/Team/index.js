@@ -11,7 +11,7 @@ import background2 from '../../assets/teams/team_background2.png';
 const MascotContainer = ({ children }) => {
   return (
     <BaseMascotContainer>
-      <BackgroundElement src={background2} className="bg-element" />
+      <BackgroundElement src={background2}/>
       {children}
     </BaseMascotContainer>
   );
@@ -24,7 +24,9 @@ MascotContainer.propTypes = {
 const Team = () => {
   const [preloadedMascots, setPreloadedMascots] = useState([]);
   const [contentIndex, setContentIndex] = useState(2);
-  const teamContentRef = useRef(null);
+  const mascotRef = useRef(null);
+  const titleRef = useRef(null);
+  const detailsRef = useRef(null);
   const content = contentData[contentIndex];
   const [isLandscape, setIsLandscape] = useState(true);
 
@@ -46,14 +48,14 @@ const Team = () => {
   }, []);
 
   const handleUpdateIndex = (index) => {
-    const teamContent = teamContentRef.current;
+    const targets = [mascotRef.current, titleRef.current, detailsRef.current];
 
-    gsap.to(teamContent, {
+    gsap.to(targets, {
       autoAlpha: 0,
       duration: 0.25,
       onComplete: () => {
         setContentIndex(index);
-        gsap.to(teamContent, {
+        gsap.to(targets, {
           autoAlpha: 1,
           duration: 0.25,
         });
@@ -80,12 +82,12 @@ const Team = () => {
           ? <CircularMenu angle="85" startIndex={contentIndex} onUpdateIndex={handleUpdateIndex}>{scrolls}</CircularMenu>
           : <VerticalMenu startIndex={contentIndex} onUpdateIndex={handleUpdateIndex}>{scrolls}</VerticalMenu>
         }
-        <Content ref={teamContentRef}>
+        <Content>
           <MascotContainer>
-            <Mascot src={preloadedMascots[contentIndex]?.src} alt={content.title}  portrait={[2, 3].includes(contentIndex)}/>
+            <Mascot src={preloadedMascots[contentIndex]?.src} alt={content.title} portrait={[2, 3].includes(contentIndex)} ref={mascotRef} />
           </MascotContainer>
-          <Title color={content.scheme}>{content.title}</Title>
-          <Details>{content.details}</Details>
+          <Title color={content.scheme} ref={titleRef}>{content.title}</Title>
+          <Details ref={detailsRef}>{content.details}</Details>
           <Button href="#">REGISTER</Button>
         </Content>
       </TeamContainer>

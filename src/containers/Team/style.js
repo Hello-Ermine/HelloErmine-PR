@@ -18,8 +18,6 @@ export const Content = styled.div`
   position: relative;
   text-align: center;
   height: 100%;
-  /* max-width: 58vw; */
-
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(12, 1fr);
@@ -32,7 +30,11 @@ export const Content = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  
+    
+  @media ${downSizes.lg} and (orientation: landscape) {
+    max-height: 700px;
+  }
+
   @media (orientation: portrait) {
     height: 90vh;
     left: 0;
@@ -40,7 +42,7 @@ export const Content = styled.div`
   }
 
   @media ${downSizes.xs} and (orientation: portrait) {
-    height: 180vw;
+    max-height: 666px;
   }
 
   /* display: flex;

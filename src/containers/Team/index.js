@@ -1,17 +1,32 @@
 import Scene from '../../components/Scene';
-import { Content, Details, TeamContainer, Title, TeamContent, Scroll, Mascot } from './style';
-
+import { Content, Details, TeamContainer, Title, Scroll, Mascot, Button, BaseMascotContainer, BackgroundElement, } from './style';
+import PropTypes from 'prop-types';
 import { CircularMenu } from '../../components/CircularMenu';
 import { useEffect, useRef, useState } from 'react';
-import { Button } from '../../components/Button';
 import { content as contentData } from './content';
 import { gsap } from 'gsap';
 import { VerticalMenu } from '../../components/VerticalMenu';
+import background2 from '../../assets/teams/team_background2.png';
+
+const MascotContainer = ({ children }) => {
+  return (
+    <BaseMascotContainer>
+      <BackgroundElement src={background2}/>
+      {children}
+    </BaseMascotContainer>
+  );
+};
+
+MascotContainer.propTypes = {
+  children: PropTypes.node,
+};
 
 const Team = () => {
   const [preloadedMascots, setPreloadedMascots] = useState([]);
   const [contentIndex, setContentIndex] = useState(2);
-  const teamContentRef = useRef(null);
+  const mascotRef = useRef(null);
+  const titleRef = useRef(null);
+  const detailsRef = useRef(null);
   const content = contentData[contentIndex];
   const [isLandscape, setIsLandscape] = useState(true);
 
@@ -33,14 +48,14 @@ const Team = () => {
   }, []);
 
   const handleUpdateIndex = (index) => {
-    const teamContent = teamContentRef.current;
+    const targets = [mascotRef.current, titleRef.current, detailsRef.current];
 
-    gsap.to(teamContent, {
+    gsap.to(targets, {
       autoAlpha: 0,
       duration: 0.25,
       onComplete: () => {
         setContentIndex(index);
-        gsap.to(teamContent, {
+        gsap.to(targets, {
           autoAlpha: 1,
           duration: 0.25,
         });
@@ -68,11 +83,11 @@ const Team = () => {
           : <VerticalMenu startIndex={contentIndex} onUpdateIndex={handleUpdateIndex}>{scrolls}</VerticalMenu>
         }
         <Content>
-          <TeamContent ref={teamContentRef}>
-            <Mascot src={preloadedMascots[contentIndex]?.src} alt={content.title}  portrait={[2, 3].includes(contentIndex)}/>
-            <Title color={content.scheme}>{content.title}</Title>
-            <Details>{content.details}</Details>
-          </TeamContent>
+          <MascotContainer>
+            <Mascot src={preloadedMascots[contentIndex]?.src} alt={content.title} portrait={[2, 3].includes(contentIndex)} ref={mascotRef} />
+          </MascotContainer>
+          <Title color={content.scheme} ref={titleRef}>{content.title}</Title>
+          <Details ref={detailsRef}>{content.details}</Details>
           <Button href="#">REGISTER</Button>
         </Content>
       </TeamContainer>

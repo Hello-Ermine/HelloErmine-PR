@@ -1,18 +1,15 @@
 import Scene from "../../components/Scene";
-import {
-  AboutContainer,
-  BoxContainer,
-  ImgBg2,
-  ImgErmine,
-  Topic,
-} from "./style";
-import mascot from "../../assets/About/about_mascot.png";
-import background3 from "../../assets/About/about_background3.png";
-
+import { BackgroundFirst,Ink} from "./style";
+// import mascot from "../../assets/About/about_mascot.png";
+// import background3 from "../../assets/About/about_background3.png";
+// AboutContainer,BoxContainer,ImgBg2,ImgErmine,Topic,
 const About = () => {
   return (  
     <Scene>
-      <AboutContainer>
+      <BackgroundFirst>
+        <Ink></Ink>
+      </BackgroundFirst>
+      {/* <AboutContainer>
         <Topic>ABOUT</Topic>
         <BoxContainer>
           <p>
@@ -27,7 +24,7 @@ const About = () => {
           <ImgErmine src={mascot} />
         </BoxContainer>
         <ImgBg2 src={background3} />
-      </AboutContainer>
+      </AboutContainer> */}
     </Scene>
   );
 };

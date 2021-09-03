@@ -1,9 +1,8 @@
 import Scene from '../../components/Scene';
-import { Content, Details, TeamContainer, Title, TeamContent, Scroll, Mascot } from './style';
+import { Content, Details, TeamContainer, Title, TeamContent, Scroll, Mascot, Button } from './style';
 
 import { CircularMenu } from '../../components/CircularMenu';
 import { useEffect, useRef, useState } from 'react';
-import { Button } from '../../components/Button';
 import { content as contentData } from './content';
 import { gsap } from 'gsap';
 import { VerticalMenu } from '../../components/VerticalMenu';

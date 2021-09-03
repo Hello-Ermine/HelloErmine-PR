@@ -33,6 +33,10 @@ export const Content = styled.div`
     max-height: 700px;
   }
 
+  @media ${upSizes.lg} and (orientation: landscape) {
+    max-height: 800px;
+  }
+
   @media (orientation: portrait) {
     height: 90vh;
     left: 0;

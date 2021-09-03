@@ -1,10 +1,9 @@
-import styled from 'styled-components';
-import Paper from '../../assets/About/about_paper_03.png';
-import background2 from '../../assets/About/about_background2.jpg';
-
+import styled from "styled-components";
+import Paper from "../../assets/About/about_paper_03.png";
+import background2 from "../../assets/About/about_background2.jpg";
 
 export const AboutContainer = styled.div`
-position: relative;
+  position: relative;
   padding-left: 0;
   width: 100%;
   height: 100%;
@@ -15,7 +14,10 @@ position: relative;
   background-image: url(${background2});
   background-position: 0 25%;
   background-repeat: no-repeat;
-  background-size: cover ;
+  background-size: cover;
+  @media screen and (max-width: 320px) {
+    background-position: 100% 0;
+  }
 `;
 
 export const Topic = styled.h1`
@@ -24,6 +26,9 @@ export const Topic = styled.h1`
   font-weight: bold;
   padding: 0 1em 1em 1em;
   text-align: center;
+  @media screen and (max-width: 320px) {
+    font-size: 18px;
+  }
 `;
 
 export const BoxContainer = styled.div`
@@ -32,16 +37,24 @@ export const BoxContainer = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   padding: 10px;
-  text-align: justify;
+  text-align: left;
   width: 60%;
+  height: 36%;
   z-index: 1;
-
   p {
-    text-indent: .5in;
+    text-indent: 0.5in;
     font-size: 24px;
     font-weight: 500;
-    width: 40vw;
+    width: 41vw;
     margin: 1em 0 1em 1em;
+  }
+  @media screen and (max-width: 320px) {
+    width: 70%;
+    height: 42%;
+    p {
+      font-size: 9px;
+      width: 45vw;
+    }
   }
 `;
 
@@ -51,14 +64,17 @@ export const ImgErmine = styled.img`
   top: 28%;
   right: 4%;
   transform: rotate(350deg);
+  @media screen and (max-width: 320px) {
+  top: 40%;
+  }
 `;
 
 export const ImgBg2 = styled.img`
- position: absolute;
- z-index: 0;
- width: 100%;
- bottom: 0;
- transform: translateY(30%);
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+  bottom: 0;
+  transform: translateY(30%);
 `;
 
 // `;

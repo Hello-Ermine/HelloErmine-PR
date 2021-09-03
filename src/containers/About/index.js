@@ -10,7 +10,7 @@ import mascot from "../../assets/About/about_mascot.png";
 import background3 from "../../assets/About/about_background3.png";
 
 const About = () => {
-  return (
+  return (  
     <Scene>
       <AboutContainer>
         <Topic>ABOUT</Topic>
@@ -22,7 +22,7 @@ const About = () => {
             เพื่อที่จะนำไปต่อยอดได้จริงในอนาคต ไม่ว่าจะเป็นทางด้าน Front-End,
             Web Design, Game Development, Game Design และ Infrastructure
             ผ่านการสอน และเวิร์กชอปในรูปแบบต่าง ๆ จากรุ่นพี่คณะเทคโนโลยีสารสนเทศ
-          </p>
+          </p>  
           <p>เตรียมตัวให้พร้อม มาท้าความหนาวกับเหล่าเออร์มินไปด้วยกัน!!</p>
           <ImgErmine src={mascot} />
         </BoxContainer>

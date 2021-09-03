@@ -288,6 +288,11 @@ export const Scroll = styled.div`
     visibility: ${props => props.active ? 'visible' : 'hidden'};
   }
 
+  @media (orientation: portrait) {
+    width: 22vw;
+    height: 12.8vw;  
+  }
+
   @media ${downSizes.xs} {
     width: 24vw;
     height: 14vw;

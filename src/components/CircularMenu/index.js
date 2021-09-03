@@ -127,9 +127,7 @@ export const CircularMenu = ({
       },
     });
 
-    return () => {
-      setComputedValues(computeValues(items, itemAngle));
-    };
+    setComputedValues(computeValues(items, itemAngle));
   }, []);
 
   const handleUpdateIndex = (event, index) => {

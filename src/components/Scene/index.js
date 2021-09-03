@@ -6,7 +6,7 @@ const Scene = ({ children }) => {
 };
 
 Scene.propTypes = {
-  children: PropTypes.any
+  children: PropTypes.object
 };
 
 export default Scene;

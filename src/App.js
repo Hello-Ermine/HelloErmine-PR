@@ -18,6 +18,7 @@ const data = {
   pageIndex: 0,
   isChanging: false,
   isChangingAnchor: false,
+  changingAnchorTween: null,
   st: null,
   tl: null,
   tween: null,
@@ -90,6 +91,11 @@ const debouncedHandleResize = debounce(handleResize, 200);
 const debouncedChangingTimeout = debounce(() => {
   data.isChanging = false;
   console.log("DONE");
+}, duration * 1000 - 1);
+
+const debouncedChangingAnchorTimeout = debounce(() => {
+  data.isChangingAnchor = false;
+  console.log("ANCHOR DONE");
 }, duration * 1000 - 1);
 
 const App = () => {
@@ -227,27 +233,23 @@ const App = () => {
     const blackScreen = blackScreenRef.current;
     
     data.tween?.kill(blackScreen);
+    data.changingAnchorTween?.kill();
     
     data.st.scroll(index * wrapper.offsetWidth);
-    scrollCompleteCallback(() => {
-      data.st.scroll(data.pageIndex * wrapper.offsetWidth);
-      scrollCompleteCallback(() => {
-        console.log("H");
-        data.isChangingAnchor = false;
-      });
-    });
-
-    gsap.to(blackScreen, {
+    debouncedChangingAnchorTimeout();
+    
+    data.changingAnchorTween = gsap.to(blackScreen, {
       autoAlpha: 1,
       duration: duration / 2,
-    }).then(() => {
-      data.tl.seek(getLabel(index));
-      gsap.fromTo(blackScreen, {
-        autoAlpha: 1,
-      }, {
-        autoAlpha: 0,
-        duration: duration / 2,
-      });
+      onComplete: () => {
+        data.tl.seek(getLabel(index));
+        gsap.fromTo(blackScreen, {
+          autoAlpha: 1,
+        }, {
+          autoAlpha: 0,
+          duration: duration / 2,
+        });
+      }
     });
 
     setPageIndex(index);

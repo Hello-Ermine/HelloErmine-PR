@@ -14,12 +14,12 @@ const FAQs = () => {
       <FAQsContainer>
         <Topic>FAQs</Topic>
         <BoxCover>
-          <BoxContent><p>คำถาม 1 : รูปแบบการสอนของโครงการในปีนี้</p></BoxContent>
-          <BoxContent><p>คำถาม 2 : รูปแบบการสอนของโครงการในปีนี้</p></BoxContent>
-          <BoxContent><p>คำถาม 3 : รูปแบบการสอนของโครงการในปีนี้</p></BoxContent>
-          <BoxContent><p>คำถาม 4 : รูปแบบการสอนของโครงการในปีนี้</p></BoxContent>
-          <BoxContent><p>คำถาม 5 : รูปแบบการสอนของโครงการในปีนี้</p></BoxContent>
-          <BoxContent><p>คำถาม 6 : รูปแบบการสอนของโครงการในปีนี้</p></BoxContent>
+          <BoxContent><p>รูปแบบการสอนของโครงการในปีนี้</p></BoxContent>
+          <BoxContent><p>สมัครแล้วมีสิทธิเข้าร่วมโครงการทุกคนไหม ?</p></BoxContent>
+          <BoxContent><p>อุปกรณ์ที่จำเป็นในการเข้าร่วมโครงการ</p></BoxContent>
+          <BoxContent><p>จำเป็นต้องมีพื้นฐานก่อนเข้าร่วมโครงการหรือไม่ ?</p></BoxContent>
+          <BoxContent><p>จำเป็นต้องเข้าร่วมกิจกรรมทุกวันไหม ?</p></BoxContent>
+          <BoxContent><p>เข้าร่วมโครงการแล้ว จะได้รับชั่วโมงกิจกรรมหรือไม่ ?</p></BoxContent>
         </BoxCover>
         {/* <button onClick='showAns()'>Try it</button> */}
       </FAQsContainer>

@@ -22,20 +22,22 @@ export const Topic = styled.h1`
     } */
 `;
 export const BoxCover = styled.div`
-    display : flex;
-    flex-direction : column;
-    justify-content : center;
-    align-items : center;
-    
+  display : flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 `;
 export const BoxContent = styled.div`
-    display : flex;
-    margin-top:0.5vw;
-    align-items : center;
+    margin: 5px 0;
     height : 55px;
     background-image: url(${scripture_head});
-    background-size: 571px;
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
     font-size: 24px;
+    line-height: 54px;
+    width: 848px;
 
     p{
       padding-left : 30px;

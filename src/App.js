@@ -119,6 +119,7 @@ const App = () => {
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
   const [pageIndex, _setPageIndex] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const setPageIndex = (index) => {
     data.pageIndex = index;
@@ -254,12 +255,15 @@ const App = () => {
       debouncedChangingResizeTimeout();
     });
 
-    // after 1s from window load event, scroll to first page
-    window.addEventListener('load', () => {
+    const handleFirstLoad = () => {
       data.st.enable();
       data.tl.pause();
       data.isLoading = false;
-    });
+      setIsLoaded(true);
+      ScrollTrigger.removeEventListener('refresh', handleFirstLoad);
+    };
+    
+    ScrollTrigger.addEventListener('refresh', handleFirstLoad);
       
   }, []);
 
@@ -310,7 +314,7 @@ const App = () => {
         <FAQs />
         <Game />
       </Wrapper>
-      <BlackScreen ref={blackScreenRef}/>
+      <BlackScreen ref={blackScreenRef} visible={isLoaded} />
       <Navbar onClick={handlePageAnchor} pageIndex={pageIndex} />
       <AppSocial>
         <a href="https://www.facebook.com" target='_blank' rel='noreferrer'><i className='fab fa-facebook'/></a>

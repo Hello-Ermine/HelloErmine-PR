@@ -49,7 +49,7 @@ export const BlackScreen = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: black;
+  background-color: ${(props) => props.visible ? 'black' : 'transparent'};
   opacity: 0;
   visibility: hidden;
 `;

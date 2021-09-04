@@ -1,10 +1,18 @@
-import styled from 'styled-components';
-import Paper from '../../assets/About/about_paper_03.png';
-import background2 from '../../assets/About/about_background2.jpg';
-
-
+import styled, { keyframes } from "styled-components";
+import Paper from "../../assets/About/about_paper_03.png";
+import background2 from "../../assets/About/about_background2.jpg";
+import background1 from "../../assets/About/about_background1.png";
+import snow from "../../assets/About/snow_transition.png";
+const ScaleUpAbout = keyframes`
+0%{
+    transform: scale(0);
+}
+100%{
+    transform: scale(1);
+}
+`;
 export const AboutContainer = styled.div`
-position: relative;
+  position: relative;
   padding-left: 0;
   width: 100%;
   height: 100%;
@@ -15,7 +23,11 @@ position: relative;
   background-image: url(${background2});
   background-position: 0 25%;
   background-repeat: no-repeat;
-  background-size: cover ;
+  background-size: cover;
+  @media screen and (max-width: 420px) {
+    background-position: 100% 0;
+  }
+  /* animation: ${ScaleUpAbout} 11s ease-out 13s forwards normal; */
 `;
 
 export const Topic = styled.h1`
@@ -24,6 +36,15 @@ export const Topic = styled.h1`
   font-weight: bold;
   padding: 0 1em 1em 1em;
   text-align: center;
+  @media screen and (max-width: 1280px) {
+   padding-bottom: 0em;
+  }
+  @media screen and (max-width: 1030px) {
+    padding-bottom: 0em;
+  }
+  @media screen and (max-width: 420px) {
+    font-size: 18px;
+  }
 `;
 
 export const BoxContainer = styled.div`
@@ -34,14 +55,39 @@ export const BoxContainer = styled.div`
   padding: 10px;
   text-align: justify;
   width: 60%;
+  height: 38%;
   z-index: 1;
-
   p {
-    text-indent: .5in;
+    text-indent: 0.5in;
     font-size: 24px;
     font-weight: 500;
     width: 40vw;
     margin: 1em 0 1em 1em;
+  }
+
+  @media screen and (max-width: 1280px) {
+      height: 55%;
+      width: 80%;
+    p {
+      font-size: 24px;
+      width: 50vw;
+    }
+  }
+  @media screen and (max-width: 1030px) {
+    height: 500px;
+    width: 830px;
+    p {
+      font-size: 24px;
+      width: 52vw;
+    }
+  }
+  @media screen and (max-width: 420px) {
+    max-height: 220px;
+    width: 60%;
+    p {
+      font-size: 9px;
+      width: 45vw;
+    }
   }
 `;
 
@@ -51,77 +97,68 @@ export const ImgErmine = styled.img`
   top: 28%;
   right: 4%;
   transform: rotate(350deg);
+  @media screen and (max-width: 1280px) {
+  top: 22%;
+  right: 1%;
+  width: 35%;
+  }
+  @media screen and (max-width: 1030px) {
+  top: 45%;
+  right: 0;
+  transform: rotate(10deg);
+  }
+  @media screen and (max-width: 420px) {
+  top: 44%;
+  }
 `;
 
 export const ImgBg2 = styled.img`
- position: absolute;
- z-index: 0;
- width: 100%;
- bottom: 0;
- transform: translateY(30%);
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+  bottom: 0;
+  transform: translateY(35%);
+ @media screen and (max-width: 1280px) {
+    transform: translateY(30%);
+  }
+  @media screen and (max-width: 1030px) {
+    transform: translateY(10%);
+  }
+  @media screen and (max-width: 420px) {
+    transform: translateY(0%);
+  }
+  
+  
 `;
 
-// `;
+export const BackgroundFirst = styled.div`
+  background-image: url(${background1});
+  background-size: cover;
 
-// export const Topic = styled.h1`
-//   padding-top:12vh;
-//   text-align: center;
-//     margin-bottom:40px;
-//     color:white;
-//     font-size:64px;
-//     /* @media screen and (max-width:600px){
-//       font-size:20px;
-//     } */
-// `;
+  background-position: 50% 45%;
+  width:100%;
+  height:100%;
+`;
 
-// export const BoxCover = styled.div`
-//   display:flex;
-//   flex-direction: column;
-//   /* align-items: center;
-//   justify-c
-//   ontent: center */
-// `;
-// export const BoxWithErmine = styled.div`
-//   display:flex;
-//   margin-left:13vw;
-//   border-radius: 10px;
-//   background-color:#D9D9D9;
-//   /* width:1048px; */
-//   width:72vw;
-//   height:344px;
+const ScaleUp = keyframes`
+    0.0%{
+        transform: scale(0);
+    }
+    100%{
+        transform: scale(20);
+    }
+`;
 
-//   img {
-//     position: absolute;
-//     right: 10%;
-//     top:20%;
-//     width: 439px;
-//     height: 478px;
-//     transform: rotate(-11.33deg);
-//   };
-// `;
 
-// export const ContentInBox = styled.p`
-//   border-radius: 10%;
-//   font-size:24px;
 
-//   @media screen and (max-width:1300px){
-//     font-size:23px;
-//   }
-//   @media screen and (max-width:1250px){
-//     font-size:20px;
-//   }
-//   @media screen and (max-width:1100px){
-//       font-size:16px;
-//   }
-// `;
-
-// export const NewLine = styled.span`
-//   margin-left:48px;
-//   display:block;
-// `;
-
-// export const NewLineTop = styled.span`
-//   margin-top:40px;
-//   margin-left:84px;
-//   display:block;
-// `;
+export const Ink = styled.div`
+  background-image: url(${snow});
+  transform: scale(0);
+  transform-origin: right bottom;
+  width:100%;
+  height:100%;
+  animation: ${ScaleUp} 10s ease-out 3s forwards normal;
+`;
+export const VisibleAboutContainer = styled.div`
+  animation: ${ScaleUpAbout} 11s ease-out  forwards normal;
+`;

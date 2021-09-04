@@ -278,7 +278,7 @@ const App = () => {
     const wrapper = wrapperRef.current;
     const blackScreen = blackScreenRef.current;
     
-    data.tween?.kill(blackScreen);
+    data.tween?.kill();
     data.changingAnchorTween?.kill();
     
     data.st.scroll(index * wrapper.offsetWidth);

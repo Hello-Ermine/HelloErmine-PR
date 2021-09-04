@@ -19,7 +19,6 @@ const data = {
   isChanging: false,
   isChangingAnchor: false,
   isChangingResize: false,
-  isSnapping: false,
   changingAnchorTween: null,
   st: null,
   tl: null,
@@ -93,11 +92,6 @@ const debouncedChangingResizeTimeout = debounce(() => {
   console.log("RESIZE DONE");
 }, 100);
 
-const debouncedSnapTimeout = debounce(() => {
-  data.isSnapping = false;
-  console.log("SNAP DONE");
-}, duration * 1000 - 1);
-
 const App = () => {
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
@@ -107,16 +101,6 @@ const App = () => {
     data.pageIndex = index;
     _setPageIndex(index);
   };
-
-  const snapToCurrentPage = () => {
-    const wrapper = wrapperRef.current;
-    data.isSnapping = true;
-    console.log("SNAPPING");
-    data.st.scroll(data.pageIndex * wrapper.offsetWidth);
-    debouncedSnapTimeout();
-  };
-
-  const debouncedSnapToCurrentPage = debounce(snapToCurrentPage, 250);
 
   const handleUpdateScrollTrigger = (st) => {
     const wrapper = wrapperRef.current;
@@ -140,7 +124,6 @@ const App = () => {
     data.direction = currentDirection;
     
     debouncedChangingTimeout();
-    debouncedSnapToCurrentPage();
 
     data.tween = data.tl.tweenTo(getLabel(nextIndex), {
       duration,
@@ -168,8 +151,7 @@ const App = () => {
             !data.st ||
             data.isChangingAnchor ||
             data.isChangingResize ||
-            data.isLoading ||
-            data.isSnapping
+            data.isLoading
           ) {
             return;
           }

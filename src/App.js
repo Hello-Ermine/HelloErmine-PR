@@ -18,6 +18,7 @@ const data = {
   pageIndex: 0,
   isChanging: false,
   isChangingAnchor: false,
+  isChangingResize: false,
   changingAnchorTween: null,
   st: null,
   tl: null,
@@ -76,18 +77,6 @@ const scrollCompleteCallback = (() => {
   }; 
 })();
 
-const handleResize = (e) => {
-  console.log("RESIZED, scrolling to ", data.pageIndex);
-  // data.tl.tweenTo(data.pageIndex);
-  data.isChanging = true;
-  data.st.scroll(data.pageIndex);
-  scrollCompleteCallback(() => {
-    data.isChanging = false;
-  });
-};
-
-const debouncedHandleResize = debounce(handleResize, 200);
-
 const debouncedChangingTimeout = debounce(() => {
   data.isChanging = false;
   console.log("DONE");
@@ -97,6 +86,11 @@ const debouncedChangingAnchorTimeout = debounce(() => {
   data.isChangingAnchor = false;
   console.log("ANCHOR DONE");
 }, duration * 1000 - 1);
+
+const debouncedChangingResizeTimeout = debounce(() => {
+  data.isChangingResize = false;
+  console.log("RESIZE DONE");
+}, 100);
 
 const App = () => {
   const wrapperRef = useRef(null);
@@ -156,6 +150,7 @@ const App = () => {
           if (
             !data.st ||
             data.isChangingAnchor ||
+            data.isChangingResize ||
             data.isLoading
           ) {
             return;
@@ -211,7 +206,19 @@ const App = () => {
     data.st = st;
     st.disable();
 
-    window.addEventListener('resize', debouncedHandleResize);
+    ScrollTrigger.addEventListener('refreshInit', () => {
+      console.log('REFRESH INIT');
+      data.isChangingResize = true;
+    });
+
+    ScrollTrigger.addEventListener('refresh', () => {
+      console.log('REFRESHED');
+      const oldProgress = data.tl.progress();
+      data.tl.progress(1); // go all the way to the end to reset the timeline
+      data.tl.progress(oldProgress); // go back to where we were
+      debouncedChangingResizeTimeout();
+    });
+
     // after 1s from window load event, scroll to first page
     window.addEventListener('load', () => {
       data.st.enable();

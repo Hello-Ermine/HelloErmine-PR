@@ -17,6 +17,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 const data = {
   pageIndex: 0,
   isChanging: false,
+  isChangingAnchor: false,
   st: null,
   tl: null,
   tween: null,
@@ -148,7 +149,7 @@ const App = () => {
         onUpdate: (self) => {
           if (
             !data.st ||
-            // data.isChanging ||
+            data.isChangingAnchor ||
             data.isLoading
           ) {
             return;
@@ -215,11 +216,11 @@ const App = () => {
   }, []);
 
   const handlePageAnchor = (index) => {
-    if (pageIndex === index || data.isChanging) {
+    if (pageIndex === index) {
       return;
     }
 
-    data.isChanging = true;
+    data.isChangingAnchor = true;
 
     console.log("UPDATE", data.pageIndex, index);
     const wrapper = wrapperRef.current;
@@ -232,7 +233,7 @@ const App = () => {
       data.st.scroll(data.pageIndex * wrapper.offsetWidth);
       scrollCompleteCallback(() => {
         console.log("H");
-        data.isChanging = false;
+        data.isChangingAnchor = false;
       });
     });
 

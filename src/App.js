@@ -248,11 +248,17 @@ const App = () => {
     st.disable();
 
     ScrollTrigger.addEventListener('refreshInit', () => {
+      if (data.isLoading) {
+        return;
+      }
       console.log('REFRESH INIT');
       data.isChangingResize = true;
     });
 
     ScrollTrigger.addEventListener('refresh', () => {
+      if (data.isLoading) {
+        return;
+      }
       console.log('REFRESHED');
       const oldProgress = data.tl.progress();
       data.tl.progress(1); // go all the way to the end to reset the timeline
@@ -269,7 +275,12 @@ const App = () => {
     };
     
     ScrollTrigger.addEventListener('refresh', handleFirstLoad);
-      
+
+    // reset scroll position to 0 after a refresh
+    window.addEventListener('beforeunload', () => {
+      data.st.disable();
+      console.log("UNLOAD");
+    });   
   }, []);
 
   const handlePageAnchor = (index) => {

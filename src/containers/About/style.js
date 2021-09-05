@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import Paper from "../../assets/About/about_paper_03.png";
 import background2 from "../../assets/About/about_background2.jpg";
 import background1 from "../../assets/About/about_background1.png";
@@ -132,12 +132,18 @@ export const ImgBg2 = styled.img`
 `;
 
 export const BackgroundFirst = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-image: url(${background1});
   background-size: cover;
-
   background-position: 50% 45%;
-  width:100%;
-  height:100%;
+  opacity: ${(props) => (props.visible ? 1 : 0)};
+  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
+  z-index: 666;
+  transition: 2s;
 `;
 
 const ScaleUp = keyframes`
@@ -149,15 +155,20 @@ const ScaleUp = keyframes`
     }
 `;
 
+export const scaleUpDelayMs = 2000;
 
+const ScaleUpInterpolated = css`
+  animation: ${ScaleUp} 30s ease-out ${scaleUpDelayMs / 1000}s forwards normal;
+`;
 
 export const Ink = styled.div`
   background-image: url(${snow});
   transform: scale(0);
+  background-size: cover;
   transform-origin: right bottom;
-  width:100%;
-  height:100%;
-  animation: ${ScaleUp} 10s ease-out 3s forwards normal;
+  width: 102%;
+  height: 102%;
+  ${(props) => props.$start && ScaleUpInterpolated};
 `;
 export const VisibleAboutContainer = styled.div`
   animation: ${ScaleUpAbout} 11s ease-out  forwards normal;

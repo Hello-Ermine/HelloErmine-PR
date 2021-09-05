@@ -120,10 +120,15 @@ const App = () => {
   const blackScreenRef = useRef(null);
   const [pageIndex, _setPageIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isAboutEntered, setIsAboutEntered] = useState(false);
 
   const setPageIndex = (index) => {
     data.pageIndex = index;
     _setPageIndex(index);
+
+    if (!isAboutEntered && index === 1) {
+      setIsAboutEntered(true);
+    }
   };
 
   const snapToCurrentPage = () => {
@@ -309,7 +314,7 @@ const App = () => {
     <>
       <Wrapper ref={wrapperRef}>
         <Home />
-        <About />
+        <About in={isAboutEntered} />
         <Team />
         <FAQs />
         <Game />

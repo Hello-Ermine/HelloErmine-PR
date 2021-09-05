@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import HamburgerMenu from 'react-hamburger-menu';
 import { NavbarStyle } from './style';
 
 import Logo from '../../assets/hello-ermine_logo.png';
@@ -8,6 +9,7 @@ import Frozen from '../../assets/navbar/frozen.png';
 const useMountEffect = (func) => useEffect(func, []);
 
 const Navbar = ({ onClick, pageIndex }) => {
+  const [isOpen, setIsOpen] = useState(false);
   useMountEffect(() => {
     const li = document.querySelectorAll('li');
     li.forEach((elem) => {
@@ -25,10 +27,27 @@ const Navbar = ({ onClick, pageIndex }) => {
     });
     li.item(pageIndex).querySelector('img').classList.add('fade-in');
   }, [pageIndex]);
+
+  const hamburgerClick = e => {
+    e.preventDefault();
+    setIsOpen(prevIsOpen => !prevIsOpen);
+  };
   
   return (
-    <NavbarStyle showLogo={pageIndex !== 0}>
+    <NavbarStyle showLogo={pageIndex !== 0} collapNav={isOpen}>
       <img className='nav-logo' src={Logo} alt='Ermine logo'/>
+      <HamburgerMenu
+        className='nav-hamburger'
+        isOpen={isOpen}
+        menuClicked={hamburgerClick}
+        width={28}
+        height={25}
+        strokeWidth={2}
+        rotate={0}
+        color='white'
+        borderRadius={0}
+        animationDuration={0.5}
+      />
       <ul>
         <li>
           <a href='#Home' onClick={() => onClick(0)}>HOME</a>

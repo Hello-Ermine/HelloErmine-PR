@@ -20,9 +20,10 @@ export const NavbarStyle = styled.ul`
         transition: .8s;
     }
 
-    /* .active {
-        color: red;
-    } */
+    .nav-hamburger {
+        cursor: pointer;
+        display: none;
+    }
 
     ul {
         display: flex;
@@ -58,5 +59,31 @@ export const NavbarStyle = styled.ul`
         width: 79px;
         height: 32px;
         opacity: 0;
+    }
+
+    @media (max-width: 1080px) {
+        flex-direction: row-reverse;
+        padding: 2em;
+        
+        img.nav-logo {
+            transform: translateY(0);
+            z-index: -2;
+        }
+
+        .nav-hamburger {
+            display: block;
+        }
+
+        ul {
+            display: ${props => props.collapNav && 'flex'};
+            animation: ${props => props.collapNav ? 'slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both' : 'slide-out-top 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both'};
+            position: absolute;
+            background: #555B6E;
+            width: 100%;
+            top: 0;
+            left: 0;
+            flex-direction: column;
+            z-index: -1;
+        }
     }
 `;

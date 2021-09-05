@@ -47,8 +47,10 @@ export const NavbarStyle = styled.ul`
         transition: all .3s ease-out;
     }
 
-    ul li a:hover {
+    @media (hover: hover) {
+      ul li a:hover {
         color: #FFD8BB;
+      }
     }
 
     ul li img {

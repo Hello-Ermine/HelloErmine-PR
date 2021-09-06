@@ -12,6 +12,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const scrollHeightMultiplier = 6;
+
 const getLabel = (index) => {
   return `page-${index}`;
 };
@@ -63,7 +65,7 @@ const App = () => {
       scrollTrigger: {
         trigger: wrapper,
         scrub: 0.5,
-        end: () => `+=${wrapper.offsetWidth * multiplier}`,
+        end: () => `+=${wrapper.offsetWidth * scrollHeightMultiplier * multiplier}`,
         pin: true,
         snap: {
           snapTo: "labelsDirectional",
@@ -84,10 +86,13 @@ const App = () => {
     };
 
     targets.forEach((target, i, targets) => {
+      const startEnd = target.offsetWidth * scrollHeightMultiplier * i - 1;
+      const endEnd = target.offsetWidth * scrollHeightMultiplier * (i + 1) - 1;
+      
       ScrollTrigger.create({
         trigger: target,
-        start: () => `top top-=${target.offsetWidth * i - 1}`,
-        end: () => `top top-=${target.offsetWidth * (i + 1) - 1}`,
+        start: () => `top top-=${startEnd}`,
+        end: () => `top top-=${endEnd}`,
         onEnter: handleScrollTriggerCallbacks(i),
         onEnterBack: handleScrollTriggerCallbacks(i),
       });
@@ -128,7 +133,7 @@ const App = () => {
 
     ScrollTrigger.addEventListener('refresh', () => {
       killScrollTriggerTweens(st);
-      st.scroll(dataRef.current.pageIndex * wrapper.offsetWidth);
+      st.scroll(dataRef.current.pageIndex * wrapper.offsetWidth * scrollHeightMultiplier);
       dataRef.current.isResizing = false;
     });
 
@@ -152,7 +157,7 @@ const App = () => {
       duration: 0.25,
       onComplete: () => {
         timeline.seek(getLabel(index));
-        scrollTriggerInstance.scroll(index * wrapper.offsetWidth);
+        scrollTriggerInstance.scroll(index * wrapper.offsetWidth * scrollHeightMultiplier);
         gsap.fromTo(blackScreen, {
           autoAlpha: 1,
         }, {

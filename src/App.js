@@ -12,6 +12,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const getLabel = (index) => {
+  return `page-${index}`;
+};
+
 const App = () => {
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
@@ -93,7 +97,7 @@ const App = () => {
         });  
       }
 
-      tl.addLabel(`page-${i}`);
+      tl.addLabel(getLabel(i));
 
       if (i === targets.length - 1) {
         return;
@@ -156,7 +160,7 @@ const App = () => {
       autoAlpha: 1,
       duration: 0.25,
       onComplete: () => {
-        timeline.seek(`page-${index}`);
+        timeline.seek(getLabel(index));
         scrollTriggerInstance.scroll(index * wrapper.offsetWidth);
         gsap.fromTo(blackScreen, {
           autoAlpha: 1,

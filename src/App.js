@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import Home from './containers/Home';
 import About from './containers/About';
 import Team from './containers/Team';
@@ -10,167 +9,24 @@ import { AppSocial, BlackScreen } from './App.style';
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
-const data = {
-  pageIndex: 0,
-  isChanging: false,
-  isChangingAnchor: false,
-  isChangingResize: false,
-  isSnapping: false,
-  changingAnchorTween: null,
-  st: null,
-  tl: null,
-  tween: null,
-  isLoading: true,
-  direction: 0,
-};
-
-const throttle = (fn, delay) => {
-  let previous = 0;
-
-  return (...args) => {
-    const now = Date.now();
-    if (previous + delay < now) {
-      previous = now;
-      fn(...args);
-    }
-  };
-};
-
-const debounce = (fn, delay) => {
-  let timeout = null;
-
-  return (...args) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-};
-
-// debounced function can be cancelled on demand
-const killableDebounce = (fn, delay) => {
-  let timeout = null;
-
-  return [
-    (...args) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        fn(...args);
-      }, delay);
-    },
-    () => {
-      console.log('KILLED DEBOUNCED');
-      clearTimeout(timeout);
-    }
-  ];
-};
-
-const duration = .6;
-
-const getLabel = (index) => {
-  return `page-${index}`;
-};
-
-const scrollCompleteCallback = (() => {
-  let interval = null;
-
-  return (func, overwrite = true) => {
-    let previousY = window.scrollY;
-
-    if (overwrite) {
-      clearInterval(interval);
-    }
-    
-    interval = setInterval(() => {
-      if (previousY === window.scrollY) {
-        clearInterval(interval);
-        func();
-      }
-      previousY = window.scrollY;
-    }, 100);
-  }; 
-})();
-
-const debouncedChangingTimeout = debounce(() => {
-  data.isChanging = false;
-  console.log("DONE");
-}, duration * 1000 - 1);
-
-const debouncedChangingAnchorTimeout = debounce(() => {
-  data.isChangingAnchor = false;
-  console.log("ANCHOR DONE");
-}, duration * 1000 - 1);
-
-const debouncedChangingResizeTimeout = debounce(() => {
-  data.isChangingResize = false;
-  console.log("RESIZE DONE");
-}, 100);
-
-const [debouncedSnapTimeout, killDebouncedSnapTimeout] = killableDebounce(() => {
-  data.isSnapping = false;
-  console.log("SNAP DONE");
-}, duration * 1000 - 1);
+gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
-  const [pageIndex, _setPageIndex] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isChanging, setIsChanging] = useState(false);
+  const [timeline, setTimeline] = useState(null);
+  const [pageIndex, setPageIndex] = useState(0);
   const [isAboutEntered, setIsAboutEntered] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
 
-  const setPageIndex = (index) => {
-    data.pageIndex = index;
-    _setPageIndex(index);
-
-    if (!isAboutEntered && index === 1) {
+  useEffect(() => {
+    if (pageIndex === 1) {
       setIsAboutEntered(true);
     }
-  };
-
-  const snapToCurrentPage = () => {
-    const wrapper = wrapperRef.current;
-    data.isSnapping = true;
-    console.log("SNAPPING");
-    data.st.scroll(data.pageIndex * wrapper.offsetWidth);
-    debouncedSnapTimeout();
-  };
-
-  const [debouncedSnapToCurrentPage, killDebouncedSnapToCurrentPage] = killableDebounce(snapToCurrentPage, 250);
-
-  const handleUpdateScrollTrigger = (st) => {
-    const wrapper = wrapperRef.current;
-    const targets = wrapper.childNodes;
-    const currentDirection = st.direction;
-    const nextIndex = Math.min(Math.max(0, data.pageIndex + currentDirection), targets.length - 1);
-    
-    console.log(data.direction, currentDirection);
-    if (data.pageIndex === nextIndex || (currentDirection == data.direction && data.isChanging)) {
-      console.log("SIKE");
-      return;
-    }
-
-    console.log("UPDATE", data.pageIndex, nextIndex);
-
-    // TODO: do the same thing as in handlePageAnchor, remove blackscreen from master timeline, etc.
-    
-    data.isChanging = true;
-    data.st.scroll(nextIndex * wrapper.offsetWidth);
-    setPageIndex(nextIndex);
-    data.direction = currentDirection;
-    
-    debouncedChangingTimeout();
-    debouncedSnapToCurrentPage();
-
-    data.tween = data.tl.tweenTo(getLabel(nextIndex), {
-      duration,
-    });
-  };
-
-  const throttledHandleUpdateScrollTrigger = throttle(handleUpdateScrollTrigger, duration * 1000);
+  }, [pageIndex]);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -184,24 +40,18 @@ const App = () => {
       },
       scrollTrigger: {
         trigger: wrapper,
+        scrub: 0.5,
         end: () => `+=${wrapper.offsetWidth * multiplier}`,
         pin: true,
-        onUpdate: (self) => {
-          if (
-            !data.st ||
-            data.isChangingAnchor ||
-            data.isChangingResize ||
-            data.isLoading ||
-            data.isSnapping
-          ) {
-            return;
-          }
-          // throttledHandleUpdateScrollTrigger(self);
-          handleUpdateScrollTrigger(self);
+        snap: {
+          snapTo: "labelsDirectional",
+          duration: 0.5,
+          delay: 0.1,
+          inertia: false,
+          ease: 'none',
         },
       },
     });
-
     const st = tl.scrollTrigger;
 
     targets.forEach((target, i, targets) => {
@@ -209,6 +59,8 @@ const App = () => {
         trigger: target,
         start: () => `top top-=${target.offsetWidth * i - 1}`,
         end: () => `top top-=${target.offsetWidth * (i + 1) - 1}`,
+        onEnter: () => setPageIndex(i),
+        onEnterBack: () => setPageIndex(i),
       });
 
       const xPercentEnterSet = -100 * (i - 1);
@@ -228,7 +80,7 @@ const App = () => {
         });  
       }
 
-      tl.addLabel(getLabel(i));
+      tl.addLabel(`page-${i}`);
 
       if (i === targets.length - 1) {
         return;
@@ -243,82 +95,49 @@ const App = () => {
       }, "+=.5");
     });
 
-    data.tl = tl;
-    data.st = st;
-    st.disable();
-
-    ScrollTrigger.addEventListener('refreshInit', () => {
-      if (data.isLoading) {
-        return;
-      }
-      console.log('REFRESH INIT');
-      data.isChangingResize = true;
-    });
-
-    ScrollTrigger.addEventListener('refresh', () => {
-      if (data.isLoading) {
-        return;
-      }
-      console.log('REFRESHED');
-      const oldProgress = data.tl.progress();
-      data.tl.progress(1); // go all the way to the end to reset the timeline
-      data.tl.progress(oldProgress); // go back to where we were
-      debouncedChangingResizeTimeout();
-    });
-
-    const handleFirstLoad = () => {
-      data.st.enable();
-      data.tl.pause();
-      data.isLoading = false;
-      setIsLoaded(true);
-      ScrollTrigger.removeEventListener('refresh', handleFirstLoad);
-    };
-    
-    ScrollTrigger.addEventListener('refresh', handleFirstLoad);
-
-    // reset scroll position to 0 after a refresh
-    window.addEventListener('beforeunload', () => {
-      data.st.disable();
-      console.log("UNLOAD");
-    });   
+    setTimeline(tl);
+    setScrollTriggerInstance(st);
+    setIsLoaded(true);
   }, []);
 
   const handlePageAnchor = (index) => {
-    if (pageIndex === index) {
+    if (pageIndex === index || isChanging) {
       return;
     }
 
-    data.isSnapping = false;
-    killDebouncedSnapToCurrentPage();
-    killDebouncedSnapTimeout();
-    
-    data.isChangingAnchor = true;
+    const scrub = scrollTriggerInstance.getTween();
+    const snap = scrollTriggerInstance.getTween(true);
 
-    console.log("UPDATE", data.pageIndex, index);
+    if (scrub) {
+      scrub.kill();
+    }
+    if (snap) {
+      snap.kill();
+    }
+
+    setIsChanging(true);
+
     const wrapper = wrapperRef.current;
     const blackScreen = blackScreenRef.current;
-    
-    data.tween?.kill();
-    data.changingAnchorTween?.kill();
-    
-    data.st.scroll(index * wrapper.offsetWidth);
-    debouncedChangingAnchorTimeout();
-    
-    data.changingAnchorTween = gsap.to(blackScreen, {
+
+    gsap.to(blackScreen, {
       autoAlpha: 1,
-      duration: duration / 2,
+      duration: 0.25,
       onComplete: () => {
-        data.tl.seek(getLabel(index));
+        timeline.seek(`page-${index}`);
+        scrollTriggerInstance.scroll(index * wrapper.offsetWidth);
         gsap.fromTo(blackScreen, {
           autoAlpha: 1,
         }, {
           autoAlpha: 0,
-          duration: duration / 2,
+          duration: 0.25,
+          onComplete: () => {
+            setPageIndex(index);
+            setIsChanging(false);
+          },
         });
       }
     });
-
-    setPageIndex(index);
   };
 
   return (

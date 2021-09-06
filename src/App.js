@@ -16,28 +16,39 @@ const getLabel = (index) => {
   return `page-${index}`;
 };
 
+const killScrollTriggerTweens = (st) => {
+  const scrub = st.getTween();
+  const snap = st.getTween(true);
+
+  if (scrub) {
+    scrub.kill();
+  }
+  if (snap) {
+    snap.kill();
+  }
+};
+
 const App = () => {
-  const wrapperRef = useRef(null);
-  const blackScreenRef = useRef(null);
   const [isChanging, setIsChanging] = useState(false);
   const [timeline, setTimeline] = useState(null);
   const [pageIndex, _setPageIndex] = useState(0);
-  const pageIndexRef = useRef(pageIndex);
-  const dataRef = useRef({ isResizing: false });
   const [isAboutEntered, setIsAboutEntered] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
+  const wrapperRef = useRef(null);
+  const blackScreenRef = useRef(null);
+  const dataRef = useRef({ isResizing: false, pageIndex });
+
+  const setPageIndex = (index) => {
+    dataRef.current.pageIndex = index;
+    _setPageIndex(index);
+  };
 
   useEffect(() => {
     if (pageIndex === 1) {
       setIsAboutEntered(true);
     }
   }, [pageIndex]);
-
-  const setPageIndex = (index) => {
-    pageIndexRef.current = index;
-    _setPageIndex(index);
-  };
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -62,6 +73,7 @@ const App = () => {
         },
       },
     });
+
     const st = tl.scrollTrigger;
 
     const handleScrollTriggerCallbacks = (i) => () => {
@@ -80,15 +92,14 @@ const App = () => {
         onEnterBack: handleScrollTriggerCallbacks(i),
       });
 
-      const xPercentEnterSet = -100 * (i - 1);
-      const xPercentEnterTo = -100 * i;
-      const xPercentExitTo = -100 * (i + 1);
+      const xPercentEnterSet = -100 * (i - 1); // left: 100%
+      const xPercentEnterTo = -100 * i; // left: 0
+      const xPercentExitTo = -100 * (i + 1); // left: -100%
       
-      if (i > 0) {
+      if (i > 0) { // enter animation (skip first page)
         tl.set(target, {
           xPercent: xPercentEnterSet,
         }, "<");
-        
         tl.to(target, {
           xPercent: xPercentEnterTo,
         }, "<");
@@ -97,16 +108,15 @@ const App = () => {
         });  
       }
 
-      tl.addLabel(getLabel(i));
+      tl.addLabel(getLabel(i)); // add a label after enter animation (the page is now fully visible)
 
-      if (i === targets.length - 1) {
+      if (i === targets.length - 1) { // exit animation (skip last page)
         return;
       }
 
-      tl.to(blackScreen,{
+      tl.to(blackScreen, {
         autoAlpha: 1,
       });
-
       tl.to(target, {
         xPercent: xPercentExitTo,
       }, "+=.5");
@@ -117,17 +127,8 @@ const App = () => {
     });
 
     ScrollTrigger.addEventListener('refresh', () => {
-      const scrub = st.getTween();
-      const snap = st.getTween(true);
-
-      if (scrub) {
-        scrub.kill();
-      }
-      if (snap) {
-        snap.kill();
-      }
-
-      st.scroll(pageIndexRef.current * wrapperRef.current.offsetWidth);
+      killScrollTriggerTweens(st);
+      st.scroll(dataRef.current.pageIndex * wrapper.offsetWidth);
       dataRef.current.isResizing = false;
     });
 
@@ -141,17 +142,7 @@ const App = () => {
       return;
     }
 
-    const scrub = scrollTriggerInstance.getTween();
-    const snap = scrollTriggerInstance.getTween(true);
-
-    if (scrub) {
-      scrub.kill();
-    }
-    if (snap) {
-      snap.kill();
-    }
-
-    setIsChanging(true);
+    killScrollTriggerTweens(scrollTriggerInstance);
 
     const wrapper = wrapperRef.current;
     const blackScreen = blackScreenRef.current;
@@ -174,6 +165,8 @@ const App = () => {
         });
       }
     });
+
+    setIsChanging(true);
   };
 
   return (

@@ -17,7 +17,7 @@ export const NavbarStyle = styled.ul`
         padding: 0 10px;
         transform: translateY(-14px);
         opacity: ${props => props.showLogo ? 1 : 0};
-        transition: .8s;
+        transition: opacity .8s ease-out;
     }
 
     .nav-hamburger {

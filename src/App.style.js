@@ -34,11 +34,19 @@ export const AppSocial = styled.div`
     box-shadow: 0 0 35px 5px rgb(135,206,255);
   }
 
-  .fa-instagram {
-    padding: 12.5px 16px;
+  @media (max-width: 809px) {
+    left: 40px;
+    bottom: 40px;
 
-    ::before {
-      font-size: 54.84px;
+    a {
+      margin-right: 22px;
+    }
+
+    a i {
+      width: 60px;
+      height: 60px;
+      font-size: 35px;
+      padding: 12px;
     }
   }
 `;

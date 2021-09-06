@@ -1,34 +1,36 @@
 import styled from 'styled-components';
 import scripture_head from '../../assets/faqs/scripture_head.png';
 import faqs_background from '../../assets/faqs/faqs_background.jpg';
+import scripture_body from '../../assets/faqs/scripture_body.png';
 //import React from 'react';
 
 
-export const FAQsContainer = styled.section`
+export const FAQsContainer = styled.section `
   background-image: url(${faqs_background});
   height: 100%;
   width: 100%;
   font-family : mali;
   position: relative;
- ` ;
-export const Topic = styled.h1`
+ `;
+export const Topic = styled.h1 `
   padding-top:12vh;
   text-align: center;
     margin-bottom:40px;
     color:white;
     font-size:64px;
+  font: bold;
     /* @media screen and (max-width:600px){
       font-size:20px;
     } */
 `;
-export const BoxCover = styled.div`
+export const BoxCover = styled.div `
   display : flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   text-align: center;
 `;
-export const BoxContent = styled.div`
+export const BoxContent = styled.div `
     margin: 5px 0;
     height : 55px;
     background-image: url(${scripture_head});
@@ -42,6 +44,25 @@ export const BoxContent = styled.div`
     p{
       padding-left : 30px;
       padding-right : 30px;
+    }
+
+`;
+export const BoxAns = styled.div `
+    margin: 5px 0;
+    height : 220px;
+    background-image: url(${scripture_body});
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    font-size: 18px;
+    font-weight: lighter;
+    line-height: 54px;
+    width: 848px;
+
+    p{
+    padding-top: 3%;
+    padding-left : 30px;
+    padding-right : 30px;
     }
 
 `;

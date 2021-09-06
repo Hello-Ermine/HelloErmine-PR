@@ -17,7 +17,9 @@ const App = () => {
   const blackScreenRef = useRef(null);
   const [isChanging, setIsChanging] = useState(false);
   const [timeline, setTimeline] = useState(null);
-  const [pageIndex, setPageIndex] = useState(0);
+  const [pageIndex, _setPageIndex] = useState(0);
+  const pageIndexRef = useRef(pageIndex);
+  const dataRef = useRef({ isResizing: false });
   const [isAboutEntered, setIsAboutEntered] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
@@ -27,6 +29,11 @@ const App = () => {
       setIsAboutEntered(true);
     }
   }, [pageIndex]);
+
+  const setPageIndex = (index) => {
+    pageIndexRef.current = index;
+    _setPageIndex(index);
+  };
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -47,20 +54,26 @@ const App = () => {
           snapTo: "labelsDirectional",
           duration: 0.5,
           delay: 0.1,
-          inertia: false,
           ease: 'none',
         },
       },
     });
     const st = tl.scrollTrigger;
 
+    const handleScrollTriggerCallbacks = (i) => () => {
+      if (dataRef.current.isResizing) {
+        return;
+      }
+      setPageIndex(i);
+    };
+
     targets.forEach((target, i, targets) => {
       ScrollTrigger.create({
         trigger: target,
         start: () => `top top-=${target.offsetWidth * i - 1}`,
         end: () => `top top-=${target.offsetWidth * (i + 1) - 1}`,
-        onEnter: () => setPageIndex(i),
-        onEnterBack: () => setPageIndex(i),
+        onEnter: handleScrollTriggerCallbacks(i),
+        onEnterBack: handleScrollTriggerCallbacks(i),
       });
 
       const xPercentEnterSet = -100 * (i - 1);
@@ -93,6 +106,25 @@ const App = () => {
       tl.to(target, {
         xPercent: xPercentExitTo,
       }, "+=.5");
+    });
+
+    ScrollTrigger.addEventListener('refreshInit', () => {
+      dataRef.current.isResizing = true;
+    });
+
+    ScrollTrigger.addEventListener('refresh', () => {
+      const scrub = st.getTween();
+      const snap = st.getTween(true);
+
+      if (scrub) {
+        scrub.kill();
+      }
+      if (snap) {
+        snap.kill();
+      }
+
+      st.scroll(pageIndexRef.current * wrapperRef.current.offsetWidth);
+      dataRef.current.isResizing = false;
     });
 
     setTimeline(tl);

@@ -59,14 +59,14 @@ export const BoxContent = styled.div `
 `;
 
 export const BoxAns = styled.div `
-  min-height : 220px;
+  /* min-height : 220px; */
+  padding: 1em 0;
   background-image: url(${scripture_body});
   background-position: center;
   background-size: 100%;
   background-repeat: no-repeat;
   font-size: 18px;
   font-weight: lighter;
-  line-height: 54px;
   width: 790px;
   margin: 0 auto;
   transform: translateY(-30px);

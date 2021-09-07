@@ -138,6 +138,11 @@ const App = () => {
       dataRef.current.isResizing = false;
     });
 
+    // reset scroll position to 0 after a refresh
+    window.addEventListener('beforeunload', () => {
+      st.disable();
+    });   
+
     setTimeline(tl);
     setScrollTriggerInstance(st);
     setIsLoaded(true);

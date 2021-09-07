@@ -48,13 +48,17 @@ export const BoxContent = styled.div `
   line-height: 65px; 
   width: 848px;
   transition: filter .3s ease-out;
+  position: relative;
+  z-index: 111;
 
   p {
     padding: 0 30px;
   }
 
-  :hover {
-    filter: drop-shadow(0px 0px 8px #fff);
+  @media (hover: hover) {
+    :hover {
+      filter: drop-shadow(0px 0px 8px #fff);
+    }
   }
 `;
 
@@ -62,17 +66,18 @@ export const BoxAns = styled.div `
   /* min-height : 220px; */
   padding: 1em 0;
   background-image: url(${scripture_body});
-  background-position: center;
+  background-position: top center;
   background-size: 100%;
   background-repeat: no-repeat;
   font-size: 18px;
   font-weight: lighter;
   width: 790px;
   margin: 0 auto;
-  transform: translateY(-30px);
+  position: relative;
+  z-index: 110;
 
   p {
-    padding-top: 3%;
+    padding-top: 5%;
     padding-left: 30px;
     padding-right: 30px;
   }

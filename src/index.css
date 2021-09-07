@@ -145,3 +145,17 @@ code {
     display: none;
   }
 }
+
+/* override react-bootstrap's accordion css rules */
+.collapse, .collapsing {
+  transform: translateY(-40px) !important;
+  transition-property: height, visibility, transform;
+}
+
+.panel-wrap {
+  transition: .35s ease;
+}
+
+.active-panel ~ .panel-wrap {
+  transform: translateY(-40px) !important;
+}

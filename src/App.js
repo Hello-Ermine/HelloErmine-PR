@@ -65,7 +65,7 @@ const App = () => {
       scrollTrigger: {
         trigger: wrapper,
         scrub: 0.5,
-        end: () => `+=${wrapper.offsetWidth * scrollHeightMultiplier * multiplier}`,
+        end: () => `+=${window.innerWidth * scrollHeightMultiplier * multiplier}`,
         pin: true,
         snap: {
           snapTo: "labelsDirectional",
@@ -82,12 +82,13 @@ const App = () => {
       if (dataRef.current.isResizing) {
         return;
       }
+      console.log(`PAGE INDEX: ${i}`);
       setPageIndex(i);
     };
 
     targets.forEach((target, i, targets) => {
-      const startEnd = target.offsetWidth * scrollHeightMultiplier * i - 1;
-      const endEnd = target.offsetWidth * scrollHeightMultiplier * (i + 1) - 1;
+      const startEnd = window.innerWidth * scrollHeightMultiplier * i - 1; // using wrapper.offsetWidth includes the scrollbar width only for the first page
+      const endEnd = window.innerWidth * scrollHeightMultiplier * (i + 1) - 1;
       
       ScrollTrigger.create({
         trigger: target,
@@ -133,7 +134,7 @@ const App = () => {
 
     ScrollTrigger.addEventListener('refresh', () => {
       killScrollTriggerTweens(st);
-      st.scroll(dataRef.current.pageIndex * wrapper.offsetWidth * scrollHeightMultiplier);
+      st.scroll(dataRef.current.pageIndex * window.innerWidth * scrollHeightMultiplier);
       dataRef.current.isResizing = false;
     });
 
@@ -149,7 +150,6 @@ const App = () => {
 
     killScrollTriggerTweens(scrollTriggerInstance);
 
-    const wrapper = wrapperRef.current;
     const blackScreen = blackScreenRef.current;
 
     gsap.to(blackScreen, {
@@ -157,7 +157,7 @@ const App = () => {
       duration: 0.25,
       onComplete: () => {
         timeline.seek(getLabel(index));
-        scrollTriggerInstance.scroll(index * wrapper.offsetWidth * scrollHeightMultiplier);
+        scrollTriggerInstance.scroll(index * window.innerWidth * scrollHeightMultiplier);
         gsap.fromTo(blackScreen, {
           autoAlpha: 1,
         }, {

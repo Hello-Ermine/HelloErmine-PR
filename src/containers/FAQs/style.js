@@ -60,6 +60,14 @@ export const BoxContent = styled.div `
       filter: drop-shadow(0px 0px 8px #fff);
     }
   }
+
+  @media (max-width: 885px) {
+    padding: 0;
+    line-height: 65px; 
+    margin: 0 auto;
+    font-size: 10px;
+    width: 348px;
+  }
 `;
 
 export const BoxAns = styled.div `
@@ -80,5 +88,11 @@ export const BoxAns = styled.div `
     padding-top: 5%;
     padding-left: 30px;
     padding-right: 30px;
+  }
+
+  @media (max-width: 885px) {
+    margin: 0 auto;
+    font-size: 10px;
+    width: 318px;
   }
 `;

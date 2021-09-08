@@ -34,9 +34,9 @@ export const Topic = styled.h1`
   color: white;
   font-size: 64px;
   font-weight: bold;
-  padding: 0 1em 1em 1em;
+  padding-bottom: .4em;
   text-align: center;
-  @media screen and (max-width: 1280px) {
+  /* @media screen and (max-width: 1280px) {
    padding-bottom: 0em;
   }
   @media screen and (max-width: 1030px) {
@@ -44,27 +44,35 @@ export const Topic = styled.h1`
   }
   @media screen and (max-width: 420px) {
     font-size: 18px;
-  }
+  } */
 `;
 
-export const BoxContainer = styled.div`
+export const ParagraphContainer = styled.div`
   background-image: url(${Paper});
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 10px;
-  text-align: justify;
-  width: 60%;
-  height: 38%;
-  z-index: 1;
-  p {
-    text-indent: 0.5in;
+  padding: 1.5em 2.5em 2.2em 2.5em;
     font-size: 24px;
+
+  p {
     font-weight: 500;
-    width: 40vw;
-    margin: 1em 0 1em 1em;
   }
 
+  p:first-of-type {
+    text-indent: 2em;
+    margin-bottom: 1.2em;
+  }
+`;
+
+export const BoxContainer = styled.div`
+  text-align: left;
+  width: 73.5%;
+  margin-left: -4%;
+  z-index: 1;
+  overflow: visible;
+
+/* 
   @media screen and (max-width: 1280px) {
       height: 55%;
       width: 80%;
@@ -88,16 +96,18 @@ export const BoxContainer = styled.div`
       font-size: 9px;
       width: 45vw;
     }
-  }
+  } */
 `;
 
 export const ImgErmine = styled.img`
-  position: absolute;
-  width: 30%;
-  top: 28%;
-  right: 4%;
+  float: right;
+  width: 38%;
+  margin: 1em;
+  margin-right: -13%;
+  margin-top: -3.6%;
   transform: rotate(350deg);
-  @media screen and (max-width: 1280px) {
+
+  /* @media screen and (max-width: 1280px) {
   top: 22%;
   right: 1%;
   width: 35%;
@@ -109,7 +119,7 @@ export const ImgErmine = styled.img`
   }
   @media screen and (max-width: 420px) {
   top: 44%;
-  }
+  } */
 `;
 
 export const ImgBg2 = styled.img`

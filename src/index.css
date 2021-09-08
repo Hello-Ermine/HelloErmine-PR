@@ -148,6 +148,6 @@ code {
 
 /* override react-bootstrap's accordion css rules */
 .collapse, .collapsing {
-  transform: translateY(-30px) !important;
+  transform: translateY(-32px) !important;
   transition-property: height, visibility, transform;
 }

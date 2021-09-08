@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import scripture_head from '../../assets/faqs/scripture_head.png';
 import faqs_background from '../../assets/faqs/faqs_background.jpg';
 import scripture_body from '../../assets/faqs/scripture_body.png';
+import { downSizes, upSizes } from '../../constants/breakpoints';
 
 export const FAQsContainer = styled.section `
   background-image: url(${faqs_background});
@@ -44,25 +45,38 @@ export const BoxCover = styled.div `
   }
 
   .active-panel ~ .panel-wrap {
-    transform: translateY(-40px) !important;
+    /* transform: translateY(-5vh) !important; */
+    transform: translateY(-5vh) !important;
+    
+    @media ${downSizes.xs} {
+      transform: translateY(-6vh) !important;
+    }
+    
+    @media ${upSizes.sm} and (orientation: portrait) {
+      transform: translateY(-3vh) !important;
+    }
   }
 `;
 
 export const BoxContent = styled.div `
-  margin: 5px 0;
-  height : 65px;
+  margin: 7px 0;
+  /* margin: 0 auto; */
+  /* margin: 1vmin auto; */
+  /* margin-bottom: 2vmin; */
+  height : 7vmin;
   background-image: url(${scripture_head});
   background-position: center;
   background-size: 100%;
   background-repeat: no-repeat;
   font-size: 24px;
-  line-height: 65px;
+  line-height: 7vmin;
   font-weight: 500;
   width: 62.5vw;
   max-width: 900px;
   transition: filter .3s ease-out;
   position: relative;
   z-index: 111;
+  white-space: nowrap
 
   p {
     padding: 0 30px;
@@ -74,12 +88,28 @@ export const BoxContent = styled.div `
     }
   }
 
-  @media (max-width: 885px) {
-    padding: 0;
-    line-height: 65px; 
-    margin: 0 auto;
-    font-size: 13.34px;
-    width: 400px;
+  @media ${downSizes.xl} {
+    font-size: 1.67vw;
+  }
+
+  @media ${downSizes.md} {
+    width: 70vw;
+  }
+
+  @media ${downSizes.sm} {
+    width: 80vw;
+  }
+
+  @media ${downSizes.xs} {
+    font-size: 10px;
+  }
+
+  @supports (font-size: clamp(10px, 1.67vw, 24px)) {
+    font-size: clamp(10px, 1.67vw, 24px);
+  }
+
+  @media ${upSizes.sm} and (orientation: portrait) {
+    font-size: 18px;
   }
 `;
 
@@ -104,6 +134,29 @@ export const BoxAns = styled.div `
 
   @media (max-width: 885px) {
     font-size: 10px;
-    width: 365.5px;
+  }
+  
+  @media ${downSizes.xl} {
+    font-size: 1.25vw;
+  }
+
+  @media ${downSizes.md} {
+    width: 65vw;
+  }
+
+  @media ${downSizes.sm} {
+    width: 75vw;
+  }
+
+  @media ${downSizes.xs} {
+    font-size: 9px;
+  }
+
+  @supports (font-size: clamp(9px, 1.25vw, 18px)) {
+    font-size: clamp(9px, 1.25vw, 18px);
+  }
+
+  @media ${upSizes.sm} and (orientation: portrait) {
+    font-size: 14px;
   }
 `;

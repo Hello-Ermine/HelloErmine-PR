@@ -1,5 +1,5 @@
 import Scene from '../../components/Scene';
-import { FAQsContainer, Topic, BoxCover, BoxContent, BoxAns } from './style';
+import { FAQsContainer, Topic, BoxCover, BoxContent, BoxAns, AvoidWrap } from './style';
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Accordion } from 'react-bootstrap';
@@ -33,9 +33,13 @@ function FAQs() {
               </div>
               <Accordion.Collapse eventKey='0'>
                 <div className='panel-body'>
-                  <BoxAns><p>ในปีนี้โครงการจะจัดในรูปแบบออนไลน์ ผ่านโปรแกรม Microsoft Team <br /> 
-                  ตั้งแต่วันที่ 23 ตุลาคม-20 พฤศจิกายน 2564 <br />
-                  ทุก ๆ วันจันทร์เวลา 17.30 น.-20.00 น. และวันเสาร์เวลา 13.30 น.-16.30 น.</p></BoxAns>
+                  <BoxAns><p>
+                    <AvoidWrap>ในปีนี้โครงการจะจัดในรูปแบบออนไลน์ </AvoidWrap>
+                    <AvoidWrap>ผ่านโปรแกรม Microsoft Team </AvoidWrap>
+                    <AvoidWrap>ตั้งแต่วันที่ 23 ตุลาคม-20 พฤศจิกายน 2564 </AvoidWrap>
+                    <AvoidWrap>ทุก ๆ วันจันทร์เวลา 17.30 น.-20.00 น. </AvoidWrap>
+                    <AvoidWrap>และวันเสาร์เวลา 13.30 น.-16.30 น.</AvoidWrap>
+                  </p></BoxAns>
                 </div>
               </Accordion.Collapse>
             </div>
@@ -47,8 +51,12 @@ function FAQs() {
               </div>
               <Accordion.Collapse eventKey='1'>
                 <div className='panel-body'>
-                  <BoxAns><p>เนื่องจากโครงการ Hello World Hello Ermine มีผู้ให้ความสนใจเข้ามาสมัครเป็นจำนวนมาก <br />
-                  ทางโครงการจึงต้องมีการคัดเลือกน้อง ๆ ที่มีสิทธิ์เข้าร่วมโครงการในแต่ละสาขาที่เปิดรับสมัคร</p></BoxAns>
+                  <BoxAns><p>
+                    <AvoidWrap>เนื่องจากโครงการ Hello World Hello Ermine </AvoidWrap>
+                    <AvoidWrap>มีผู้ให้ความสนใจเข้ามาสมัครเป็นจำนวนมาก </AvoidWrap>
+                    <AvoidWrap>ทางโครงการจึงต้องมีการคัดเลือกน้อง ๆ ที่มีสิทธิ์</AvoidWrap>
+                    <AvoidWrap>เข้าร่วมโครงการในแต่ละสาขาที่เปิดรับสมัคร</AvoidWrap>
+                  </p></BoxAns>
                 </div>
               </Accordion.Collapse>
             </div>
@@ -60,9 +68,13 @@ function FAQs() {
               </div>
               <Accordion.Collapse eventKey='2'>
                 <div className='panel-body'>
-                  <BoxAns><p>อุปกรณ์ที่จำเป็นต่อโครงการของเราคือ Notebook หรือ Laptop <br />
-                  ในส่วนของโปรแกรมที่ต้องติดตั้งในแต่ละฝ่าย พี่ ๆ จะแจ้งน้องอีกรอบ <br />
-                  หลังจากประกาศรายชื่อผู้มีสิทธิ์เข้าร่วมโครงการ</p></BoxAns>
+                  <BoxAns><p>
+                    <AvoidWrap>อุปกรณ์ที่จำเป็นต่อโครงการของเราคือ </AvoidWrap>
+                    <AvoidWrap>Notebook หรือ Laptop </AvoidWrap>
+                    <AvoidWrap>ในส่วนของโปรแกรมที่ต้องติดตั้งในแต่ละฝ่าย </AvoidWrap>
+                    <AvoidWrap>พี่ ๆ จะแจ้งน้องอีกรอบหลังจากประกาศรายชื่อ</AvoidWrap>
+                    <AvoidWrap>ผู้มีสิทธิ์เข้าร่วมโครงการ</AvoidWrap>
+                  </p></BoxAns>
                 </div>
               </Accordion.Collapse>
             </div>
@@ -74,9 +86,13 @@ function FAQs() {
               </div>
               <Accordion.Collapse eventKey='3'>
                 <div className='panel-body'>
-                  <BoxAns><p>ไม่จำเป็น เพราะพี่ ๆ ทุกฝ่ายจะสอนน้อง ๆ ตั้งแต่ความรู้พื้นฐาน <br />
-                  หากน้อง ๆ คนไหนมีข้อสงสัยก็สามารถถามพี่ ๆ ได้ตลอดเลย <br />
-                  รับรองว่าน้อง ๆ สามารถเข้าร่วมโครงการได้อย่างสนุก และเต็มเปี่ยมไปด้วยความรู้อย่างแน่นอน</p></BoxAns>
+                  <BoxAns><p>
+                    <AvoidWrap>ไม่จำเป็น เพราะพี่ ๆ ทุกฝ่ายจะสอนน้อง ๆ ตั้งแต่</AvoidWrap>
+                    <AvoidWrap>ความรู้พื้นฐาน หากน้อง ๆ คนไหนมีข้อสงสัย</AvoidWrap>
+                    <AvoidWrap>ก็สามารถถามพี่ ๆ ได้ตลอดเลย </AvoidWrap>  
+                    <AvoidWrap>รับรองว่าน้อง ๆ สามารถเข้าร่วมโครงการได้อย่าง </AvoidWrap>
+                    <AvoidWrap>สนุกและเต็มเปี่ยมไปด้วยความรู้อย่างแน่นอน</AvoidWrap>
+                  </p></BoxAns>
                 </div>
               </Accordion.Collapse>
             </div>
@@ -88,8 +104,13 @@ function FAQs() {
               </div>
               <Accordion.Collapse eventKey='4'>
                 <div className='panel-body'>
-                  <BoxAns><p>เนื่องจากเนื้อหาในแต่ละครั้งมีความต่อเนื่องกัน น้อง ๆ จึงจำเป็นที่จะต้องเข้าร่วมโครงการให้ครบทุกวัน<br />
-                  เพื่อความรู้ที่อัดแน่นและต่อเนื่อง แต่ถ้าหากมีธุระจริง ๆ สามารถแจ้งที่พี่ ๆ ประจำสาขาของน้อง ๆ ได้เลย</p></BoxAns>
+                  <BoxAns><p>
+                    <AvoidWrap>เนื่องจากเนื้อหาในแต่ละครั้งมีความต่อเนื่องกัน </AvoidWrap>
+                    <AvoidWrap>น้อง ๆ จึงจำเป็นที่จะต้องเข้าร่วมโครงการให้</AvoidWrap>
+                    <AvoidWrap>ครบทุกวัน เพื่อความรู้ที่อัดแน่นและต่อเนื่อง </AvoidWrap>
+                    <AvoidWrap>แต่ถ้าหากมีธุระจริง ๆ สามารถแจ้งที่พี่ ๆ ประจำ</AvoidWrap>
+                    <AvoidWrap>สาขาของน้อง ๆ ได้เลย</AvoidWrap>
+                  </p></BoxAns>
                 </div>
               </Accordion.Collapse>
             </div>
@@ -101,9 +122,14 @@ function FAQs() {
               </div>
               <Accordion.Collapse eventKey='5'>
                 <div className='panel-body'>
-                  <BoxAns><p>ทางโครงการได้เตรียมชั่วโมงกิจกรรมให้กับน้อง ๆ ที่เข้าร่วมโครงการทุกคน<br />
-                  แต่เงื่อนไขคือ น้อง ๆ ต้องเข้าร่วมโครงการมากกว่า 60% ของจำนวนครั้งที่เรียนทั้งหมด<br />
-                  โดยจะมีพี่ ๆ แต่ละฝ่ายคอยเช็กชื่อน้อง ๆ ทุกครั้งเมื่อมีการเรียนการสอนในแต่ละวัน</p></BoxAns>
+                  <BoxAns><p>
+                    <AvoidWrap>ทางโครงการได้เตรียมชั่วโมงกิจกรรมให้กับน้อง ๆ </AvoidWrap>
+                    <AvoidWrap>ที่เข้าร่วมโครงการทุกคน</AvoidWrap>
+                    <AvoidWrap>แต่เงื่อนไขคือ น้อง ๆ ต้องเข้าร่วมโครงการมากกว่า </AvoidWrap>
+                    <AvoidWrap>60% ของจำนวนครั้งที่เรียนทั้งหมด </AvoidWrap>
+                    <AvoidWrap>โดยจะมีพี่ ๆ แต่ละฝ่ายคอยเช็กชื่อน้อง ๆ ทุกครั้ง</AvoidWrap>
+                    <AvoidWrap>เมื่อมีการเรียนการสอนในแต่ละวัน</AvoidWrap>
+                  </p></BoxAns>
                 </div>
               </Accordion.Collapse>
             </div>

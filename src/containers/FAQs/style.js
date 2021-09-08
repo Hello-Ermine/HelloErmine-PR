@@ -70,6 +70,10 @@ export const BoxCover = styled.div `
   }
 `;
 
+export const AvoidWrap = styled.span`
+  display: inline-block;
+`;
+
 export const BoxContent = styled.div `
   margin: 7px 0;
   /* margin: 0 auto; */

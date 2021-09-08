@@ -88,7 +88,7 @@ export const BoxContent = styled.div `
   transition: filter .3s ease-out;
   position: relative;
   z-index: 111;
-  white-space: nowrap
+  white-space: nowrap;
 
   p {
     padding: 0 30px;

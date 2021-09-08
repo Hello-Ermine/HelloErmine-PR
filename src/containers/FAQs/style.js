@@ -71,11 +71,10 @@ export const BoxContent = styled.div `
 `;
 
 export const BoxAns = styled.div `
-  /* min-height : 220px; */
   padding: 1em 0;
   background-image: url(${scripture_body});
   background-position: top center;
-  background-size: 100%;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   font-size: 18px;
   font-weight: lighter;
@@ -91,7 +90,6 @@ export const BoxAns = styled.div `
   }
 
   @media (max-width: 885px) {
-    margin: 0 auto;
     font-size: 10px;
     width: 318px;
   }

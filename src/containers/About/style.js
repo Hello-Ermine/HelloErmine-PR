@@ -3,6 +3,9 @@ import Paper from "../../assets/About/about_paper_03.png";
 import background2 from "../../assets/About/about_background2.jpg";
 import background1 from "../../assets/About/about_background1.png";
 import snow from "../../assets/About/snow_transition.png";
+import { downSizes, upSizes } from "../../constants/breakpoints";
+import mascot from "../../assets/About/about_mascot.png";
+
 const ScaleUpAbout = keyframes`
 0%{
     transform: scale(0);
@@ -36,6 +39,19 @@ export const Topic = styled.h1`
   font-weight: bold;
   padding-bottom: .4em;
   text-align: center;
+
+  @media ${downSizes.xl} {
+    font-size: 4.45vw;
+  }
+
+  @media ${downSizes.xs} {
+    font-size: 32px;
+  }
+
+  @supports (font-size: clamp(32px, 4.45vw, 64px)) {
+    font-size: clamp(32px, 4.45vw, 64px);
+  }
+
   /* @media screen and (max-width: 1280px) {
    padding-bottom: 0em;
   }
@@ -52,7 +68,7 @@ export const ParagraphContainer = styled.div`
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 1.5em 2.5em 2.2em 2.5em;
+  padding: 2em 2.5em 2.2em 2.5em;
     font-size: 24px;
 
   p {
@@ -63,6 +79,14 @@ export const ParagraphContainer = styled.div`
     text-indent: 2em;
     margin-bottom: 1.2em;
   }
+
+  @media ${downSizes.xl} and (orientation: landscape) {
+    font-size: 1.67vw;
+  }
+
+  @media ${downSizes.xs} {
+    font-size: 12px;
+  }
 `;
 
 export const BoxContainer = styled.div`
@@ -72,6 +96,9 @@ export const BoxContainer = styled.div`
   z-index: 1;
   overflow: visible;
 
+  @media (orientation: portrait) {
+    width: 84%;
+  }
 /* 
   @media screen and (max-width: 1280px) {
       height: 55%;
@@ -106,6 +133,33 @@ export const ImgErmine = styled.img`
   margin-right: -13%;
   margin-top: -3.6%;
   transform: rotate(350deg);
+  shape-outside: url(${mascot});
+  shape-margin: 4em;
+  
+  @media ${downSizes.xl} and (orientation: landscape) {
+    width: 30%;
+    margin-top: 0;
+    margin-right: -16%;
+  }
+
+  @media ${downSizes.md} and (orientation: portrait) {
+    width: 36vw;
+    margin-right: -8vw;
+    margin-top: 180px;
+    shape-margin: 2em;
+  }
+  
+  @media ${upSizes.sm} and (orientation: portrait) {
+    margin-top: 40%;
+    shape-margin: 2.5em;
+  }
+
+  @media ${upSizes.md} and (orientation: portrait) {
+    width: 50%;
+    margin-right: -12%;
+    margin-top: 20%;
+    transform: rotate(0deg);
+  }
 
   /* @media screen and (max-width: 1280px) {
   top: 22%;

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 
 * {
   margin: 0;
@@ -148,14 +148,6 @@ code {
 
 /* override react-bootstrap's accordion css rules */
 .collapse, .collapsing {
-  transform: translateY(-40px) !important;
+  transform: translateY(-30px) !important;
   transition-property: height, visibility, transform;
-}
-
-.panel-wrap {
-  transition: .35s ease;
-}
-
-.active-panel ~ .panel-wrap {
-  transform: translateY(-40px) !important;
 }

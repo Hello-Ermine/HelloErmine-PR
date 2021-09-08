@@ -5,10 +5,13 @@ import scripture_body from '../../assets/faqs/scripture_body.png';
 
 export const FAQsContainer = styled.section `
   background-image: url(${faqs_background});
+  background-position: 50% 30%;
+  background-size: cover;
   height: 100%;
   width: 100%;
   font-family : 'Mali';
   position: relative;
+  color: black !important;
 `;
 
 export const Topic = styled.h1 `
@@ -17,7 +20,7 @@ export const Topic = styled.h1 `
   margin-bottom:40px;
   color:white;
   font-size:64px;
-  font: bold;
+  font-weight: bold;
 `;
 
 export const BoxCover = styled.div `
@@ -35,6 +38,14 @@ export const BoxCover = styled.div `
     margin: 0;
     padding: 0;
   }
+
+  .panel-wrap {
+    transition: .35s ease;
+  }
+
+  .active-panel ~ .panel-wrap {
+    transform: translateY(-40px) !important;
+  }
 `;
 
 export const BoxContent = styled.div `
@@ -45,8 +56,10 @@ export const BoxContent = styled.div `
   background-size: 100%;
   background-repeat: no-repeat;
   font-size: 24px;
-  line-height: 65px; 
-  width: 848px;
+  line-height: 65px;
+  font-weight: 500;
+  width: 62.5vw;
+  max-width: 900px;
   transition: filter .3s ease-out;
   position: relative;
   z-index: 111;
@@ -65,32 +78,32 @@ export const BoxContent = styled.div `
     padding: 0;
     line-height: 65px; 
     margin: 0 auto;
-    font-size: 10px;
-    width: 348px;
+    font-size: 13.34px;
+    width: 400px;
   }
 `;
 
 export const BoxAns = styled.div `
-  padding: 1em 0;
+  padding: 2em 0 1em 0;
   background-image: url(${scripture_body});
   background-position: top center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   font-size: 18px;
-  font-weight: lighter;
-  width: 790px;
+  font-weight: 300;
+  width: 58.2vw;
+  max-width: 838px;
   margin: 0 auto;
   position: relative;
   z-index: 110;
 
   p {
-    padding-top: 5%;
     padding-left: 30px;
     padding-right: 30px;
   }
 
   @media (max-width: 885px) {
     font-size: 10px;
-    width: 318px;
+    width: 365.5px;
   }
 `;

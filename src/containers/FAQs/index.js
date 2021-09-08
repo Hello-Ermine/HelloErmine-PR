@@ -35,10 +35,11 @@ function FAQs() {
                 <div className='panel-body'>
                   <BoxAns><p>
                     <AvoidWrap>ในปีนี้โครงการจะจัดในรูปแบบออนไลน์</AvoidWrap>&nbsp;
-                    <AvoidWrap>ผ่านโปรแกรม Microsoft Team</AvoidWrap>&nbsp;
-                    <AvoidWrap>ตั้งแต่วันที่ 23 ตุลาคม-20 พฤศจิกายน 2564</AvoidWrap>&nbsp;
-                    <AvoidWrap>ทุก ๆ วันจันทร์เวลา 17.30 น.-20.00 น.</AvoidWrap>&nbsp;
-                    <AvoidWrap>และวันเสาร์เวลา 13.30 น.-16.30 น.</AvoidWrap>
+                    <AvoidWrap>ผ่านโปรแกรม Microsoft Teams</AvoidWrap>&nbsp;
+                    <AvoidWrap>ตั้งแต่วันที่ 23 ตุลาคม 2564 ถึงวันที่</AvoidWrap>&nbsp;
+                    <AvoidWrap>20 พฤศจิกายน 2564</AvoidWrap>&nbsp;
+                    <AvoidWrap>ทุก ๆ วันจันทร์เวลา 17:30 น. ถึง 20:00 น</AvoidWrap>&nbsp;
+                    <AvoidWrap>และวันเสาร์เวลา 13:30 น. ถึง 16:30 น.</AvoidWrap>
                   </p></BoxAns>
                 </div>
               </Accordion.Collapse>
@@ -52,7 +53,7 @@ function FAQs() {
               <Accordion.Collapse eventKey='1'>
                 <div className='panel-body'>
                   <BoxAns><p>
-                    <AvoidWrap>เนื่องจากโครงการ Hello World Hello Ermine</AvoidWrap>&nbsp;
+                    <AvoidWrap>เนื่องจากโครงการ Hello World Ermine</AvoidWrap>&nbsp;
                     <AvoidWrap>มีผู้ให้ความสนใจเข้ามาสมัครเป็นจำนวนมาก</AvoidWrap>&nbsp;
                     <AvoidWrap>ทางโครงการจึงต้องมีการคัดเลือกน้อง ๆ ที่มีสิทธิ์</AvoidWrap>
                     <AvoidWrap>เข้าร่วมโครงการในแต่ละสาขาที่เปิดรับสมัคร</AvoidWrap>

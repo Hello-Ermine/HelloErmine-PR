@@ -18,10 +18,22 @@ export const FAQsContainer = styled.section `
 export const Topic = styled.h1 `
   padding-top:12vh;
   text-align: center;
-  margin-bottom:40px;
+  margin-bottom: 24px;
   color:white;
   font-size:64px;
   font-weight: bold;
+
+  @media ${downSizes.xl} {
+    font-size: 4.45vw;
+  }
+
+  @media ${downSizes.xs} {
+    font-size: 32px;
+  }
+
+  @supports (font-size: clamp(32px, 4.45vw, 64px)) {
+    font-size: clamp(32px, 4.45vw, 64px);
+  }
 `;
 
 export const BoxCover = styled.div `

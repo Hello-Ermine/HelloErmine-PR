@@ -189,6 +189,10 @@ export const Button = styled.a`
   @media ${downSizes.xs} and (orientation: portrait) {
     grid-area: 9 / 1 / 13 / 2;
   }
+  
+  @media (max-height: 575.98px) and (orientation: portrait) {
+    margin-top: 32px;
+  }
 
   @media ${upSizes.xs} and (orientation: portrait) {
     font-size: 1.67vh;

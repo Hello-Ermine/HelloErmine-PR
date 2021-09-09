@@ -97,9 +97,14 @@ export const CircularMenu = ({
   children,
   angle = 60,
   startIndex,
+  active,
   // eslint-disable-next-line no-unused-vars
   onUpdateIndex = (index = 0) => {},
 }) => {
+  if (!active) {
+    return null;
+  }
+  
   const menuRef = useRef(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const itemCount = children.length;
@@ -182,5 +187,6 @@ CircularMenu.propTypes = {
   children: PropTypes.array,
   angle: PropTypes.string,
   startIndex: PropTypes.number,
+  active: PropTypes.bool,
   onUpdateIndex: PropTypes.func,
 };

@@ -6,9 +6,14 @@ import { Item, StyledDiv } from './style';
 export const VerticalMenu = ({
   children,
   startIndex,
+  active,
   // eslint-disable-next-line no-unused-vars
   onUpdateIndex = (index = 0) => {},
 }) => {
+  if (!active) {
+    return null;
+  }
+  
   const itemCount = children.length;
   const [activeItemIndex, setActiveItemIndex] = useState(startIndex ?? Math.floor(itemCount / 2));
 
@@ -41,5 +46,6 @@ export const VerticalMenu = ({
 VerticalMenu.propTypes = {
   children: PropTypes.array,
   startIndex: PropTypes.number,
+  active: PropTypes.bool,
   onUpdateIndex: PropTypes.func,
 };

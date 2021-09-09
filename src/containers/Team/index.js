@@ -78,10 +78,8 @@ const Team = () => {
   return (
     <Scene>
       <TeamContainer>
-        {isLandscape
-          ? <CircularMenu angle="85" startIndex={contentIndex} onUpdateIndex={handleUpdateIndex}>{scrolls}</CircularMenu>
-          : <VerticalMenu startIndex={contentIndex} onUpdateIndex={handleUpdateIndex}>{scrolls}</VerticalMenu>
-        }
+        <CircularMenu angle="85" startIndex={contentIndex} onUpdateIndex={handleUpdateIndex} active={isLandscape}>{scrolls}</CircularMenu>
+        <VerticalMenu startIndex={contentIndex} onUpdateIndex={handleUpdateIndex} active={!isLandscape}>{scrolls}</VerticalMenu>
         <Content>
           <MascotContainer>
             <Mascot src={preloadedMascots[contentIndex]?.src} alt={content.title} portrait={[2, 3].includes(contentIndex)} ref={mascotRef} />

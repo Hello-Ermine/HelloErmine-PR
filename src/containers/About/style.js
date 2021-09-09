@@ -69,10 +69,10 @@ export const ParagraphContainer = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   padding: 2em 2.5em 2.2em 2.5em;
-    font-size: 24px;
+  font-size: 24px;
 
   p {
-    font-weight: 500;
+    font-weight: 300;
   }
 
   p:first-of-type {
@@ -92,6 +92,7 @@ export const ParagraphContainer = styled.div`
 export const BoxContainer = styled.div`
   text-align: left;
   width: 73.5%;
+  max-width: 1045px;
   margin-left: -4%;
   z-index: 1;
   overflow: visible;

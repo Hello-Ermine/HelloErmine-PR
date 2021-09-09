@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Home from './containers/Home';
 import About from './containers/About';
 import Team from './containers/Team';
@@ -28,6 +29,15 @@ const killScrollTriggerTweens = (st) => {
   if (snap) {
     snap.kill();
   }
+};
+
+const debounce = (func, delay) => {
+  let timeout = null;
+
+  return (...args) => {
+    clearTimeout(timeout);
+    setTimeout(() => func(...args), delay);
+  };
 };
 
 const App = () => {
@@ -128,16 +138,21 @@ const App = () => {
       }, "+=.5");
     });
 
+    const debouncedHandleRefresh = debounce(() => {
+      dataRef.current.isResizing = false;
+      console.log("REFRESHED");
+    }, 1500);
+
     ScrollTrigger.addEventListener('refreshInit', () => {
       dataRef.current.isResizing = true;
+      debouncedHandleRefresh();
     });
-
+    
     ScrollTrigger.addEventListener('refresh', () => {
       killScrollTriggerTweens(st);
       st.scroll(dataRef.current.pageIndex * window.innerWidth * scrollHeightMultiplier);
-      dataRef.current.isResizing = false;
     });
-
+    
     // reset scroll position to 0 after a refresh
     window.addEventListener('beforeunload', () => {
       st.disable();

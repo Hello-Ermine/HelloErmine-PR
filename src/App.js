@@ -206,8 +206,8 @@ const App = () => {
       <BlackScreen ref={blackScreenRef} visible={isLoaded} />
       <Navbar onClick={handlePageAnchor} pageIndex={pageIndex} />
       <AppSocial>
-        <a href="https://www.facebook.com" target='_blank' rel='noreferrer'><i className='fab fa-facebook'/></a>
-        <a href="https://www.instagram.com" target='_blank' rel='noreferrer'><i className='fab fa-instagram'/></a>
+        <a href="https://www.facebook.com/SITHelloWorld" target='_blank' rel='noreferrer'><i className='fab fa-facebook'/></a>
+        <a href="https://www.instagram.com/sithelloworld/" target='_blank' rel='noreferrer'><i className='fab fa-instagram'/></a>
       </AppSocial>
     </>
   );

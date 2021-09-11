@@ -164,13 +164,13 @@ export const Button = styled.a`
   grid-area: 11 / 1 / 13 / 2;
   place-self: center;
   background-color: white;
-  color: #f2b6b6;
+  color: #f2b6b6 !important;
   font-size: 24px;
   border-radius: 10px;
   font-family: inherit;
   font-weight: 700;
   padding: 0.4em 2em;
-  text-decoration: none;
+  text-decoration: none !important;
   transition: 0.2s ease-out;
 
   @media ${downSizes.sm} {

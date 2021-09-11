@@ -43,6 +43,7 @@ export const NavbarStyle = styled.ul`
     }
 
     ul li a {
+        cursor: pointer;
         color: white;
         text-decoration: none;
         transition: all .3s ease-out;

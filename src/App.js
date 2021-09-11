@@ -148,6 +148,8 @@ const App = () => {
       },
     });
 
+    st.disable();
+
     const handleScrollTriggerCallbacks = (i) => () => {
       if (dataRef.current.isResizing) {
         return;
@@ -208,14 +210,17 @@ const App = () => {
       debouncedHandleRefresh();
     });
     
+    const debouncedDisableIsLoading = debounce(() => {
+      dataRef.current.isLoading = false;
+    }, 2000);
+
     ScrollTrigger.addEventListener('refresh', () => {
       killScrollTriggerTweens(st);
       st.scroll(dataRef.current.pageIndex * window.innerWidth * scrollHeightMultiplier);
+      st.enable();
+      debouncedDisableIsLoading();
     });
 
-    window.addEventListener('load', () => {
-      dataRef.current.isLoading = false;
-    });
     // reset scroll position to 0 after a refresh
     window.addEventListener('beforeunload', () => {
       st.disable();

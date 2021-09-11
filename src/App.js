@@ -49,7 +49,11 @@ const App = () => {
   const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
-  const dataRef = useRef({ isResizing: false, pageIndex });
+  const dataRef = useRef({
+    isResizing: false,
+    isProgressing: false,
+    pageIndex
+  });
 
   const setPageIndex = (index) => {
     dataRef.current.pageIndex = index;
@@ -72,21 +76,46 @@ const App = () => {
       defaults: {
         ease: 'none',
       },
-      scrollTrigger: {
-        trigger: wrapper,
-        scrub: 0.5,
-        end: () => `+=${window.innerWidth * scrollHeightMultiplier * multiplier}`,
-        pin: true,
-        snap: {
-          snapTo: "labelsDirectional",
-          duration: 0.5,
-          delay: 0.1,
-          ease: 'none',
-        },
-      },
     });
 
-    const st = tl.scrollTrigger;
+    tl.pause();
+
+    const turnOfIsProgressing = () => {
+      dataRef.current.isProgressing = false;
+      console.log('isProgressing turned off');
+    };
+
+    const debouncedTurnOfIsProgressing = debounce(turnOfIsProgressing, 1000);
+
+    const st = ScrollTrigger.create({
+      trigger: wrapper,
+      end: () => `+=${window.innerWidth * scrollHeightMultiplier * multiplier}`,
+      pin: true,
+      onUpdate: (st) => {
+        if (dataRef.current.isProgressing) {
+          // console.log("SIKE");
+          return;
+        }
+
+        dataRef.current.isProgressing = true;
+
+        const direction = st.direction;
+        const nextIndex = dataRef.current.pageIndex + direction;
+        
+        if (nextIndex < 0 || nextIndex > targets.length - 1) {
+          return;
+        }
+
+        console.log(
+          `current index: ${dataRef.current.pageIndex}\nnext index: ${nextIndex}`);
+        st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
+        tl.seek(getLabel(nextIndex));
+        console.log(st.progress);
+        
+        debouncedTurnOfIsProgressing();
+        setPageIndex(nextIndex);
+      },
+    });
 
     const handleScrollTriggerCallbacks = (i) => () => {
       if (dataRef.current.isResizing) {
@@ -104,8 +133,8 @@ const App = () => {
         trigger: target,
         start: () => `top top-=${startEnd}`,
         end: () => `top top-=${endEnd}`,
-        onEnter: handleScrollTriggerCallbacks(i),
-        onEnterBack: handleScrollTriggerCallbacks(i),
+        // onEnter: handleScrollTriggerCallbacks(i),
+        // onEnterBack: handleScrollTriggerCallbacks(i),
       });
 
       const xPercentEnterSet = -100 * (i - 1); // left: 100%

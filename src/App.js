@@ -212,7 +212,7 @@ const App = () => {
     
     const debouncedDisableIsLoading = debounce(() => {
       dataRef.current.isLoading = false;
-    }, 2000);
+    }, 1500);
 
     ScrollTrigger.addEventListener('refresh', () => {
       killScrollTriggerTweens(st);

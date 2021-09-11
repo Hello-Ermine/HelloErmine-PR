@@ -61,7 +61,6 @@ const debounce = (func, delay) => {
 };
 
 const App = () => {
-  const [isChanging, setIsChanging] = useState(false);
   const [timeline, setTimeline] = useState(null);
   const [pageIndex, _setPageIndex] = useState(0);
   const [isAboutEntered, setIsAboutEntered] = useState(false);
@@ -123,12 +122,11 @@ const App = () => {
 
     tl.pause();
 
-    const turnOfIsProgressing = () => {
+    const disableIsProgressing = () => {
       dataRef.current.isProgressing = false;
-      console.log('isProgressing turned off');
     };
 
-    const debouncedTurnOfIsProgressing = debounce(turnOfIsProgressing, 500);
+    const debouncedDisableIsProgressing = debounce(disableIsProgressing, 500);
 
     const supportsTouch = 'ontouchstart' in window || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
 
@@ -138,7 +136,6 @@ const App = () => {
       pin: true,
       onUpdate: (st) => {
         if (dataRef.current.isProgressing || dataRef.current.isLoading) {
-          console.log("SIKE");
           return;
         }
 
@@ -146,16 +143,11 @@ const App = () => {
         const currentIndex = dataRef.current.pageIndex;
         const nextIndex = currentIndex + direction;
         
-        console.log(currentIndex, nextIndex);
         if (nextIndex < 0 || nextIndex > targets.length - 1) {
-          console.log('nextIndex out of bounds');
           return;
         }
 
         dataRef.current.isProgressing = true;
-
-        console.log(
-          `current index: ${dataRef.current.pageIndex}\nnext index: ${nextIndex}`);
 
         if (supportsTouch) {
           dataRef.current.snapInterval = setInterval(() => {
@@ -177,24 +169,13 @@ const App = () => {
               }, 100);
             });
           } else {
-            debouncedTurnOfIsProgressing();
+            debouncedDisableIsProgressing();
           }
-          console.log('isProgressing turned off', currentIndex, nextIndex);
         }, 1000);
-
-        console.log(st.progress);
       },
     });
 
     st.disable();
-
-    const handleScrollTriggerCallbacks = (i) => () => {
-      if (dataRef.current.isResizing) {
-        return;
-      }
-      console.log(`PAGE INDEX: ${i}`);
-      setPageIndex(i);
-    };
 
     targets.forEach((target, i, targets) => {
       const startEnd = window.innerWidth * scrollHeightMultiplier * i - 1; // using wrapper.offsetWidth includes the scrollbar width only for the first page
@@ -204,8 +185,6 @@ const App = () => {
         trigger: target,
         start: () => `top top-=${startEnd}`,
         end: () => `top top-=${endEnd}`,
-        // onEnter: handleScrollTriggerCallbacks(i),
-        // onEnterBack: handleScrollTriggerCallbacks(i),
       });
 
       const xPercentEnterSet = -100 * (i - 1); // left: 100%
@@ -240,7 +219,6 @@ const App = () => {
 
     const debouncedHandleRefresh = debounce(() => {
       dataRef.current.isResizing = false;
-      console.log("REFRESHED");
     }, 1500);
 
     ScrollTrigger.addEventListener('refreshInit', () => {
@@ -264,6 +242,7 @@ const App = () => {
       st.disable();
     });   
 
+    // prevent scroll trigger from going brrr on touchscreen devices
     window.addEventListener('touchmove', (e) => {
       if (e.cancelable && dataRef.current.isProgressing) {
         e.preventDefault();

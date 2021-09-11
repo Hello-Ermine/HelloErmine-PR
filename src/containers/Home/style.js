@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { downSizes } from '../../constants/breakpoints';
 import Background from '../../assets/home/home_background2.png';
 
 export const HomeContainer = styled.section`
@@ -30,6 +31,10 @@ export const HomeContent = styled.div`
 
 export const Logo = styled.img`
   width: 50%;
+
+  @media ${downSizes.sm} {
+    width: 70vw;
+  }
 `;
 
 export const CI = styled.img`
@@ -39,6 +44,11 @@ export const CI = styled.img`
   width: 219px;
   height: 71px;
   z-index: 5;
+
+  @media ${downSizes.sm} {
+    width: 150px;
+    height: 50px;
+  }
 `;
 
 export const BackgroundElement = styled.img`

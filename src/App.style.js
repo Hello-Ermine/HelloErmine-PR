@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { downSizes } from './constants/breakpoints';
 
 export const AppContainer = styled.div`
   text-align: center;
@@ -34,7 +35,7 @@ export const AppSocial = styled.div`
     box-shadow: 0 0 35px 5px rgb(135,206,255);
   }
 
-  @media (max-width: 809px) {
+  @media ${downSizes.sm} {
     left: 40px;
     bottom: 40px;
 
@@ -43,10 +44,10 @@ export const AppSocial = styled.div`
     }
 
     a i {
-      width: 60px;
-      height: 60px;
-      font-size: 35px;
-      padding: 12px;
+      width: 40px;
+      height: 40px;
+      font-size: 25px;
+      padding: 7px;
     }
   }
 `;

@@ -216,7 +216,7 @@ export const Scroll = styled.div`
   transition: all 0.2s, transform 1s;
   transform: translateX(-0.8vh)
     ${(props) => props.active && 'translateY(-.64vh)'};
-  opacity: 0.5;
+  opacity: ${(props) => props.active ? 1 : 0.5};
 
   &:hover {
     opacity: 1;
@@ -225,16 +225,16 @@ export const Scroll = styled.div`
   &::before {
     content: '';
     position: absolute;
-    top: -5.5%;
+    top: 0%;
     left: 0;
     width: 100%;
     height: 100%;
     background-image: url(${(props) => props.close});
     background-size: 100%;
     background-repeat: no-repeat;
-    /* visibility: ${(props) => (props.active ? 'hidden' : 'visible')}; */
+    visibility: ${(props) => props.active ? 'hidden' : 'visible'};
   }
-
+  
   &::after {
     content: '';
     position: absolute;
@@ -242,11 +242,10 @@ export const Scroll = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url(${(props) => (props.active && props.open) || props.close});
+    background-image: url(${(props) => props.open});
     background-size: 100%;
     background-repeat: no-repeat;
-    /* visibility: ${(props) => (props.active ? 'visible' : 'hidden')}; */
-    opacity: ${(props) => props.active && 1.0};
+    visibility: ${(props) => props.active ? 'visible' : 'hidden'};
   }
 
   @media (orientation: portrait) {

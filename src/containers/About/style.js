@@ -220,7 +220,7 @@ const ScaleUp = keyframes`
     }
 `;
 
-export const scaleUpDelayMs = 2000;
+export const scaleUpDelayMs = 0;
 
 const ScaleUpInterpolated = css`
   animation: ${ScaleUp} 30s ease-out ${scaleUpDelayMs / 1000}s forwards normal;

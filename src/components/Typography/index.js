@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { downSizes } from '../../constants/breakpoints';
 
 export const Heading = styled.h1`
   color: ${(props) => props.color || 'black'};
@@ -16,7 +17,11 @@ export const Caption = styled.p`
   font-size: 28px;
   transition: all .3s ease-out;
 
-  @media (max-width: 1108px) {
-    font-size: 20px;
+  @media ${downSizes.xl} {
+    font-size: 2.2vw;
+  }
+
+  @media ${downSizes.xs} {
+    font-size: 12px;
   }
 `;

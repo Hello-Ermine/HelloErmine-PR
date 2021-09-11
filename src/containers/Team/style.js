@@ -216,23 +216,16 @@ export const Scroll = styled.div`
   transition: all 0.2s, transform 1s;
   transform: translateX(-0.8vh)
     ${(props) => props.active && 'translateY(-.64vh)'};
+  opacity: ${(props) => props.active ? 1 : 0.5};
 
   &:hover {
     opacity: 1;
-
-    &::after {
-      visibility: visible;
-    }
-
-    &::before {
-      visibility: hidden;
-    }
   }
 
   &::before {
     content: '';
     position: absolute;
-    top: -5.5%;
+    top: 0%;
     left: 0;
     width: 100%;
     height: 100%;
@@ -243,7 +236,7 @@ export const Scroll = styled.div`
     opacity: ${(props) => (props.active ? 0 : 1)};
     /* transition: 0.6s; */
   }
-
+  
   &::after {
     content: '';
     position: absolute;

@@ -31,6 +31,26 @@ const killScrollTriggerTweens = (st) => {
   }
 };
 
+const scrollCompleteCallback = (() => {
+  let interval = null;
+
+  return (func, overwrite = true) => {
+    let previousY = window.scrollY;
+
+    if (overwrite) {
+      clearInterval(interval);
+    }
+    
+    interval = setInterval(() => {
+      if (previousY === window.scrollY) {
+        clearInterval(interval);
+        func();
+      }
+      previousY = window.scrollY;
+    }, 100);
+  }; 
+})();
+
 const debounce = (func, delay) => {
   let timeout = null;
 
@@ -53,6 +73,7 @@ const App = () => {
     isResizing: false,
     isProgressing: false,
     isLoading: true,
+    snapInterval: null,
     pageIndex
   });
 
@@ -109,6 +130,8 @@ const App = () => {
 
     const debouncedTurnOfIsProgressing = debounce(turnOfIsProgressing, 500);
 
+    const supportsTouch = 'ontouchstart' in window || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+
     const st = ScrollTrigger.create({
       trigger: wrapper,
       end: () => `+=${window.innerWidth * scrollHeightMultiplier * multiplier}`,
@@ -134,13 +157,28 @@ const App = () => {
         console.log(
           `current index: ${dataRef.current.pageIndex}\nnext index: ${nextIndex}`);
 
+        if (supportsTouch) {
+          dataRef.current.snapInterval = setInterval(() => {
+            st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
+          }, 50);
+        }
+
         fadeBlack(() => {
           tl.seek(getLabel(nextIndex));
           st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
           setPageIndex(nextIndex);
         },
         () => {
-          debouncedTurnOfIsProgressing();
+          if (supportsTouch) {
+            scrollCompleteCallback(() => {
+              setTimeout(() => {
+                clearInterval(dataRef.current.snapInterval);
+                dataRef.current.isProgressing = false;
+              }, 100);
+            });
+          } else {
+            debouncedTurnOfIsProgressing();
+          }
           console.log('isProgressing turned off', currentIndex, nextIndex);
         }, 1000);
 
@@ -225,6 +263,12 @@ const App = () => {
     window.addEventListener('beforeunload', () => {
       st.disable();
     });   
+
+    window.addEventListener('touchmove', (e) => {
+      if (dataRef.current.isProgressing) {
+        e.preventDefault();
+      }
+    }, { passive: false });
 
     setTimeline(tl);
     setScrollTriggerInstance(st);

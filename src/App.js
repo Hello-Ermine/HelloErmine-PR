@@ -122,11 +122,12 @@ const App = () => {
 
     tl.pause();
 
-    const disableIsProgressing = () => {
+    const handleAfterProgressing = () => {
+      clearInterval(dataRef.current.snapInterval);
       dataRef.current.isProgressing = false;
     };
 
-    const debouncedDisableIsProgressing = debounce(disableIsProgressing, 500);
+    const debouncedHandleAfterProgressing = debounce(handleAfterProgressing, 500);
 
     const supportsTouch = 'ontouchstart' in window || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
 
@@ -148,12 +149,9 @@ const App = () => {
         }
 
         dataRef.current.isProgressing = true;
-
-        if (supportsTouch) {
-          dataRef.current.snapInterval = setInterval(() => {
-            st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
-          }, 50);
-        }
+        dataRef.current.snapInterval = setInterval(() => {
+          st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
+        }, 50);
 
         fadeBlack(() => {
           tl.seek(getLabel(nextIndex));
@@ -164,12 +162,11 @@ const App = () => {
           if (supportsTouch) {
             scrollCompleteCallback(() => {
               setTimeout(() => {
-                clearInterval(dataRef.current.snapInterval);
-                dataRef.current.isProgressing = false;
+                handleAfterProgressing();
               }, 100);
             });
           } else {
-            debouncedDisableIsProgressing();
+            debouncedHandleAfterProgressing();
           }
         }, 1000);
       },
@@ -245,6 +242,12 @@ const App = () => {
     // prevent scroll trigger from going brrr on touchscreen devices
     window.addEventListener('touchmove', (e) => {
       if (e.cancelable && dataRef.current.isProgressing) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    window.addEventListener('wheel', (e) => {
+      if (dataRef.current.isProgressing) {
         e.preventDefault();
       }
     }, { passive: false });

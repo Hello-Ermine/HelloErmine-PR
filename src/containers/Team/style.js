@@ -232,7 +232,9 @@ export const Scroll = styled.div`
     background-image: url(${(props) => props.close});
     background-size: 100%;
     background-repeat: no-repeat;
-    visibility: ${(props) => props.active ? 'hidden' : 'visible'};
+    visibility: ${(props) => (props.active ? 'hidden' : 'visible')};
+    opacity: ${(props) => (props.active ? 0 : 1)};
+    /* transition: 0.6s; */
   }
   
   &::after {
@@ -245,7 +247,9 @@ export const Scroll = styled.div`
     background-image: url(${(props) => props.open});
     background-size: 100%;
     background-repeat: no-repeat;
-    visibility: ${(props) => props.active ? 'visible' : 'hidden'};
+    visibility: ${(props) => (props.active ? 'visible' : 'hidden')};
+    opacity: ${(props) => (props.active ? 1 : 0)};
+    /* transition: 0.6s; */
   }
 
   @media (orientation: portrait) {

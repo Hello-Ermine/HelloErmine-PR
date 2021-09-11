@@ -28,6 +28,22 @@ code {
   animation: fade-in .3s ease-out forwards;
 }
 
+::-webkit-scrollbar {
+  width: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
+
 /* Animate keyframe */
 @keyframes tree1-wobble-hor {
   0%,

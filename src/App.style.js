@@ -56,7 +56,7 @@ export const BlackScreen = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: ${(props) => props.visible ? 'black' : 'transparent'};
   opacity: 0;
   visibility: hidden;

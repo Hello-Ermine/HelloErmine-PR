@@ -1,5 +1,5 @@
 import Scene from '../../components/Scene';
-import { GameContainer, Topic, GameButtom, GameContent } from './style';
+import { GameContainer, Topic, GameButton, GameContent } from './style';
 
 import erminepc from '../../assets/game/ermine_landscape.png';
 import erminemobile from '../../assets/game/ermine_portrait.png';
@@ -19,8 +19,8 @@ const Game = () => {
       <GameContainer>
         <GameContent>
           <Topic>GAME</Topic>
-          <a href="#" target='_blank' rel='noreferrer'>
-            <GameButtom src={ isMobile ? erminemobile : erminepc} />
+          <a href="#" target='_blank' rel='noreferrer' onClick={() => isMobile && false}>
+            <GameButton src={ isMobile ? erminemobile : erminepc} />
           </a>
         </GameContent>
       </GameContainer>

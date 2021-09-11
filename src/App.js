@@ -149,8 +149,20 @@ const App = () => {
         }
 
         dataRef.current.isProgressing = true;
-        dataRef.current.snapInterval = setInterval(() => {
-          st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
+
+        // if supports touch, scroll to the extreme end of the direction
+        if (supportsTouch) {
+          if (direction === 1) {
+            st.scroll(window.innerWidth * scrollHeightMultiplier * multiplier);
+          } else {
+            st.scroll(0);
+          }
+        }
+        
+        setTimeout(() => {
+          dataRef.current.snapInterval = setInterval(() => {
+            st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
+          }, 50);
         }, 50);
 
         fadeBlack(() => {

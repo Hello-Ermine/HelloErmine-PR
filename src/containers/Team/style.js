@@ -217,18 +217,6 @@ export const Scroll = styled.div`
   transform: translateX(-0.8vh)
     ${(props) => props.active && 'translateY(-.64vh)'};
 
-  &:hover {
-    opacity: 1;
-
-    &::after {
-      visibility: visible;
-    }
-
-    &::before {
-      visibility: hidden;
-    }
-  }
-
   &::before {
     content: '';
     position: absolute;

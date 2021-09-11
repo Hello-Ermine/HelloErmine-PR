@@ -1,17 +1,26 @@
 import Scene from '../../components/Scene';
-import { GameContainer , Topic , GameButtom , GameContent} from './style';
+import { GameContainer, Topic, GameButtom, GameContent } from './style';
 
 import erminepc from '../../assets/game/ermine_landscape.png';
-// import erminemobile from '../../assets/game/ermine_portrait.png';
+import erminemobile from '../../assets/game/ermine_portrait.png';
+import { useEffect, useState } from 'react';
 
 const Game = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      setIsMobile(true);
+    }
+  }, []);
+
   return (
     <Scene>
       <GameContainer>
         <GameContent>
           <Topic>GAME</Topic>
           <a href="#" target='_blank' rel='noreferrer'>
-            <GameButtom img src={erminepc}/>
+            <GameButtom src={ isMobile ? erminemobile : erminepc} />
           </a>
         </GameContent>
       </GameContainer>

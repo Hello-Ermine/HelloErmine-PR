@@ -265,7 +265,7 @@ const App = () => {
     });   
 
     window.addEventListener('touchmove', (e) => {
-      if (dataRef.current.isProgressing) {
+      if (e.cancelable && dataRef.current.isProgressing) {
         e.preventDefault();
       }
     }, { passive: false });

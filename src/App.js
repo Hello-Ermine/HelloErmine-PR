@@ -49,11 +49,37 @@ const App = () => {
   const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
-  const dataRef = useRef({ isResizing: false, pageIndex });
+  const dataRef = useRef({
+    isResizing: false,
+    isProgressing: false,
+    isLoading: true,
+    pageIndex
+  });
 
   const setPageIndex = (index) => {
     dataRef.current.pageIndex = index;
     _setPageIndex(index);
+  };
+
+  const fadeBlack = (onFadeIn, onFadeOut, durationMs = 500) => {
+    const blackScreen = blackScreenRef.current;
+    const duration = (durationMs / 2) / 1000;
+    gsap.to(blackScreen, {
+      autoAlpha: 1,
+      duration,
+      onComplete: () => {
+        onFadeIn();
+        gsap.fromTo(blackScreen, {
+          autoAlpha: 1,
+        }, {
+          autoAlpha: 0,
+          duration,
+          onComplete: () => {
+            onFadeOut();
+          },
+        });
+      }
+    });
   };
 
   useEffect(() => {
@@ -72,21 +98,57 @@ const App = () => {
       defaults: {
         ease: 'none',
       },
-      scrollTrigger: {
-        trigger: wrapper,
-        scrub: 0.5,
-        end: () => `+=${window.innerWidth * scrollHeightMultiplier * multiplier}`,
-        pin: true,
-        snap: {
-          snapTo: "labelsDirectional",
-          duration: 0.5,
-          delay: 0.1,
-          ease: 'none',
+    });
+
+    tl.pause();
+
+    const turnOfIsProgressing = () => {
+      dataRef.current.isProgressing = false;
+      console.log('isProgressing turned off');
+    };
+
+    const debouncedTurnOfIsProgressing = debounce(turnOfIsProgressing, 500);
+
+    const st = ScrollTrigger.create({
+      trigger: wrapper,
+      end: () => `+=${window.innerWidth * scrollHeightMultiplier * multiplier}`,
+      pin: true,
+      onUpdate: (st) => {
+        if (dataRef.current.isProgressing || dataRef.current.isLoading) {
+          console.log("SIKE");
+          return;
+        }
+
+        const direction = st.direction;
+        const currentIndex = dataRef.current.pageIndex;
+        const nextIndex = currentIndex + direction;
+        
+        console.log(currentIndex, nextIndex);
+        if (nextIndex < 0 || nextIndex > targets.length - 1) {
+          console.log('nextIndex out of bounds');
+          return;
+        }
+
+        dataRef.current.isProgressing = true;
+
+        console.log(
+          `current index: ${dataRef.current.pageIndex}\nnext index: ${nextIndex}`);
+
+        fadeBlack(() => {
+          tl.seek(getLabel(nextIndex));
+          st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
+          setPageIndex(nextIndex);
         },
+        () => {
+          debouncedTurnOfIsProgressing();
+          console.log('isProgressing turned off', currentIndex, nextIndex);
+        }, 1000);
+
+        console.log(st.progress);
       },
     });
 
-    const st = tl.scrollTrigger;
+    st.disable();
 
     const handleScrollTriggerCallbacks = (i) => () => {
       if (dataRef.current.isResizing) {
@@ -104,8 +166,8 @@ const App = () => {
         trigger: target,
         start: () => `top top-=${startEnd}`,
         end: () => `top top-=${endEnd}`,
-        onEnter: handleScrollTriggerCallbacks(i),
-        onEnterBack: handleScrollTriggerCallbacks(i),
+        // onEnter: handleScrollTriggerCallbacks(i),
+        // onEnterBack: handleScrollTriggerCallbacks(i),
       });
 
       const xPercentEnterSet = -100 * (i - 1); // left: 100%
@@ -148,11 +210,17 @@ const App = () => {
       debouncedHandleRefresh();
     });
     
+    const debouncedDisableIsLoading = debounce(() => {
+      dataRef.current.isLoading = false;
+    }, 1500);
+
     ScrollTrigger.addEventListener('refresh', () => {
       killScrollTriggerTweens(st);
       st.scroll(dataRef.current.pageIndex * window.innerWidth * scrollHeightMultiplier);
+      st.enable();
+      debouncedDisableIsLoading();
     });
-    
+
     // reset scroll position to 0 after a refresh
     window.addEventListener('beforeunload', () => {
       st.disable();
@@ -164,34 +232,19 @@ const App = () => {
   }, []);
 
   const handlePageAnchor = (index) => {
-    if (pageIndex === index || isChanging) {
+    if (pageIndex === index || dataRef.current.isProgressing) {
       return;
     }
+    dataRef.current.isProgressing = true;
 
-    killScrollTriggerTweens(scrollTriggerInstance);
-
-    const blackScreen = blackScreenRef.current;
-
-    gsap.to(blackScreen, {
-      autoAlpha: 1,
-      duration: 0.25,
-      onComplete: () => {
-        timeline.seek(getLabel(index));
-        scrollTriggerInstance.scroll(index * window.innerWidth * scrollHeightMultiplier);
-        gsap.fromTo(blackScreen, {
-          autoAlpha: 1,
-        }, {
-          autoAlpha: 0,
-          duration: 0.25,
-          onComplete: () => {
-            setPageIndex(index);
-            setIsChanging(false);
-          },
-        });
-      }
-    });
-
-    setIsChanging(true);
+    fadeBlack(() => {
+      scrollTriggerInstance.scroll(index * window.innerWidth * scrollHeightMultiplier);
+      timeline.seek(getLabel(index));
+    },
+    () => {
+      dataRef.current.isProgressing = false;
+      setPageIndex(index);
+    }, 500);
   };
 
   return (

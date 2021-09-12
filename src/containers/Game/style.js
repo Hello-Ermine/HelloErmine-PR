@@ -22,6 +22,7 @@ export const Topic = styled.h1`
   font-size: 64px;
   text-align: center;
   color: white;
+  font-weight: bold;
 
   @media ${downSizes.xl} {
     font-size: 4.45vw;

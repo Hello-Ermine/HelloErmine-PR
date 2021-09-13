@@ -51,7 +51,8 @@ export const CI = styled.img`
   }
 
   @media ${downSizes.lg} {
-    right: 50px;
+    right: 25px;
+    width: 200px;
   }
 `;
 

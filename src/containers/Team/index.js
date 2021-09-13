@@ -86,7 +86,7 @@ const Team = () => {
           </MascotContainer>
           <Title color={content.scheme} ref={titleRef}>{content.title}</Title>
           <Details ref={detailsRef}>{content.details}</Details>
-          <Button href='#'>REGISTER</Button>
+          <Button href='https://forms.gle/MBMkfeXVscJC7iUr7'>REGISTER</Button>
         </Content>
       </TeamContainer>
     </Scene>

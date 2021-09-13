@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { downSizes } from '../../constants/breakpoints';
+import { downSizes, upSizes } from '../../constants/breakpoints';
 import Background from '../../assets/home/home_background2.png';
 
 export const HomeContainer = styled.section`
@@ -39,15 +39,19 @@ export const Logo = styled.img`
 
 export const CI = styled.img`
   position: absolute;
-  right: 32px;
-  bottom: 38px;
-  width: 219px;
-  height: 71px;
+  top: 0;
+  width: 300px;
   z-index: 5;
+  opacity: ${(props) => props.show ? 1 : 0};
+  transition: .4s;
+  transition-delay: .6s;
 
-  @media ${downSizes.sm} {
-    width: 150px;
-    height: 50px;
+  @media ${upSizes.lg} {
+    left: 50px;
+  }
+
+  @media ${downSizes.lg} {
+    right: 50px;
   }
 `;
 

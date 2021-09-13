@@ -288,7 +288,7 @@ const App = () => {
   return (
     <>
       <Wrapper ref={wrapperRef}>
-        <Home />
+        <Home pageIndex={pageIndex} />
         <About in={isAboutEntered} />
         <Team />
         <FAQs />

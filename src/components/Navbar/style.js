@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { downSizes } from '../../constants/breakpoints';
 
 export const NavbarStyle = styled.ul`
     position: fixed;
@@ -62,7 +63,7 @@ export const NavbarStyle = styled.ul`
         opacity: 0;
     }
 
-    @media (max-width: 1080px) {
+    @media ${downSizes.lg} {
         flex-direction: row-reverse;
         padding: 2em;
         

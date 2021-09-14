@@ -45,6 +45,7 @@ export const CI = styled.img`
   opacity: ${(props) => props.show ? 1 : 0};
   transition: .4s;
   transition-delay: .6s;
+  z-index: 15;
 
   @media ${upSizes.lg} {
     left: 50px;
@@ -53,6 +54,40 @@ export const CI = styled.img`
   @media ${downSizes.lg} {
     right: 25px;
     width: 200px;
+  }
+`;
+
+export const ScrollGuide = styled.div`
+  display: ${(props) => !props.show && 'none'};
+  position: absolute;
+  top: 50%;
+  right: 20%;
+  transform: translate(40%, -40%);
+  z-index: 6;
+  background: rgba(251, 251, 251, 0.3);
+  filter: drop-shadow(0px 2px 8px #000);
+  border-radius: 10px;
+  padding: 10px 30px 20px 30px;
+
+  img.base {
+    width: 30px;
+    height: 50px;
+  }
+
+  img.arrow {
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    animation: arrow-attention 2s ease infinite both;
+    position: absolute;
+    width: 15px;
+    height: 35px;
+  }
+
+  @media (orientation: portrait) {
+    top: 60%;
+    right: 50%;
+    transform: translate(50%, 30%);
   }
 `;
 

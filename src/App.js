@@ -66,6 +66,7 @@ const App = () => {
   const [isAboutEntered, setIsAboutEntered] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
   const dataRef = useRef({
@@ -105,6 +106,10 @@ const App = () => {
   useEffect(() => {
     if (pageIndex === 1) {
       setIsAboutEntered(true);
+    }
+
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      setIsMobile(true);
     }
   }, [pageIndex]);
 
@@ -288,11 +293,11 @@ const App = () => {
   return (
     <>
       <Wrapper ref={wrapperRef}>
-        <Home pageIndex={pageIndex} />
+        <Home isMobile={isMobile} pageIndex={pageIndex} />
         <About in={isAboutEntered} />
         <Team />
         <FAQs />
-        <Game />
+        <Game isMobile={isMobile} />
       </Wrapper>
       <BlackScreen ref={blackScreenRef} visible={isLoaded} />
       <Navbar onClick={handlePageAnchor} pageIndex={pageIndex} />

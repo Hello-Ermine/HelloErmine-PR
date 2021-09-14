@@ -1,19 +1,11 @@
 import Scene from '../../components/Scene';
+import PropTypes from 'prop-types';
 import { GameContainer, Topic, GameButton, GameContent } from './style';
 
 import erminepc from '../../assets/game/ermine_landscape.png';
 import erminemobile from '../../assets/game/ermine_portrait.png';
-import { useEffect, useState } from 'react';
 
-const Game = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      setIsMobile(true);
-    }
-  }, []);
-
+const Game = ({ isMobile }) => {
   return (
     <Scene>
       <GameContainer>
@@ -26,6 +18,10 @@ const Game = () => {
       </GameContainer>
     </Scene>
   );
+};
+
+Game.propTypes = {
+  isMobile: PropTypes.bool
 };
 
 export default Game;

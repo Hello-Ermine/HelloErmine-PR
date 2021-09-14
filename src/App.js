@@ -10,8 +10,9 @@ import { AppSocial, BlackScreen } from './App.style';
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const scrollHeightMultiplier = 6;
 
@@ -74,7 +75,9 @@ const App = () => {
     isProgressing: false,
     isLoading: true,
     snapInterval: null,
-    pageIndex
+    pageIndex,
+    lastScrollY: null,
+    touchStartY: null,
   });
 
   const setPageIndex = (index) => {
@@ -141,66 +144,57 @@ const App = () => {
       end: () => `+=${window.innerWidth * scrollHeightMultiplier * multiplier}`,
       pin: true,
       onUpdate: (st) => {
-        if (dataRef.current.isProgressing || dataRef.current.isLoading) {
-          return;
-        }
+        // if (dataRef.current.isProgressing || dataRef.current.isLoading) {
+        //   return;
+        // }
 
-        const direction = st.direction;
-        const currentIndex = dataRef.current.pageIndex;
-        const nextIndex = currentIndex + direction;
+        // const direction = st.direction;
+        // const currentIndex = dataRef.current.pageIndex;
+        // const nextIndex = currentIndex + direction;
         
-        if (nextIndex < 0 || nextIndex > targets.length - 1) {
-          return;
-        }
+        // if (nextIndex < 0 || nextIndex > targets.length - 1) {
+        //   return;
+        // }
 
-        dataRef.current.isProgressing = true;
+        // dataRef.current.isProgressing = true;
 
-        // if supports touch, scroll to the extreme end of the direction
-        if (supportsTouch) {
-          if (direction === 1) {
-            st.scroll(window.innerWidth * scrollHeightMultiplier * multiplier);
-          } else {
-            st.scroll(0);
-          }
-        }
+        // // if supports touch, scroll to the extreme end of the direction
+        // if (supportsTouch) {
+        //   if (direction === 1) {
+        //     st.scroll(window.innerWidth * scrollHeightMultiplier * multiplier);
+        //   } else {
+        //     st.scroll(0);
+        //   }
+        // }
         
-        setTimeout(() => {
-          dataRef.current.snapInterval = setInterval(() => {
-            st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
-          }, 50);
-        }, 50);
+        // setTimeout(() => {
+        //   dataRef.current.snapInterval = setInterval(() => {
+        //     st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
+        //   }, 50);
+        // }, 50);
 
-        fadeBlack(() => {
-          tl.seek(getLabel(nextIndex));
-          st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
-          setPageIndex(nextIndex);
-        },
-        () => {
-          if (supportsTouch) {
-            scrollCompleteCallback(() => {
-              setTimeout(() => {
-                handleAfterProgressing();
-              }, 100);
-            });
-          } else {
-            debouncedHandleAfterProgressing();
-          }
-        }, 1000);
+        // fadeBlack(() => {
+        //   tl.seek(getLabel(nextIndex));
+        //   st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
+        //   setPageIndex(nextIndex);
+        // },
+        // () => {
+        //   if (supportsTouch) {
+        //     scrollCompleteCallback(() => {
+        //       setTimeout(() => {
+        //         handleAfterProgressing();
+        //       }, 100);
+        //     });
+        //   } else {
+        //     debouncedHandleAfterProgressing();
+        //   }
+        // }, 1000);
       },
     });
 
-    st.disable();
+    // st.disable();
 
     targets.forEach((target, i, targets) => {
-      const startEnd = window.innerWidth * scrollHeightMultiplier * i - 1; // using wrapper.offsetWidth includes the scrollbar width only for the first page
-      const endEnd = window.innerWidth * scrollHeightMultiplier * (i + 1) - 1;
-      
-      ScrollTrigger.create({
-        trigger: target,
-        start: () => `top top-=${startEnd}`,
-        end: () => `top top-=${endEnd}`,
-      });
-
       const xPercentEnterSet = -100 * (i - 1); // left: 100%
       const xPercentEnterTo = -100 * i; // left: 0
       const xPercentExitTo = -100 * (i + 1); // left: -100%
@@ -231,43 +225,133 @@ const App = () => {
       }, "+=.5");
     });
 
-    const debouncedHandleRefresh = debounce(() => {
-      dataRef.current.isResizing = false;
-    }, 1500);
+    // const debouncedHandleRefresh = debounce(() => {
+    //   dataRef.current.isResizing = false;
+    // }, 1500);
 
-    ScrollTrigger.addEventListener('refreshInit', () => {
-      dataRef.current.isResizing = true;
-      debouncedHandleRefresh();
-    });
+    // ScrollTrigger.addEventListener('refreshInit', () => {
+    //   dataRef.current.isResizing = true;
+    //   debouncedHandleRefresh();
+    // });
     
-    const debouncedDisableIsLoading = debounce(() => {
-      dataRef.current.isLoading = false;
-    }, 1500);
+    // const debouncedDisableIsLoading = debounce(() => {
+    //   dataRef.current.isLoading = false;
+    // }, 1500);
 
-    ScrollTrigger.addEventListener('refresh', () => {
-      killScrollTriggerTweens(st);
-      st.scroll(dataRef.current.pageIndex * window.innerWidth * scrollHeightMultiplier);
-      st.enable();
-      debouncedDisableIsLoading();
-    });
+    // ScrollTrigger.addEventListener('refresh', () => {
+    //   killScrollTriggerTweens(st);
+    //   st.scroll(dataRef.current.pageIndex * window.innerWidth * scrollHeightMultiplier);
+    //   st.enable();
+    //   debouncedDisableIsLoading();
+    // });
 
     // reset scroll position to 0 after a refresh
-    window.addEventListener('beforeunload', () => {
-      st.disable();
-    });   
+    // window.addEventListener('beforeunload', () => {
+    //   st.disable();
+    // });   
 
     // prevent scroll trigger from going brrr on touchscreen devices
-    window.addEventListener('touchmove', (e) => {
-      if (e.cancelable && dataRef.current.isProgressing) {
-        e.preventDefault();
-      }
-    }, { passive: false });
+    // window.addEventListener('touchmove', (e) => {
+    //   if (e.cancelable && dataRef.current.isProgressing) {
+    //     e.preventDefault();
+    //   }
+    // }, { passive: false });
 
-    window.addEventListener('wheel', (e) => {
-      if (dataRef.current.isProgressing) {
-        e.preventDefault();
+    // window.addEventListener('wheel', (e) => {
+    //   if (dataRef.current.isProgressing) {
+    //     e.preventDefault();
+    //   }
+    // }, { passive: false });
+    
+    window.addEventListener('scroll', (_) => {
+      // if (!dataRef.current.lastScrollY) {
+      //   dataRef.current.lastScrollY = scrollY;
+      //   return;
+      // }
+      // const scrollY = window.scrollY;
+      // const scrollDeltaY = scrollY - dataRef.current.lastScrollY;
+      // dataRef.current.lastScrollY = scrollY;
+
+      // if (scrollDeltaY > 0) {
+      //   handleSceneChanging(1);
+      // } else {
+      //   handleSceneChanging(-1);
+      // }
+
+      // return;
+    });
+
+    const handleSceneChanging = (direction) => {
+      const currentIndex = dataRef.current.pageIndex;
+      const nextIndex = currentIndex + direction;
+      
+      if (nextIndex < 0 || nextIndex > targets.length - 1) {
+        return;
       }
-    }, { passive: false });
+
+      dataRef.current.isProgressing = true;
+
+      const duration = 1;
+
+      gsap.to(window, {
+        scrollTo: {
+          y: nextIndex * window.innerWidth * scrollHeightMultiplier,
+          autoKill: false
+        },
+        duration,
+        ease: "power4.inOut",
+        onComplete: () => {
+          setTimeout(() => {
+            console.log('complete');
+            dataRef.current.isProgressing = false;
+            setPageIndex(nextIndex);
+          }, 20);
+        },
+        onStart: () => {
+          fadeBlack(() => {
+            tl.seek(getLabel(nextIndex));
+          }, () => {}, duration * 1000);
+        }
+      });
+    };
+
+    const handleTouchStart = (e) => {
+      dataRef.current.touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e) => {
+      if (!dataRef.current.touchStartY || dataRef.current.isProgressing) {
+        return;
+      }
+
+      if (e.touches[0].clientY - dataRef.current.touchStartY > 0) { // touch delta y
+        handleSceneChanging(-1);
+      } else {
+        handleSceneChanging(1);
+      }
+    };
+
+    const handleWheel = (e) => {
+      if (dataRef.current.isProgressing || dataRef.current.isProgressing) {
+        return;
+      }
+
+      handleSceneChanging(e.deltaY > 0 ? 1 : -1);
+    };
+
+    const handleKeys = (e) => {
+      if (['ArrowUp', 'PageUp', 'w', 'i'].includes(e.key)) {
+        handleSceneChanging(-1);
+      }
+      if (['ArrowDown', 'PageDown', 's', 'k'].includes(e.key)) {
+        handleSceneChanging(1);
+      }
+    };
+    
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchmove', handleTouchMove);
+    window.addEventListener('wheel', handleWheel);
+    window.addEventListener('keydown', handleKeys);
 
     setTimeline(tl);
     setScrollTriggerInstance(st);

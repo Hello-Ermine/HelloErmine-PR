@@ -340,6 +340,9 @@ const App = () => {
     };
 
     const handleKeys = (e) => {
+      if (dataRef.current.isProgressing) {
+        return;
+      }
       if (['ArrowUp', 'PageUp', 'w', 'i'].includes(e.key)) {
         handleSceneChanging(-1);
       }

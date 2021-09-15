@@ -7,7 +7,7 @@ import Game from './containers/Game';
 import Wrapper from './components/Wrapper';
 import Navbar from './components/Navbar';
 import { AppSocial, BlackScreen } from './App.style';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -80,6 +80,7 @@ const App = () => {
     lastScrollY: null,
     touchStartY: null,
     changeSceneTween: null,
+    pagesScrollTop: [],
   });
 
   const setPageIndex = (index) => {
@@ -124,6 +125,18 @@ const App = () => {
     const targets = wrapper.childNodes;
     const multiplier = targets.length - 1;
 
+    // const getPagesScrollTop = () => {
+    //   return Array(targets.length)
+    //     .fill(0)
+    //     .map((_, i) => window.innerWidth * scrollHeightMultiplier * i);
+    // };
+
+    // dataRef.current.pagesScrollTop = getPagesScrollTop();
+    const closestPage = () => {
+      return Math.round(window.scrollY / (window.innerWidth * scrollHeightMultiplier * multiplier) * multiplier);
+    };
+
+    console.log(dataRef.current.pagesScrollTop);
     const tl = gsap.timeline({
       defaults: {
         ease: 'none',
@@ -283,26 +296,29 @@ const App = () => {
       // return;
     });
 
-    const changeScene = (index) => {
+    const changeScene = (index, autoKill = false) => {
       dataRef.current.isProgressing = true;
-      const duration = 1;
+      const baseDuration = 1;
+      const avaiableFactor = .7;
+      const scrollDuration = baseDuration * avaiableFactor;
       
+      setTimeout(() => {
+        setPageIndex(index);
+        dataRef.current.isProgressing = false;
+      }, scrollDuration * 1000 + 100); // allow next scrolling atleast 100ms after scrollbar animation finished
+
       dataRef.current.changeSceneTween?.kill();
       dataRef.current.changeSceneTween = gsap.to(window, {
         scrollTo: {
           y: index * window.innerWidth * scrollHeightMultiplier,
           autoKill: false
         },
-        duration,
+        duration: scrollDuration,
         ease: "power4.inOut",
         onStart: () => {
           fadeBlack(() => {
             tl.seek(getLabel(index));
-            setTimeout(() => {
-              dataRef.current.isProgressing = false;
-              setPageIndex(index);
-            }, (duration / 2 * 1000 * .7));
-          }, () => {}, duration * 1000);
+          }, () => {}, scrollDuration * 1000);
         }
       });
     };
@@ -359,11 +375,25 @@ const App = () => {
         changeScene(targets.length - 1);
       }
     };
-    
+
+    const handleScroll = (_) => {
+      if (dataRef.current.isProgressing) {
+        return;
+      }
+      
+      const nextIndex = closestPage();
+      if (dataRef.current.pageIndex === nextIndex) {
+        return;
+      }
+      console.log(dataRef.current.pageIndex, nextIndex);
+      changeScene(nextIndex, true);
+    };
+
     window.addEventListener('touchstart', handleTouchStart);
     window.addEventListener('touchmove', handleTouchMove);
     window.addEventListener('wheel', handleWheel);
     window.addEventListener('keydown', handleKeys);
+    window.addEventListener('scroll', handleScroll);
 
     setTimeline(tl);
     setScrollTriggerInstance(st);

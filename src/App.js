@@ -281,21 +281,13 @@ const App = () => {
       // return;
     });
 
-    const handleSceneChanging = (direction) => {
-      const currentIndex = dataRef.current.pageIndex;
-      const nextIndex = currentIndex + direction;
-      
-      if (nextIndex < 0 || nextIndex > targets.length - 1) {
-        return;
-      }
-
+    const changeScene = (index) => {
       dataRef.current.isProgressing = true;
-
       const duration = 1;
 
       gsap.to(window, {
         scrollTo: {
-          y: nextIndex * window.innerWidth * scrollHeightMultiplier,
+          y: index * window.innerWidth * scrollHeightMultiplier,
           autoKill: false
         },
         duration,
@@ -304,15 +296,26 @@ const App = () => {
           setTimeout(() => {
             console.log('complete');
             dataRef.current.isProgressing = false;
-            setPageIndex(nextIndex);
+            setPageIndex(index);
           }, 20);
         },
         onStart: () => {
           fadeBlack(() => {
-            tl.seek(getLabel(nextIndex));
+            tl.seek(getLabel(index));
           }, () => {}, duration * 1000);
         }
       });
+    };
+
+    const handleScrollDirection = (direction) => {
+      const currentIndex = dataRef.current.pageIndex;
+      const nextIndex = currentIndex + direction;
+      
+      if (nextIndex < 0 || nextIndex > targets.length - 1) {
+        return;
+      }
+
+      changeScene(nextIndex);
     };
 
     const handleTouchStart = (e) => {
@@ -325,9 +328,9 @@ const App = () => {
       }
 
       if (e.touches[0].clientY - dataRef.current.touchStartY > 0) { // touch delta y
-        handleSceneChanging(-1);
+        handleScrollDirection(-1);
       } else {
-        handleSceneChanging(1);
+        handleScrollDirection(1);
       }
     };
 
@@ -336,7 +339,7 @@ const App = () => {
         return;
       }
 
-      handleSceneChanging(e.deltaY > 0 ? 1 : -1);
+      handleScrollDirection(e.deltaY > 0 ? 1 : -1);
     };
 
     const handleKeys = (e) => {
@@ -344,10 +347,16 @@ const App = () => {
         return;
       }
       if (['ArrowUp', 'PageUp', 'w', 'i'].includes(e.key)) {
-        handleSceneChanging(-1);
+        handleScrollDirection(-1);
       }
       if (['ArrowDown', 'PageDown', 's', 'k'].includes(e.key)) {
-        handleSceneChanging(1);
+        handleScrollDirection(1);
+      }
+      if (['Home'].includes(e.key)) {
+        changeScene(0);
+      }
+      if (['End'].includes(e.key)) {
+        changeScene(targets.length - 1);
       }
     };
     

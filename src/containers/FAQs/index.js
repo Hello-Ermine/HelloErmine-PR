@@ -47,7 +47,7 @@ function FAQs() {
             <div className={activeId === '1' ? 'panel-wrap active-panel' : 'panel-wrap'}>
               <div className='panel-header'>
                 <Accordion.Toggle onClick={() => toggleActive('1')} className='panel-toggle' variant='link' eventKey='1'>
-                  <BoxContent><p>สมัครแล้วมีสิทธิเข้าร่วมโครงการทุกคนไหม</p></BoxContent>
+                  <BoxContent><p>สมัครแล้วมีสิทธิ์เข้าร่วมโครงการทุกคนไหม</p></BoxContent>
                 </Accordion.Toggle>
               </div>
               <Accordion.Collapse eventKey='1'>
@@ -72,7 +72,7 @@ function FAQs() {
                   <BoxAns><p>
                     <AvoidWrap>อุปกรณ์ที่จำเป็นต่อโครงการของเราคือ</AvoidWrap>&nbsp;
                     <AvoidWrap>Notebook หรือ Laptop</AvoidWrap>&nbsp;
-                    <AvoidWrap>ในส่วนของโปรแกรมที่ต้องติดตั้งในแต่ละฝ่าย</AvoidWrap>&nbsp;
+                    <AvoidWrap>ในส่วนของโปรแกรมที่ต้องติดตั้ง ในแต่ละฝ่าย</AvoidWrap>&nbsp;
                     <AvoidWrap>พี่ ๆ จะแจ้งน้องอีกรอบหลังจากประกาศรายชื่อ</AvoidWrap>
                     <AvoidWrap>ผู้มีสิทธิ์เข้าร่วมโครงการ</AvoidWrap>
                   </p></BoxAns>

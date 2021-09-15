@@ -78,6 +78,7 @@ const App = () => {
     pageIndex,
     lastScrollY: null,
     touchStartY: null,
+    changeSceneTween: null,
   });
 
   const setPageIndex = (index) => {
@@ -284,24 +285,22 @@ const App = () => {
     const changeScene = (index) => {
       dataRef.current.isProgressing = true;
       const duration = 1;
-
-      gsap.to(window, {
+      
+      dataRef.current.changeSceneTween?.kill();
+      dataRef.current.changeSceneTween = gsap.to(window, {
         scrollTo: {
           y: index * window.innerWidth * scrollHeightMultiplier,
           autoKill: false
         },
         duration,
         ease: "power4.inOut",
-        onComplete: () => {
-          setTimeout(() => {
-            console.log('complete');
-            dataRef.current.isProgressing = false;
-            setPageIndex(index);
-          }, 20);
-        },
         onStart: () => {
           fadeBlack(() => {
             tl.seek(getLabel(index));
+            setTimeout(() => {
+              dataRef.current.isProgressing = false;
+              setPageIndex(index);
+            }, (duration / 2 * 1000 * .7));
           }, () => {}, duration * 1000);
         }
       });

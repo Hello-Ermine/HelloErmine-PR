@@ -176,6 +176,7 @@ const App = () => {
 
       const deltaY = e.touches[0].clientY - dataRef.current.touchStartY;
       const threshold = 20;
+      console.log(e);
       const onChange = () => {
         dataRef.current.touchStartY = e.touches[0].clientY;
       };
@@ -226,11 +227,16 @@ const App = () => {
       changeScene(nextIndex, true);
     };
 
+    const handleBeforeUnload = () => {
+      st.disable();
+    };
+    
     window.addEventListener('touchstart', handleTouchStart);
     window.addEventListener('touchmove', handleTouchMove);
     window.addEventListener('wheel', handleWheel);
     window.addEventListener('keydown', handleKeys);
     !isMobile && window.addEventListener('scroll', handleScroll);
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     setTimeline(tl);
     setScrollTriggerInstance(st);

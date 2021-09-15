@@ -328,7 +328,9 @@ const App = () => {
         return;
       }
 
-      onChange();
+      if (typeof onChange === "function") {
+        onChange();
+      }
       changeScene(nextIndex);
     };
 

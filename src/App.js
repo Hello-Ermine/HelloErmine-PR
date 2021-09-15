@@ -57,7 +57,8 @@ const debounce = (func, delay) => {
 
   return (...args) => {
     clearTimeout(timeout);
-    setTimeout(() => func(...args), delay);
+
+    timeout = setTimeout(() => func(...args), delay);
   };
 };
 

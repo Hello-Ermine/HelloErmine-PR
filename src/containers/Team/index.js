@@ -24,6 +24,7 @@ MascotContainer.propTypes = {
 const Team = () => {
   const [preloadedMascots, setPreloadedMascots] = useState([]);
   const [contentIndex, setContentIndex] = useState(2);
+  const [scrollIndex, setScrollIndex] = useState(2);
   const mascotRef = useRef(null);
   const titleRef = useRef(null);
   const detailsRef = useRef(null);
@@ -53,7 +54,13 @@ const Team = () => {
     gsap.to(targets, {
       autoAlpha: 0,
       duration: 0.25,
+      onStart: () => {
+        if (!isLandscape) {
+          setScrollIndex(index);
+        }
+      },
       onComplete: () => {
+        setScrollIndex(index);
         setContentIndex(index);
         gsap.to(targets, {
           autoAlpha: 1,
@@ -70,7 +77,7 @@ const Team = () => {
         close={scroll.close}
         open={scroll.open}
         scheme={scheme}
-        active={index == contentIndex}
+        active={index == scrollIndex}
       />
     );
   });

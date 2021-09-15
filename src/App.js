@@ -308,7 +308,7 @@ const App = () => {
       dataRef.current.changeSceneTween = gsap.to(window, {
         scrollTo: {
           y: index * window.innerWidth * scrollHeightMultiplier,
-          autoKill: false
+          autoKill,
         },
         duration: scrollDuration,
         ease: "power4.inOut",

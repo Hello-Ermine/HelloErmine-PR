@@ -323,7 +323,7 @@ const App = () => {
       });
     };
 
-    const handleScrollDirection = (direction) => {
+    const handleScrollDirection = (direction, onChange) => {
       const currentIndex = dataRef.current.pageIndex;
       const nextIndex = currentIndex + direction;
       
@@ -331,6 +331,7 @@ const App = () => {
         return;
       }
 
+      onChange();
       changeScene(nextIndex);
     };
 
@@ -343,10 +344,18 @@ const App = () => {
         return;
       }
 
-      if (e.touches[0].clientY - dataRef.current.touchStartY > 0) { // touch delta y
-        handleScrollDirection(-1);
-      } else {
-        handleScrollDirection(1);
+      const deltaY = e.touches[0].clientY - dataRef.current.touchStartY;
+      const threshold = 20;
+      
+      if (deltaY > threshold) {
+        handleScrollDirection(-1, () => {
+          dataRef.current.touchStartY = e.touches[0].clientY;
+        });
+      }
+      if (deltaY < -threshold) {
+        handleScrollDirection(1, () => {
+          dataRef.current.touchStartY = e.touches[0].clientY;
+        });
       }
     };
 

@@ -62,13 +62,14 @@ const debounce = (func, delay) => {
   };
 };
 
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
 const App = () => {
   const [timeline, setTimeline] = useState(null);
   const [pageIndex, _setPageIndex] = useState(0);
   const [isAboutEntered, setIsAboutEntered] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
   const dataRef = useRef({
@@ -112,10 +113,6 @@ const App = () => {
   useEffect(() => {
     if (pageIndex === 1) {
       setIsAboutEntered(true);
-    }
-
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      setIsMobile(true);
     }
   }, [pageIndex]);
 
@@ -402,7 +399,7 @@ const App = () => {
     window.addEventListener('touchmove', handleTouchMove);
     window.addEventListener('wheel', handleWheel);
     window.addEventListener('keydown', handleKeys);
-    window.addEventListener('scroll', handleScroll);
+    !isMobile && window.addEventListener('scroll', handleScroll);
 
     setTimeline(tl);
     setScrollTriggerInstance(st);

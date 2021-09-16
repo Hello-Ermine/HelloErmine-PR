@@ -67,7 +67,7 @@ export const ScrollGuide = styled.div`
   background: rgba(251, 251, 251, 0.3);
   filter: drop-shadow(0px 2px 8px #000);
   border-radius: 10px;
-  padding: 10px 30px 20px 30px;
+  padding: 20px 30px 30px 30px;
 
   img.base {
     width: 30px;

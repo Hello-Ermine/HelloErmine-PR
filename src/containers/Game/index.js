@@ -11,7 +11,7 @@ const Game = ({ isMobile }) => {
       <GameContainer>
         <GameContent>
           <Topic>GAME</Topic>
-          <a href="#" target='_blank' rel='noreferrer' onClick={() => isMobile && false}>
+          <a href="https://game.helloermine.com/" target='_blank' rel='noreferrer'>
             <GameButton src={ isMobile ? erminemobile : erminepc} />
           </a>
         </GameContent>

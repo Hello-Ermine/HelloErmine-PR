@@ -7,58 +7,15 @@ import Game from './containers/Game';
 import Wrapper from './components/Wrapper';
 import Navbar from './components/Navbar';
 import { AppSocial, BlackScreen } from './App.style';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const scrollHeightMultiplier = 6;
-
-const getLabel = (index) => {
-  return `page-${index}`;
-};
-
-const killScrollTriggerTweens = (st) => {
-  const scrub = st.getTween();
-  const snap = st.getTween(true);
-
-  if (scrub) {
-    scrub.kill();
-  }
-  if (snap) {
-    snap.kill();
-  }
-};
-
-const scrollCompleteCallback = (() => {
-  let interval = null;
-
-  return (func, overwrite = true) => {
-    let previousY = window.scrollY;
-
-    if (overwrite) {
-      clearInterval(interval);
-    }
-    
-    interval = setInterval(() => {
-      if (previousY === window.scrollY) {
-        clearInterval(interval);
-        func();
-      }
-      previousY = window.scrollY;
-    }, 100);
-  }; 
-})();
-
-const debounce = (func, delay) => {
-  let timeout = null;
-
-  return (...args) => {
-    clearTimeout(timeout);
-    setTimeout(() => func(...args), delay);
-  };
-};
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 const App = () => {
   const [timeline, setTimeline] = useState(null);
@@ -66,21 +23,25 @@ const App = () => {
   const [isAboutEntered, setIsAboutEntered] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
   const dataRef = useRef({
-    isResizing: false,
     isProgressing: false,
-    isLoading: true,
-    snapInterval: null,
-    pageIndex
+    pageIndex,
+    lastScrollY: null,
+    touchStartY: null,
+    changeSceneTween: null,
+    pagesScrollTop: [],
   });
 
   const setPageIndex = (index) => {
     dataRef.current.pageIndex = index;
     _setPageIndex(index);
   };
+
+  const getLabel = useCallback((index) => {
+    return `page-${index}`;
+  }, []);
 
   const fadeBlack = (onFadeIn, onFadeOut, durationMs = 500) => {
     const blackScreen = blackScreenRef.current;
@@ -107,10 +68,6 @@ const App = () => {
     if (pageIndex === 1) {
       setIsAboutEntered(true);
     }
-
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      setIsMobile(true);
-    }
   }, [pageIndex]);
 
   useEffect(() => {
@@ -119,88 +76,24 @@ const App = () => {
     const targets = wrapper.childNodes;
     const multiplier = targets.length - 1;
 
+    const closestPage = () => {
+      return Math.round(window.scrollY / (window.innerWidth * scrollHeightMultiplier));
+    };
+
     const tl = gsap.timeline({
       defaults: {
         ease: 'none',
       },
     });
-
     tl.pause();
-
-    const handleAfterProgressing = () => {
-      clearInterval(dataRef.current.snapInterval);
-      dataRef.current.isProgressing = false;
-    };
-
-    const debouncedHandleAfterProgressing = debounce(handleAfterProgressing, 500);
-
-    const supportsTouch = 'ontouchstart' in window || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
 
     const st = ScrollTrigger.create({
       trigger: wrapper,
       end: () => `+=${window.innerWidth * scrollHeightMultiplier * multiplier}`,
       pin: true,
-      onUpdate: (st) => {
-        if (dataRef.current.isProgressing || dataRef.current.isLoading) {
-          return;
-        }
-
-        const direction = st.direction;
-        const currentIndex = dataRef.current.pageIndex;
-        const nextIndex = currentIndex + direction;
-        
-        if (nextIndex < 0 || nextIndex > targets.length - 1) {
-          return;
-        }
-
-        dataRef.current.isProgressing = true;
-
-        // if supports touch, scroll to the extreme end of the direction
-        if (supportsTouch) {
-          if (direction === 1) {
-            st.scroll(window.innerWidth * scrollHeightMultiplier * multiplier);
-          } else {
-            st.scroll(0);
-          }
-        }
-        
-        setTimeout(() => {
-          dataRef.current.snapInterval = setInterval(() => {
-            st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
-          }, 50);
-        }, 50);
-
-        fadeBlack(() => {
-          tl.seek(getLabel(nextIndex));
-          st.scroll(nextIndex * window.innerWidth * scrollHeightMultiplier);
-          setPageIndex(nextIndex);
-        },
-        () => {
-          if (supportsTouch) {
-            scrollCompleteCallback(() => {
-              setTimeout(() => {
-                handleAfterProgressing();
-              }, 100);
-            });
-          } else {
-            debouncedHandleAfterProgressing();
-          }
-        }, 1000);
-      },
     });
 
-    st.disable();
-
     targets.forEach((target, i, targets) => {
-      const startEnd = window.innerWidth * scrollHeightMultiplier * i - 1; // using wrapper.offsetWidth includes the scrollbar width only for the first page
-      const endEnd = window.innerWidth * scrollHeightMultiplier * (i + 1) - 1;
-      
-      ScrollTrigger.create({
-        trigger: target,
-        start: () => `top top-=${startEnd}`,
-        end: () => `top top-=${endEnd}`,
-      });
-
       const xPercentEnterSet = -100 * (i - 1); // left: 100%
       const xPercentEnterTo = -100 * i; // left: 0
       const xPercentExitTo = -100 * (i + 1); // left: -100%
@@ -231,43 +124,119 @@ const App = () => {
       }, "+=.5");
     });
 
-    const debouncedHandleRefresh = debounce(() => {
-      dataRef.current.isResizing = false;
-    }, 1500);
+    const changeScene = (index, autoKill = false) => {
+      dataRef.current.isProgressing = true;
+      const baseDuration = 1;
+      const avaiableFactor = .7;
+      const scrollDuration = baseDuration * avaiableFactor;
+      
+      setTimeout(() => {
+        setPageIndex(index);
+        dataRef.current.isProgressing = false;
+      }, scrollDuration * 1000 + 100); // allow next scrolling atleast 100ms after scrollbar animation finished
 
-    ScrollTrigger.addEventListener('refreshInit', () => {
-      dataRef.current.isResizing = true;
-      debouncedHandleRefresh();
-    });
-    
-    const debouncedDisableIsLoading = debounce(() => {
-      dataRef.current.isLoading = false;
-    }, 1500);
+      dataRef.current.changeSceneTween?.kill();
+      dataRef.current.changeSceneTween = gsap.to(window, {
+        scrollTo: {
+          y: index * window.innerWidth * scrollHeightMultiplier,
+          autoKill,
+        },
+        duration: scrollDuration,
+        ease: "power4.inOut",
+        onStart: () => {
+          fadeBlack(() => {
+            tl.seek(getLabel(index));
+          }, () => {}, scrollDuration * 1000);
+        }
+      });
+    };
 
-    ScrollTrigger.addEventListener('refresh', () => {
-      killScrollTriggerTweens(st);
-      st.scroll(dataRef.current.pageIndex * window.innerWidth * scrollHeightMultiplier);
-      st.enable();
-      debouncedDisableIsLoading();
-    });
-
-    // reset scroll position to 0 after a refresh
-    window.addEventListener('beforeunload', () => {
-      st.disable();
-    });   
-
-    // prevent scroll trigger from going brrr on touchscreen devices
-    window.addEventListener('touchmove', (e) => {
-      if (e.cancelable && dataRef.current.isProgressing) {
-        e.preventDefault();
+    const handleScrollDirection = (direction, onChange) => {
+      const currentIndex = dataRef.current.pageIndex;
+      const nextIndex = currentIndex + direction;
+      
+      if (nextIndex < 0 || nextIndex > targets.length - 1) {
+        return;
       }
-    }, { passive: false });
 
-    window.addEventListener('wheel', (e) => {
+      if (typeof onChange === "function") {
+        onChange();
+      }
+      changeScene(nextIndex);
+    };
+
+    const handleTouchStart = (e) => {
+      dataRef.current.touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e) => {
+      if (!dataRef.current.touchStartY || dataRef.current.isProgressing) {
+        return;
+      }
+
+      const deltaY = e.touches[0].clientY - dataRef.current.touchStartY;
+      const threshold = 20;
+      console.log(e);
+      const onChange = () => {
+        dataRef.current.touchStartY = e.touches[0].clientY;
+      };
+      if (deltaY > threshold) {
+        handleScrollDirection(-1, onChange);
+      }
+      if (deltaY < -threshold) {
+        handleScrollDirection(1, onChange);
+      }
+    };
+
+    const handleWheel = (e) => {
+      if (dataRef.current.isProgressing || dataRef.current.isProgressing) {
+        return;
+      }
+
+      handleScrollDirection(e.deltaY > 0 ? 1 : -1);
+    };
+
+    const handleKeys = (e) => {
       if (dataRef.current.isProgressing) {
-        e.preventDefault();
+        return;
       }
-    }, { passive: false });
+
+      if (['ArrowUp', 'PageUp', 'w', 'i'].includes(e.key)) {
+        handleScrollDirection(-1);
+      }
+      if (['ArrowDown', 'PageDown', 's', 'k'].includes(e.key)) {
+        handleScrollDirection(1);
+      }
+      if (['Home'].includes(e.key)) {
+        changeScene(0);
+      }
+      if (['End'].includes(e.key)) {
+        changeScene(targets.length - 1);
+      }
+    };
+
+    const handleScroll = (_) => {
+      if (dataRef.current.isProgressing) {
+        return;
+      }
+      
+      const nextIndex = closestPage();
+      if (dataRef.current.pageIndex === nextIndex) {
+        return;
+      }
+      changeScene(nextIndex, true);
+    };
+
+    const handleBeforeUnload = () => {
+      st.disable();
+    };
+    
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchmove', handleTouchMove);
+    window.addEventListener('wheel', handleWheel);
+    window.addEventListener('keydown', handleKeys);
+    !isMobile && window.addEventListener('scroll', handleScroll);
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     setTimeline(tl);
     setScrollTriggerInstance(st);

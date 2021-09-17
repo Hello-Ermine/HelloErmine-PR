@@ -11,6 +11,8 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -272,8 +274,12 @@ const App = () => {
       <BlackScreen ref={blackScreenRef} visible={isLoaded} />
       <Navbar onClick={handlePageAnchor} pageIndex={pageIndex} />
       <AppSocial>
-        <a href="https://www.facebook.com/SITHelloWorld" target='_blank' rel='noreferrer'><i className='fab fa-facebook'/></a>
-        <a href="https://www.instagram.com/sithelloworld/" target='_blank' rel='noreferrer'><i className='fab fa-instagram'/></a>
+        <a href="https://www.facebook.com/SITHelloWorld" target='_blank' rel='noreferrer'>
+          <FontAwesomeIcon icon={faFacebook} />  
+        </a>
+        <a href="https://www.instagram.com/sithelloworld/" target='_blank' rel='noreferrer'>
+          <FontAwesomeIcon icon={faInstagram} />
+        </a>
       </AppSocial>
     </>
   );

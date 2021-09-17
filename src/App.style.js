@@ -21,7 +21,7 @@ export const AppSocial = styled.div`
     margin-right: 0;
   }
 
-  a i {
+  a .svg-inline--fa {
     background-color: #302F2F;
     border-radius: 100%;
     width: 80px;
@@ -31,7 +31,7 @@ export const AppSocial = styled.div`
     transition: all 0.5s ease-out;
   }
 
-  a i:hover {
+  a:hover {
     box-shadow: 0 0 35px 5px rgb(135,206,255);
   }
 
@@ -43,7 +43,7 @@ export const AppSocial = styled.div`
       margin-right: 22px;
     }
 
-    a i {
+    a .svg-inline--fa {
       width: 40px;
       height: 40px;
       font-size: 25px;

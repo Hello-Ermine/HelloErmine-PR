@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Background from '../../assets/game/game_background.jpg';
-import { downSizes, upSizes } from '../../constants/breakpoints';
+import { downSizes } from '../../constants/breakpoints';
 
 export const GameContainer = styled.section`
   background-image: url(${Background});
@@ -42,7 +42,7 @@ export const GameButton = styled.img`
   display: block;
   margin: 0 auto;
   width: 85vw;
-  max-width: 1024px;
+  max-width: 700px;
   text-align: center;
   margin-bottom: 7%;
   transition: all .2s ease-out;
@@ -60,9 +60,5 @@ export const GameButton = styled.img`
 
   @media ${downSizes.sm} {
     width: 70vw;
-  }
-
-  @media ${upSizes.sm} and (orientation: portrait) {
-    max-width: 700px;
   }
 `;

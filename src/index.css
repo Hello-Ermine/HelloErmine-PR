@@ -34,6 +34,12 @@ code {
   transition-property: height, visibility, transform;
 }
 
+@media (min-width: 768px) and (orientation: portrait) {
+  .collapse, .collapsing {
+    transform: translateY(-36px) !important;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 0;
 }

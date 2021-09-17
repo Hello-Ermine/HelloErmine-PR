@@ -4,7 +4,8 @@ import { downSizes } from '../../constants/breakpoints';
 
 export const GameContainer = styled.section`
   background-image: url(${Background});
-  background-position: 0 46%;
+  background-position: 0 40%;
+  background-size: cover;
   position: relative;
   height: 100%;
   width: 100%;

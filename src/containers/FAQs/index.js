@@ -47,7 +47,7 @@ function FAQs() {
             <div className={activeId === '1' ? 'panel-wrap active-panel' : 'panel-wrap'}>
               <div className='panel-header'>
                 <Accordion.Toggle onClick={() => toggleActive('1')} className='panel-toggle' variant='link' eventKey='1'>
-                  <BoxContent><p>สมัครแล้วมีสิทธิ์เข้าร่วมโครงการทุกคนไหม?</p></BoxContent>
+                  <BoxContent><p>สมัครแล้วมีสิทธิ์เข้าร่วมโครงการทุกคนไหม ?</p></BoxContent>
                 </Accordion.Toggle>
               </div>
               <Accordion.Collapse eventKey='1'>

@@ -8,7 +8,7 @@ export const AppContainer = styled.div`
 
 export const AppSocial = styled.div`
   position: fixed;
-  left: 48px;
+  left: 28px;
   bottom: 48px;
 
   a {
@@ -36,7 +36,6 @@ export const AppSocial = styled.div`
   }
 
   @media ${downSizes.sm} {
-    left: 40px;
     bottom: 40px;
 
     a {

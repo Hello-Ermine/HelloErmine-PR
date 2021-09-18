@@ -21,11 +21,9 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
     (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 0); // iPadOS (the only official Mac with touchscreen)
 
 const App = () => {
-  const [timeline, setTimeline] = useState(null);
   const [pageIndex, _setPageIndex] = useState(0);
   const [isAboutEntered, setIsAboutEntered] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [scrollTriggerInstance, setScrollTriggerInstance] = useState(null);
   const wrapperRef = useRef(null);
   const blackScreenRef = useRef(null);
   const dataRef = useRef({
@@ -35,6 +33,7 @@ const App = () => {
     touchStartY: null,
     changeSceneTween: null,
     pagesScrollTop: [],
+    tl: null,
   });
 
   const setPageIndex = (index) => {
@@ -63,6 +62,33 @@ const App = () => {
             onFadeOut();
           },
         });
+      }
+    });
+  };
+
+  const changeScene = (index, autoKill = false) => {
+    dataRef.current.isProgressing = true;
+    const baseDuration = 1;
+    const avaiableFactor = .7;
+    const scrollDuration = baseDuration * avaiableFactor;
+    
+    setTimeout(() => {
+      setPageIndex(index);
+      dataRef.current.isProgressing = false;
+    }, scrollDuration * 1000 + 100); // allow next scrolling atleast 100ms after scrollbar animation finished
+
+    dataRef.current.changeSceneTween?.kill();
+    dataRef.current.changeSceneTween = gsap.to(window, {
+      scrollTo: {
+        y: index * window.innerWidth * scrollHeightMultiplier,
+        autoKill,
+      },
+      duration: scrollDuration,
+      ease: "power4.inOut",
+      onStart: () => {
+        fadeBlack(() => {
+          dataRef.current.tl?.seek(getLabel(index));
+        }, () => {}, scrollDuration * 1000);
       }
     });
   };
@@ -126,33 +152,6 @@ const App = () => {
         xPercent: xPercentExitTo,
       }, "+=.5");
     });
-
-    const changeScene = (index, autoKill = false) => {
-      dataRef.current.isProgressing = true;
-      const baseDuration = 1;
-      const avaiableFactor = .7;
-      const scrollDuration = baseDuration * avaiableFactor;
-      
-      setTimeout(() => {
-        setPageIndex(index);
-        dataRef.current.isProgressing = false;
-      }, scrollDuration * 1000 + 100); // allow next scrolling atleast 100ms after scrollbar animation finished
-
-      dataRef.current.changeSceneTween?.kill();
-      dataRef.current.changeSceneTween = gsap.to(window, {
-        scrollTo: {
-          y: index * window.innerWidth * scrollHeightMultiplier,
-          autoKill,
-        },
-        duration: scrollDuration,
-        ease: "power4.inOut",
-        onStart: () => {
-          fadeBlack(() => {
-            tl.seek(getLabel(index));
-          }, () => {}, scrollDuration * 1000);
-        }
-      });
-    };
 
     const handleScrollDirection = (direction, onChange) => {
       const currentIndex = dataRef.current.pageIndex;
@@ -241,25 +240,16 @@ const App = () => {
     !isMobile && window.addEventListener('scroll', handleScroll);
     window.addEventListener('beforeunload', handleBeforeUnload);
 
-    setTimeline(tl);
-    setScrollTriggerInstance(st);
+    dataRef.current.tl = tl;
     setIsLoaded(true);
   }, []);
 
   const handlePageAnchor = (index) => {
-    if (pageIndex === index || dataRef.current.isProgressing) {
+    if (dataRef.current.pageIndex === index || dataRef.current.isProgressing) {
       return;
     }
-    dataRef.current.isProgressing = true;
-
-    fadeBlack(() => {
-      scrollTriggerInstance.scroll(index * window.innerWidth * scrollHeightMultiplier);
-      timeline.seek(getLabel(index));
-    },
-    () => {
-      dataRef.current.isProgressing = false;
-      setPageIndex(index);
-    }, 500);
+    console.log(index);
+    changeScene(index, true);
   };
 
   return (

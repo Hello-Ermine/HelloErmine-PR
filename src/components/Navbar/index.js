@@ -35,7 +35,7 @@ const Navbar = ({ onClick, pageIndex }) => {
 
   const handleClick = e => {
     e.preventDefault();
-    onClick(e.target.id);
+    onClick(parseInt(e.target.id));
     setIsOpen(false);
   };
   

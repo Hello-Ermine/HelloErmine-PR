@@ -32,6 +32,12 @@ const Navbar = ({ onClick, pageIndex }) => {
     e.preventDefault();
     setIsOpen(prevIsOpen => !prevIsOpen);
   };
+
+  const handleClick = e => {
+    e.preventDefault();
+    onClick(e.target.id);
+    setIsOpen(false);
+  };
   
   return (
     <NavbarStyle showLogo={pageIndex !== 0} collapNav={isOpen}>
@@ -50,19 +56,19 @@ const Navbar = ({ onClick, pageIndex }) => {
       />
       <ul>
         <li>
-          <a onClick={() => onClick(0)}>HOME</a>
+          <a id='0' onClick={handleClick}>HOME</a>
         </li>
         <li>
-          <a onClick={() => onClick(1)}>ABOUT</a>
+          <a id='1' onClick={handleClick}>ABOUT</a>
         </li>
         <li>
-          <a onClick={() => onClick(2)}>TEAMS</a>
+          <a id='2' onClick={handleClick}>TEAMS</a>
         </li>
         <li>
-          <a onClick={() => onClick(3)}>FAQS</a>
+          <a id='3' onClick={handleClick}>FAQS</a>
         </li>
         <li>
-          <a onClick={() => onClick(4)}>GAME</a>
+          <a id='4' onClick={handleClick}>GAME</a>
         </li>
       </ul>
     </NavbarStyle>

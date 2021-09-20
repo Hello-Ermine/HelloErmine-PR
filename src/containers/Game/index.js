@@ -11,7 +11,11 @@ const Game = ({ isMobile }) => {
       <GameContainer>
         <GameContent>
           <Topic>GAME</Topic>
-          <a href="https://game.helloermine.com/" target='_blank' rel='noreferrer'>
+          <a 
+            href={ !isMobile ? 'https://game.helloermine.com/' : 'javascript:void(0)' }
+            className={ isMobile && 'disabled'}
+            target={ !isMobile && '_blank' } 
+            rel={ !isMobile && 'noreferrer' }>
             <GameButton src={ isMobile ? erminemobile : erminepc} />
           </a>
         </GameContent>

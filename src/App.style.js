@@ -15,6 +15,7 @@ export const AppSocial = styled.div`
     color: white;
     margin-right: 32px;
     text-align: center;
+    display: inline-block;
     width: 80px;
     height: 80px;
     border-radius: 50%;

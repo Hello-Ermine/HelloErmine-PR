@@ -15,6 +15,9 @@ export const AppSocial = styled.div`
     color: white;
     margin-right: 32px;
     text-align: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
   }
 
   a:last-child {

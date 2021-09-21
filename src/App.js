@@ -240,7 +240,7 @@ const App = () => {
     window.addEventListener('touchmove', handleTouchMove);
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('keydown', handleKeys);
-    !isMobile && window.addEventListener('scroll', handleScroll);
+    // !isMobile && window.addEventListener('scroll', handleScroll);
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     dataRef.current.tl = tl;

@@ -172,7 +172,7 @@ const App = () => {
     };
 
     const handleTouchMove = (e) => {
-      if (!dataRef.current.touchStartY || dataRef.current.isProgressing) {
+      if (!dataRef.current.touchStartY || dataRef.current.isProgressing || e.touches[1]) {
         return;
       }
 

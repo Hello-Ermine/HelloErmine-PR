@@ -178,7 +178,6 @@ const App = () => {
 
       const deltaY = e.touches[0].clientY - dataRef.current.touchStartY;
       const threshold = 20;
-      console.log(e);
       const onChange = () => {
         dataRef.current.touchStartY = e.touches[0].clientY;
       };
@@ -251,7 +250,6 @@ const App = () => {
     if (dataRef.current.pageIndex === index || dataRef.current.isProgressing) {
       return;
     }
-    console.log(index);
     changeScene(index, true);
   };
 

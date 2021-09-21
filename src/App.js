@@ -168,11 +168,15 @@ const App = () => {
     };
 
     const handleTouchStart = (e) => {
-      dataRef.current.touchStartY = e.touches[0].clientY;
+      if (e.touches[1]) {
+        dataRef.current.touchStartY = null;
+      } else {
+        dataRef.current.touchStartY = e.touches[0].clientY;
+      }
     };
 
     const handleTouchMove = (e) => {
-      if (!dataRef.current.touchStartY || dataRef.current.isProgressing || e.touches[1]) {
+      if (!dataRef.current.touchStartY || dataRef.current.isProgressing) {
         return;
       }
 

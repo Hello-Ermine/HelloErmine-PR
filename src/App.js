@@ -66,7 +66,7 @@ const App = () => {
     });
   };
 
-  const changeScene = (index, autoKill = false) => {
+  const changeScene = (index, autoKill = false, onStartCallback) => {
     dataRef.current.isProgressing = true;
     const baseDuration = 1;
     const avaiableFactor = .7;
@@ -86,6 +86,9 @@ const App = () => {
       duration: scrollDuration,
       ease: "power4.inOut",
       onStart: () => {
+        if (typeof onStartCallback === 'function') {
+          onStartCallback();
+        }
         fadeBlack(() => {
           dataRef.current.tl?.seek(getLabel(index));
         }, () => {}, scrollDuration * 1000);
@@ -161,10 +164,7 @@ const App = () => {
         return;
       }
 
-      if (typeof onChange === "function") {
-        onChange();
-      }
-      changeScene(nextIndex);
+      changeScene(nextIndex, false, onChange);
     };
 
     const handleTouchStart = (e) => {

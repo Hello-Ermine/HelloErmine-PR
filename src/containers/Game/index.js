@@ -13,7 +13,7 @@ const Game = ({ isMobile }) => {
           <Topic>GAME</Topic>
           <a 
             href={ !isMobile ? 'https://game.helloermine.com/' : 'javascript:void(0)' }
-            className={ isMobile && 'disabled'}
+            className={ isMobile && 'disabled' }
             target={ !isMobile && '_blank' } 
             rel={ !isMobile && 'noreferrer' }>
             <GameButton src={ isMobile ? erminemobile : erminepc} />

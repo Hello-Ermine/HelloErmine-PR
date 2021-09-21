@@ -15,10 +15,11 @@ export const AppSocial = styled.div`
     color: white;
     margin-right: 32px;
     text-align: center;
-    display: inline-block;
+    /* display: inline-block; */
     width: 80px;
     height: 80px;
     border-radius: 50%;
+    transition: all 0.5s ease-out;
   }
 
   a:last-child {
@@ -32,11 +33,10 @@ export const AppSocial = styled.div`
     height: 80px;
     font-size: 48px;
     padding: 16px;
-    transition: all 0.5s ease-out;
   }
 
   a:hover {
-    box-shadow: 0 0 35px 5px rgb(135,206,255);
+    filter: drop-shadow(0px 0px 1vw rgb(135,206,255));
   }
 
   @media ${downSizes.sm} {

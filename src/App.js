@@ -181,7 +181,7 @@ const App = () => {
       }
 
       const deltaY = e.touches[0].clientY - dataRef.current.touchStartY;
-      const threshold = 20;
+      const threshold = 40;
       const onChange = () => {
         dataRef.current.touchStartY = e.touches[0].clientY;
       };

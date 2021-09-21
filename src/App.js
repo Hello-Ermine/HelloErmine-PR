@@ -191,7 +191,10 @@ const App = () => {
     };
 
     const handleWheel = (e) => {
-      if (dataRef.current.isProgressing || dataRef.current.isProgressing) {
+      if ((dataRef.current.isProgressing || dataRef.current.isProgressing)) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
         return;
       }
 
@@ -235,7 +238,7 @@ const App = () => {
     
     window.addEventListener('touchstart', handleTouchStart);
     window.addEventListener('touchmove', handleTouchMove);
-    window.addEventListener('wheel', handleWheel);
+    window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('keydown', handleKeys);
     !isMobile && window.addEventListener('scroll', handleScroll);
     window.addEventListener('beforeunload', handleBeforeUnload);

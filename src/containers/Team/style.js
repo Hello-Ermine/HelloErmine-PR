@@ -172,6 +172,8 @@ export const Button = styled.a`
   padding: 0.4em 2em;
   text-decoration: none !important;
   transition: 0.2s ease-out;
+  position: relative;
+  z-index: 666;
 
   @media ${downSizes.sm} {
     grid-area: 12 / 1 / 13 / 2;

@@ -160,7 +160,7 @@ export const Details = styled.div`
   }
 `;
 
-export const Button = styled.a`
+export const Button = styled.button`
   grid-area: 11 / 1 / 13 / 2;
   place-self: center;
   background-color: white;
@@ -179,9 +179,16 @@ export const Button = styled.a`
     grid-area: 12 / 1 / 13 / 2;
   }
   
-  :hover {
+  :not(:disabled):hover {
+    cursor: pointer;
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.5),
       0 0 100px rgba(255, 255, 255, 0.2);
+  }
+
+  :disabled {
+    background: grey !important;
+    color: black !important;
+    opacity: 0.4;
   }
 
   @supports (font-size: clamp(14px, 1.67vw, 24px)) {

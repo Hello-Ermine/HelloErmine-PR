@@ -93,7 +93,7 @@ const Team = () => {
           </MascotContainer>
           <Title color={content.scheme} ref={titleRef}>{content.title}</Title>
           <Details ref={detailsRef}>{content.details}</Details>
-          <Button href='https://forms.gle/MBMkfeXVscJC7iUr7' target='_blank' rel='noreferrer'>REGISTER</Button>
+          <Button href='https://forms.gle/MBMkfeXVscJC7iUr7' target='_blank' rel='noreferrer' disabled>REGISTER</Button>
         </Content>
       </TeamContainer>
     </Scene>

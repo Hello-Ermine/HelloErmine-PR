@@ -25,4 +25,7 @@ jobs:
     - run: cp ../default.conf ./
     - run: npm i
     - run: npm run build
+    - run : login quay.io
+    - run : docker tag helloermine-web quay.io/chisanuchakim/helloermine-web
+    - run : docker push quay.io/chisanuchakim/helloermine-web
     - run: docker-compose up -d 
